@@ -20,24 +20,37 @@ void	err_message(char *error)
     exit(0);
 }
 
-void	make_cmd(t_big *b)
+void	make_set(t_big *b)
 {
-	char *cmd = "pwd";
+	char *str = "pwd";
 	
-	mini_prsr(b, cmd);
-	if (!(b->cmd = (char**)malloc(1 * sizeof(char*))))
-		err_message("cmd malloc error");
+	mini_prsr(b, str);
 }
 
 void	make_env(t_big *b, char **envp)
 {
-	if (!(b->env = (char**)malloc(1 * sizeof(char*))))
-		err_message("cmd malloc error");
+	int		i;
+	int		j;
+
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	if (!(b->env = (char**)malloc(i * sizeof(char*))))
+		err_message("env malloc error");
+	i = -1;
+	while (envp[++i] != NULL)
+	{
+		if (!(envp[i] = (char*)malloc(ft_strlen(envp[i]) * sizeof(char))))
+			err_message("env malloc error");
+		j = -1;
+		while (envp[i][++j] != '\0')
+			b->env[i][j] = envp[i][j];
+	}
 }
 
 void	make_big(t_big *b, char **envp)
 {
-	make_cmd(b);
+	make_set(b);
 	make_env(b, envp);
 }
 

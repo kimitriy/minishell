@@ -12,7 +12,9 @@
 
 #include "minishell.h"
 
-void	mini_prsr(t_big *b, char *cmd)
+void	mini_prsr(t_big *b, char *str)
 {
-
+    parse_semicolon(str);
+    parse_pipe();
+    parse_space();
 }

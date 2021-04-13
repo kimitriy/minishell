@@ -23,15 +23,22 @@
 # include <string.h> //strerror()
 # include <errno.h> //errno
 
+//pline - is a 2d arr that contains str pieces parsed upon '|' (commands).
+//lines are parts (commands) a pipeline consists from.
+//first element in a line is a command itself and following ones (if they exist) are arguments
 typedef struct	s_smll
 {
-	char		**cmnd; //2x arr that contains str pieces parsed upon '|'. First line is a command and following lines (if they exist) are arguments
+	char		**pline;
 }				t_smll;
 
+
+//set - is an arr that contains str pieces parsed upon ';' (pipelines).
+//every element is a pipeline which may consists of one or a few commands delimited by '|'.
+//env - is 2d arr that contains parsed environment variables
 typedef struct	s_big
 {
-	t_smll		*ppln; //arr that contains str pieces parsed upon ';'. Every element is a pipeline which may consists of one or a few commands.
-	char		**env; //2x arr that contains parsed environment variables
+	t_smll		*set;
+	char		**env; 
 }				t_big;
 
 //main.c
