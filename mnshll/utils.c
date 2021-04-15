@@ -207,16 +207,3 @@ void	ft_strcpy(char *dst, const char *src)
 	while (src[++i])
 		dst[i] = src[i];
 }
-
-void	print2darr(char **arr)
-{
-	int		n;
-	int		i;
-
-	n = 0;
-	while (arr[n] != NULL)
-		n++;
-	i = -1;
-	while (++i < n)
-		printf("line:%d, %s\n", i, arr[i]);
-}

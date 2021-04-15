@@ -34,7 +34,7 @@ void	parse_spaces(t_set *s, char *str)
 		ft_strcpy(s->set->ppline->cmnd[i], cmnd_tmp[i]);
 	}
 	s->set->ppline->cmnd[i] = NULL;
-	print2darr(s->set->ppline->cmnd);
+	// print2darr(s->set->ppline->cmnd);
 	free(cmnd_tmp);
 }
 
@@ -89,26 +89,10 @@ void	parse_semicolons(t_set *s, char *str)
 	free(set_tmp);
 }
 
-// print_ppln(t_ppline *ppln)
-// {
 
-// }
-
-// void	print_set(t_set *s)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (i < s->n)
-// 	{
-// 		print_ppln(s->set->ppline);
-// 	}
-	
-// 	print2darr(s->env);
-// }
 
 void	mini_prsr(t_set *s, char *str)
 {
 	parse_semicolons(s, str);
-	// print_set(s);
+	
 }

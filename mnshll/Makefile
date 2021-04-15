@@ -17,6 +17,7 @@ HEADER		= minishell.h
 SRC 		= 	main.c \
 				miniprsr.c \
 				utils.c \
+				print.c \
 
 OBJS		= ${SRC:.c=.o}
 

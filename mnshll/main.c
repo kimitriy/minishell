@@ -60,7 +60,7 @@ void	make_tset(t_set *s, char **envp, char *str)
 int		main(int argc, char **argv, char **envp)
 {
 	t_set	*s;
-	char	*str = "cmnd1 arg1 arg2 | cmnd2 arg1 | cmnd3 arg1; cmnd4 arg1 arg2 | cmnd5 arg1; cmnd6 arg1 | cmnd7 arg1";
+	char	*str = "cmnd1 arg arg | cmnd2 arg | cmnd3 arg; cmnd4 arg arg | cmnd5 arg; cmnd6 arg | cmnd7 arg";
 
 	(void)argc;
 	(void)argv;
@@ -69,6 +69,8 @@ int		main(int argc, char **argv, char **envp)
 		err_message("t_big malloc error");
 
 	make_tset(s, envp, str);
+
+	print_set(s);
 
 	return (0);
 }

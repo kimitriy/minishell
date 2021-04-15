@@ -78,9 +78,13 @@ int		**give_memory(int axlr[10000][2], int w);
 int		**wrd_cntr(int *wn, char const *s, char c);
 char	**ft_split(char const *s, char c);
 void	ft_strcpy(char *dst, const char *src);
-void	print2darr(char **arr);
+
 size_t	lindx(char const *s1, char const *set);
 size_t	rindx(char const *s1, char const *set);
 char	*ft_strtrim(char const *s1, char const *set);
+
+//print.c
+void	print2darr(char **arr);
+void	print_set(t_set *s);
 
 #endif
