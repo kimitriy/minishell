@@ -12,59 +12,63 @@
 
 #include "minishell.h"
 
-void	err_message(char *error)
-{
-    write(1, "Error!\n", 7);
-	write(1, error, ft_strlen(error));
-    write(1, "\n", 1);
-    exit(0);
-}
-
-void	make_set(t_big *b)
-{
-	char *str = "pwd";
-	
-	mini_prsr(b, str);
-}
-
-void	make_env(t_big *b, char **envp)
+void	null_tcmnd(t_cmnd *cmnd, int n)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	while (envp[i] != NULL)
+	j = 0;
+	while (i < n)
+	{
+		while (cmnd->cmnd[i][j])
+		{
+			cmnd->cmnd[i][j] = '\0';
+			j++;
+		}
 		i++;
-	if (!(b->env = (char**)malloc(i * sizeof(char*))))
+		j = 0;
+	}
+	cmnd->cmnd[i] = NULL;
+}
+
+void	make_env(t_set *s, char **envp)
+{
+	int		n; //number of lines in envp
+	int		i; //index of lines in envp
+
+	n = 0;
+	while (envp[n] != NULL)
+		n++;
+	if (!(s->env = (char**)malloc(n * sizeof(char*))))
 		err_message("env malloc error");
 	i = -1;
-	while (envp[++i] != NULL)
+	while (++i < n)
 	{
-		if (!(envp[i] = (char*)malloc(ft_strlen(envp[i]) * sizeof(char))))
+		if (!(s->env[i] = (char*)malloc(ft_strlen(envp[i]) * sizeof(char))))
 			err_message("env malloc error");
-		j = -1;
-		while (envp[i][++j] != '\0')
-			b->env[i][j] = envp[i][j];
+		ft_strcpy(s->env[i], envp[i]);
 	}
 }
 
-void	make_big(t_big *b, char **envp)
+void	make_tset(t_set *s, char **envp, char *str)
 {
-	make_set(b);
-	make_env(b, envp);
+	mini_prsr(s, str); //makes set
+	make_env(s, envp); //makes env
 }
 
-int		main(char *argc, char **argv, char **envp)
+int		main(int argc, char **argv, char **envp)
 {
-	t_big	*b;
+	t_set	*s;
+	char	*str = "cmnd1 arg1 arg2 | cmnd2 arg1 | cmnd3 arg1; cmnd4 arg1 arg2 | cmnd5 arg1; cmnd6 arg1 | cmnd7 arg1";
 
 	(void)argc;
 	(void)argv;
 
-	if (!(b = (t_big*)malloc(1 * sizeof(t_big))))
+	if (!(s = (t_set*)malloc(1 * sizeof(t_set))))
 		err_message("t_big malloc error");
 
-	make_big(b, envp);
+	make_tset(s, envp, str);
 
 	return (0);
 }
