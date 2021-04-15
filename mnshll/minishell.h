@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/09 20:53:56 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/15 23:16:40 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_ppline
 {
 	t_cmnd		*ppline;
 	char		*ppln_tmp;
-	int			n;
+	int			pn;
 }				t_ppline;
 
 //t_ppline *set - is an arr that contains a set of pipelines delimited upon ';' (semicolon).
@@ -54,7 +54,7 @@ typedef struct	s_set
 {
 	t_ppline	*set;
 	char		**env;
-	int			n;
+	int			sn;
 }				t_set;
 
 
@@ -67,8 +67,8 @@ int		main(int argc, char **argv, char **envp);
 //miniprsr.c
 void	mini_prsr(t_set *s, char *cmd);
 void	parse_semicolons(t_set *s, char *str);
-void	parse_pipes(t_set *s, char *str);
-void	parse_spaces(t_set *s, char *str);
+void	parse_pipes(t_set *s, char *str, int si);
+void	parse_spaces(t_set *s, char *str, int si, int pi);
 
 //utils.c
 void	err_message(char *error);

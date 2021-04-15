@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/09 19:41:38 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/15 20:07:42 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,11 @@ int		**wrd_cntr(int *wn, char const *s, char c)
 			if (s[i + 1] == '\0' && (axlr[w][1] = i - axlr[w][0] + 1))
 				w++;
 		}
-		else if (s[i] == c && f == 1 && (axlr[w++][1] = i - axlr[w][0]))
+		else if (s[i] == c && f == 1 && (axlr[w][1] = i - axlr[w][0]))
+		{	
 			f = 0;
+			w++;
+		}
 	}
 	arr = give_memory(axlr, w);
 	*wn = w;
