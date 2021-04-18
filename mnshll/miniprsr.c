@@ -23,12 +23,12 @@ void	parse_spaces(t_set *s, char *str, int si, int pi)
 	n = 0;
 	while (cmnd_tmp[n] != NULL)
 		n++;
-	s->set->ppline->n = n;
 	if (!(s->set[si].ppline[pi].cmnd = (char**)malloc(n * sizeof(char*))))
 			err_message("s->set[si].ppline[pi].cmnd malloc error");
 	i = -1;
 	while (++i < n)
 	{
+		s->set[si].ppline[pi].n = n;
 		if (!(s->set[si].ppline[pi].cmnd[i] = (char*)malloc(ft_strlen(cmnd_tmp[i]) * sizeof(char))))
 			err_message("s->set[si].ppline[pi].cmnd[i] malloc error");
 		ft_strcpy(s->set[si].ppline[pi].cmnd[i], cmnd_tmp[i]);
@@ -49,12 +49,12 @@ void	parse_pipes(t_set *s, char *str, int si)
 	n = 0;
 	while (ppln_tmp[n] != NULL)
 		n++;
-	s->set->pn = n;
 	if (!(s->set[si].ppline = (t_cmnd*)malloc(n * sizeof(t_cmnd))))
 			err_message("s->set[si].ppline malloc error");
 	i = -1;
 	while (++i < n)
 	{
+		s->set[si].pn = n;
 		if (!(s->set[si].ppline[i].cmnd_tmp = (char*)malloc(ft_strlen(ppln_tmp[i]) * sizeof(char))))
 			err_message("s->set[si].ppline[i].cmnd_tmp malloc error");
 		ppln_tmp[i] = ft_strtrim(ppln_tmp[i], " ");

@@ -13,11 +13,6 @@ void	print2darr(char **arr)
 		printf("line:%d, %s\n", i, arr[i]);
 }
 
-// print_ppln(t_ppline *ppln)
-// {
-
-// }
-
 void	print_set(t_set *s)
 {
 	int		si; //set indx
@@ -28,11 +23,11 @@ void	print_set(t_set *s)
 
 	while (si < s->sn)
 	{
-		while (pi < s->set->pn)
+		while (pi < s->set[si].pn)
 		{
-			while (i < s->set->ppline->n)
+			while (i < s->set[si].ppline[pi].n)
 			{
-				printf("s->set->ppline->cmnd:%s\n", s->set[si].ppline[pi].cmnd[i]);
+				printf("s->set[%d].ppline[%d].cmnd[%d]: %s\n", si, pi, i, s->set[si].ppline[pi].cmnd[i]);
 				i++;
 			}
 			i = 0;
@@ -41,4 +36,6 @@ void	print_set(t_set *s)
 		pi = 0;
 		si++;
 	}
+
+	print2darr(s->env);
 }
