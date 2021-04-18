@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/15 20:07:42 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/18 17:27:31 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,82 +52,166 @@ int		ft_strcmp(char *s1, char *s2)
 
 ////split
 
-int		**give_memory(int axlr[10000][2], int w)
+static char **ft_free(char **arr, int j)
 {
-	int		**arr;
 	int		i;
 
-	i = -1;
-	if (!(arr = (int**)malloc(w * sizeof(int*))))
-		return (NULL);
-	i = -1;
-	while (++i < w)
-	{
-		if (!(arr[i] = (int*)malloc(2 * sizeof(int))))
-			return (NULL);
-		arr[i][0] = axlr[i][0];
-		arr[i][1] = axlr[i][1];
-	}
+	i = 0;
+	while (i < j)
+		free(arr[i++]);
+	free(arr);
+	arr = NULL;
 	return (arr);
 }
 
-int		**wrd_cntr(int *wn, char const *s, char c)
+static char		*ft_word(char const *s, char c)
 {
-	int		i; //line symbol counter
-	int		w; //words(lines) counter
-	int		f; //flag
-	int		axlr[10000][2];
-	int		**arr;
+	char	*arr;
+	size_t	i;
+	size_t	j;
 	
-	i = -1;
-	w = 0;
-	f = 0;
-	while (s[++i])
+	i = 0;
+	j = 0;
+	while (s[i] != '\0' && s[i] != c)
+		i++;
+	arr = (char *)malloc(sizeof(char) * (i + 1));
+	if (arr == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' && s[i] != c)
 	{
-		if (s[i] != c)
+		arr[i] = s[i];
+		i++;
+	}
+	arr[i] = '\0';
+	return (arr);
+}
+
+static int		ft_num(char const *s, char c)
+{
+	size_t	i;
+	size_t	j;
+	
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		while (s[i] != '\0' && s[i] == c)
+			i++;
+		if (s[i] != '\0' && s[i] != c)
 		{
-			if (f == 0 && (f = 1))
-				axlr[w][0] = i;
-			if (s[i + 1] == '\0' && (axlr[w][1] = i - axlr[w][0] + 1))
-				w++;
-		}
-		else if (s[i] == c && f == 1 && (axlr[w][1] = i - axlr[w][0]))
-		{	
-			f = 0;
-			w++;
+			j++;
+			while (s[i] != '\0' && s[i] != c)
+				i++;
 		}
 	}
-	arr = give_memory(axlr, w);
-	*wn = w;
-	return (arr);
+	return (j);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	int		i;
-	int		k;
-	int		wn;
-	int		**axlr;
+	size_t	j;
 	char	**arr;
 	
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	axlr = wrd_cntr(&wn, s, c);
-	if (!(arr = (char**)malloc(wn * sizeof(char*))))
+	if (!(arr = (char **)malloc((ft_num(s, c) + 1) * sizeof(char *))))
 		return (NULL);
-	i = -1;
-	while (++i < wn)
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-		if (!(arr[i] = (char*)malloc(axlr[i][1] * sizeof(char))))
-			return (NULL);
-		k = -1;
-		while (++k < axlr[i][1])
-			arr[i][k] = s[k + axlr[i][0]];
+		while (s[i] != '\0' && s[i] == c)
+			i++;
+		if (s[i] != '\0' && s[i] != c)
+		{
+			if (!(arr[j++] = ft_word(&s[i], c)))
+				return (ft_free(arr, j));
+			while (s[i] != '\0' && s[i] != c)
+				i++;
+		}
 	}
-	arr[i] = NULL;
-	free(axlr);
+	arr[j] = NULL;
 	return (arr);
 }
+
+// int		**give_memory(int axlr[10000][2], int w)
+// {
+// 	int		**arr;
+// 	int		i;
+
+// 	i = -1;
+// 	if (!(arr = (int**)malloc(w * sizeof(int*))))
+// 		return (NULL);
+// 	i = -1;
+// 	while (++i < w)
+// 	{
+// 		if (!(arr[i] = (int*)malloc(2 * sizeof(int))))
+// 			return (NULL);
+// 		arr[i][0] = axlr[i][0];
+// 		arr[i][1] = axlr[i][1];
+// 	}
+// 	return (arr);
+// }
+
+// int		**wrd_cntr(int *wn, char const *s, char c)
+// {
+// 	int		i; //line symbol counter
+// 	int		w; //words(lines) counter
+// 	int		f; //flag
+// 	int		axlr[10000][2];
+// 	int		**arr;
+	
+// 	i = -1;
+// 	w = 0;
+// 	f = 0;
+// 	while (s[++i])
+// 	{
+// 		if (s[i] != c)
+// 		{
+// 			if (f == 0 && (f = 1))
+// 				axlr[w][0] = i;
+// 			if (s[i + 1] == '\0' && (axlr[w][1] = i - axlr[w][0] + 1))
+// 				w++;
+// 		}
+// 		else if (s[i] == c && f == 1 && (axlr[w][1] = i - axlr[w][0]))
+// 		{	
+// 			f = 0;
+// 			w++;
+// 		}
+// 	}
+// 	arr = give_memory(axlr, w);
+// 	*wn = w;
+// 	return (arr);
+// }
+
+// char	**ft_split(char const *s, char c)
+// {
+// 	int		i;
+// 	int		k;
+// 	int		wn;
+// 	int		**axlr;
+// 	char	**arr;
+	
+// 	if (!s)
+// 		return (NULL);
+// 	axlr = wrd_cntr(&wn, s, c);
+// 	if (!(arr = (char**)malloc(wn * sizeof(char*))))
+// 		return (NULL);
+// 	i = -1;
+// 	while (++i < wn)
+// 	{
+// 		if (!(arr[i] = (char*)malloc(axlr[i][1] * sizeof(char))))
+// 			return (NULL);
+// 		k = -1;
+// 		while (++k < axlr[i][1])
+// 			arr[i][k] = s[k + axlr[i][0]];
+// 	}
+// 	arr[i] = NULL;
+// 	free(axlr);
+// 	return (arr);
+// }
 
 ////
 
@@ -209,4 +293,5 @@ void	ft_strcpy(char *dst, const char *src)
 	i = -1;
 	while (src[++i])
 		dst[i] = src[i];
+	dst[i] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/15 23:16:40 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/18 21:50:10 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct	s_set
 	t_ppline	*set;
 	char		**env;
 	int			sn;
+	int			en;
 }				t_set;
 
 
@@ -82,6 +83,10 @@ void	ft_strcpy(char *dst, const char *src);
 size_t	lindx(char const *s1, char const *set);
 size_t	rindx(char const *s1, char const *set);
 char	*ft_strtrim(char const *s1, char const *set);
+
+//cmnd.c
+void	cmnd_node(t_set *s);
+
 
 //print.c
 void	print2darr(char **arr);

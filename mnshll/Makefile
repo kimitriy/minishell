@@ -6,7 +6,7 @@
 #    By: rburton <rburton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/28 11:32:38 by rburton           #+#    #+#              #
-#    Updated: 2021/03/20 13:01:24 by rburton          ###   ########.fr        #
+#    Updated: 2021/04/18 21:42:33 by rburton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ HEADER		= minishell.h
 SRC 		= 	main.c \
 				miniprsr.c \
 				utils.c \
+				cmnd.c \
 				print.c \
 
 OBJS		= ${SRC:.c=.o}

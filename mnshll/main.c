@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/15 22:58:01 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/18 21:50:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	make_env(t_set *s, char **envp)
 	n = 0;
 	while (envp[n] != NULL)
 		n++;
+	s->en = n;
 	if (!(s->env = (char**)malloc(n * sizeof(char*))))
 		err_message("env malloc error");
 	i = -1;
@@ -60,8 +61,9 @@ void	make_tset(t_set *s, char **envp, char *str)
 int		main(int argc, char **argv, char **envp)
 {
 	t_set	*s;
-	char	*str = "cmnd1 arg arg | cmnd2 arg | cmnd3 arg; cmnd4 arg arg | cmnd5 arg; cmnd6 arg | cmnd7 arg";
-
+	// char	*str = "cmnd1 arg arg | cmnd2 arg | cmnd3 arg; cmnd4 arg arg | cmnd5 arg; cmnd6 arg | cmnd7 arg";
+	char	*str = "pwd | cd | echo ; export | unset ; env | exit | cd";
+	
 	(void)argc;
 	(void)argv;
 
@@ -69,8 +71,9 @@ int		main(int argc, char **argv, char **envp)
 		err_message("t_big malloc error");
 
 	make_tset(s, envp, str);
+	cmnd_node(s);
 
-	print_set(s);
+	// print_set(s);
 
 	return (0);
 }
