@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/18 21:50:10 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/19 22:37:41 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,18 @@ void	parse_pipes(t_set *s, char *str, int si);
 void	parse_spaces(t_set *s, char *str, int si, int pi);
 
 //utils.c
-void	err_message(char *error);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(char *s1, char *s2);
-int		**give_memory(int axlr[10000][2], int w);
-int		**wrd_cntr(int *wn, char const *s, char c);
-char	**ft_split(char const *s, char c);
-void	ft_strcpy(char *dst, const char *src);
-
-size_t	lindx(char const *s1, char const *set);
-size_t	rindx(char const *s1, char const *set);
-char	*ft_strtrim(char const *s1, char const *set);
+void		err_message(char *error);
+size_t		ft_strlen(const char *s);
+int			ft_strcmp(char *s1, char *s2);
+char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
+// static char	**ft_free(char **arr, int j);
+// static char	*ft_word(char const *s, char c);
+// static int	ft_num(char const *s, char c);
+char		**ft_split(char const *s, char c);
+void		ft_strcpy(char *dst, const char *src);
+size_t		lindx(char const *s1, char const *set);
+size_t		rindx(char const *s1, char const *set);
+char		*ft_strtrim(char const *s1, char const *set);
 
 //cmnd.c
 void	cmnd_node(t_set *s);

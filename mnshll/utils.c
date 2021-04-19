@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/18 17:27:31 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/19 18:57:37 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,49 @@ int		ft_strcmp(char *s1, char *s2)
 	}
 	output = (unsigned char)s1[i] - (unsigned char)s2[i];
 	return (output);
+}
+
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (0);
+	i = 0;
+	while ((s1[i] != '\0') && (s2[i] != '\0') && (i < (n - 1)))
+	{
+		if (s1[i] != s2[i])
+			break ;
+		else
+			i++;
+	}
+	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	i;
+	char	*return_value;
+	char	*inner_hstck;
+
+	i = 0;
+	return_value = NULL;
+	inner_hstck = (char*)haystack;
+	if (strlen(needle) == 0)
+		return (inner_hstck);
+	while(inner_hstck[i] && i < len)
+	{
+		if (ft_strncmp(&inner_hstck[i], needle, ft_strlen(needle)) == 0)
+		{
+			return_value = &inner_hstck[i];	
+			break;
+		}
+		i++;
+	}
+	if ((i - 1) + ft_strlen(needle) < len)
+		return (return_value);
+	else
+		return (NULL);
 }
 
 ////split
@@ -295,3 +338,23 @@ void	ft_strcpy(char *dst, const char *src)
 		dst[i] = src[i];
 	dst[i] = '\0';
 }
+
+// void	ft_strcut(char *str, int indx, int len)
+// {
+// 	int		i;
+// 	int		l;
+// 	int		l_out;
+// 	char	*out;
+
+// 	i = 0;
+// 	l = ft_strlen(str);
+// 	l_out = l - len;
+// 	if (!(out = (char*)malloc(l_out * sizeof(char))))
+// 		return (NULL);
+// 	while (i < l_out)
+// 	{
+// 		out[i] = str[i];
+// 		i++;
+// 	}
+// 	return (out);
+// }
