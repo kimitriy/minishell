@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/19 22:36:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/20 18:11:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,30 @@ void	make_env(t_set *s, char **envp)
 	}
 }
 
-void	make_tset(t_set *s, char **envp, char *str)
+int		mnshll_loop(t_set *s)
 {
-	mini_prsr(s, str); //makes set
-	make_env(s, envp); //makes env
+	
+	while (1)
+	{
+		// char	*str = "cmnd1 arg arg | cmnd2 arg | cmnd3 arg; cmnd4 arg arg | cmnd5 arg; cmnd6 arg | cmnd7 arg";
+		char	*str = "cd";
+
+		mini_prsr(s, str); //makes set
+		mnshll_execute(s);
+	}
 }
 
 int		main(int argc, char **argv, char **envp)
 {
-	t_set	*s;
-	// char	*str = "cmnd1 arg arg | cmnd2 arg | cmnd3 arg; cmnd4 arg arg | cmnd5 arg; cmnd6 arg | cmnd7 arg";
-	char	*str = "cd";
-	
 	(void)argc;
 	(void)argv;
 
+	t_set	*s;
+
 	if (!(s = (t_set*)malloc(1 * sizeof(t_set))))
 		err_message("t_big malloc error");
-
-	make_tset(s, envp, str);
-	cmnd_node(s);
-
-	// print_set(s);
+	make_env(s, envp); //makes env
+	mnshll_loop(s);
 
 	return (0);
 }

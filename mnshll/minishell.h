@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/19 22:37:41 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/20 19:39:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,18 @@ typedef struct	s_set
 
 
 //main.c
-void	null_tcmnd(t_cmnd *cmnd, int n);
-void	make_env(t_set *s, char **envp);
-void	make_tset(t_set *s, char **envp, char *str);
-int		main(int argc, char **argv, char **envp);
+void		null_tcmnd(t_cmnd *cmnd, int n);
+void		make_env(t_set *s, char **envp);
+void		make_tset(t_set *s, char **envp, char *str);
+int			main(int argc, char **argv, char **envp);
 
 //miniprsr.c
-void	mini_prsr(t_set *s, char *cmd);
-void	parse_semicolons(t_set *s, char *str);
-void	parse_pipes(t_set *s, char *str, int si);
-void	parse_spaces(t_set *s, char *str, int si, int pi);
+void		mini_prsr(t_set *s, char *cmd);
+void		parse_semicolons(t_set *s, char *str);
+void		parse_pipes(t_set *s, char *str, int si);
+void		parse_spaces(t_set *s, char *str, int si, int pi);
 
-//utils.c
+//utils1c
 void		err_message(char *error);
 size_t		ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
@@ -84,13 +84,27 @@ void		ft_strcpy(char *dst, const char *src);
 size_t		lindx(char const *s1, char const *set);
 size_t		rindx(char const *s1, char const *set);
 char		*ft_strtrim(char const *s1, char const *set);
+char		*str_in_arr(char **arr, char *str);
+char		*ft_strjoin(char const *s1, char const *s2);
+
+//utils2.c
+void    	write2env(t_set *s, char *field, char *str);
+
+//execute.c
+void		mnshll_execute(t_set *s);
+
+//builtin.c
+void		bltn_node(t_set *s);
+void		bltn_pwd(t_set *s);
+void		bltn_cd(t_set *s, int si, int pi);
+char		*set_path(t_set *s, int si, int pi);
 
 //cmnd.c
-void	cmnd_node(t_set *s);
+void		cmnd_node(t_set *s);
 
 
 //print.c
-void	print2darr(char **arr);
-void	print_set(t_set *s);
+void		print2darr(char **arr);
+void		print_set(t_set *s);
 
 #endif

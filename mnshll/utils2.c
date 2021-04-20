@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmnd.c                                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/20 17:57:36 by rburton          ###   ########.fr       */
+/*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
+/*   Updated: 2021/04/20 21:09:31 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmnd_node(t_set *s)
+void    write2env(t_set *s, char *field, char *str)
 {
-    (void)s;
-    printf("cmnd_node has reached");
+    int     i;
+
+    i = -1;
+    while (++i < s->en)
+    {
+        if (0 == ft_strcmp(s->env[i], field))
+        {
+			free(s->env[i]);
+			s->env[i] = ft_strjoin(s->env[i], field);
+			s->env[i] = ft_strjoin(s->env[i], str);
+		}
+    }
 }
