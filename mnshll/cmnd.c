@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/20 17:57:36 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/21 23:00:06 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	cmnd_node(t_set *s)
 {
     (void)s;
-    printf("cmnd_node has reached");
+    printf("cmnd_node has reached\n");
 }

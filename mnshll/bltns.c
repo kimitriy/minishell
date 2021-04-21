@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 14:08:17 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/21 21:06:30 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	bltn_node(t_set *s)
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "cd"))
 				bltn_cd(s, si, pi);
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "pwd"))
-				bltn_pwd(s);
+				bltn_pwd();
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "export"))
 				printf("export\n");
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "unset"))

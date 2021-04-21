@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 20:44:32 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/21 20:54:28 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		mnshll_execute(t_set *s);
 
 //builtin.c
 void		bltn_node(t_set *s);
-void		bltn_pwd(t_set *s);
+void		bltn_pwd();
 void		bltn_cd(t_set *s, int si, int pi);
 char		*set_path(t_set *s, int si, int pi);
 

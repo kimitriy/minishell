@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 20:46:10 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/21 22:07:41 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,9 +267,9 @@ char	*str_in_arr(char **arr, char *str)
 	int		i;
 
 	i = -1;
-	while (NULL != arr[++i])
+	while (arr[++i])
 	{
-		if (0 == strcmp(arr[i], str))
+		if (0 == ft_strcmp(arr[i], str))
 			return (arr[i]);
 	}
 	return (NULL);
