@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   addititional_func.c                                :+:      :+:    :+:   */
+/*   addititional_func_masha.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 16:45:44 by smyriell          #+#    #+#             */
-/*   Updated: 2021/04/21 17:01:18 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:03:35 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_masha.h"
 
 int ft_strlen(char *str)
 {

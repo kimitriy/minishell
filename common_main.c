@@ -6,11 +6,11 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 17:30:28 by smyriell          #+#    #+#             */
-/*   Updated: 2021/04/21 17:46:26 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:58:27 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_masha.h"
 
 // void ft_dollar(char *str, int i, int a)
 // {
@@ -68,7 +68,7 @@ void ft_aft_splitting(char c, int q, int a) // обратная подмена �
 		c = ' '; // подмена на пробел
 }
 
-void arg_validation(char *str, int i)
+void validation(char *str, int i)
 {
 	int len;
 	int q; // quot
@@ -82,29 +82,27 @@ void arg_validation(char *str, int i)
 	{
 		// if (str[i] == ';' && (str[i + 1] == ';' || str[i + 1] == '|'))
 		// 	return (-1);//двойная ; или ; и | !!! 1. для | нужно обработать вариант что, если он разделяет два echo, то выводит только последнее
-		if (q != 1 && a != 1)
+		if ((str[i] == ';' || str[i] == '|') && q != 1 && a != 1)
 		{
-			if (str[i] == ';' || str[i] == '|')
-			{
-				j = i + 1;
-				while (str[j] == ' ')
-					j++;
-				if (str[j] == '|' || str[j] == ';' )
-					write(2, "//parse error near `;|' or parse error near `|'", 48); //correct
-				// comand_validation(str, j);// посмотреть список команд шелла, завалидить возможные символы
-			}
+			j = i + 1;
+			while (str[j] == ' ')
+				j++;
+			if (str[j] == '|' || str[j] == ';' )
+				write(2, "//parse error near `;|' or parse error near `|'", 48); //correct
+			// com}and_validation(str, j);// посмотреть список команд шелла, завалидить возможные символы
 		}
-		else if (str[i] == '\\' && str[i + 1] == '\0')
+		else if (str[i] == '\\' && (str[i + 1] == '\0' || str[i + 1] == '\n'))
 			write(2, "multiple line", 14);
-		else if (str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
+		else if (str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>' && (q == 0 || a == 0)) // проверить поведение в кавычках
 			write(2, "syntax error near unexpected token `>'", 39);
-		else if (str[i] == '<' && str[i + 1] == '<')
+		else if (str[i] == '<' && str[i + 1] == '<' && (q == 0 || a == 0)) // проверить поведение в кавычках
 			write(2, "bonus part", 39);
+		// else if (str[i] == '\\' && str[i + 1](q == 0 || a == 0)
 	
 		// condition for opened/closed quotes/apostr | ТАК ВРОДЕ ВСЕ РАБОТАЕТ НА ВАЛИДАЦИЮ КАВЫЧЕК ВО ВСЕЙ СТРОКЕ
 		
 		if (str[i] == '\"' && str[i - 1] != '\\' && q == 0 && a == 0)
-			q = 1; // 1 - кавычка открылась
+			q = 1; // 1 - кавычка открылась	
 		else if (str[i] == '\"' && str[i - 1] != '\\' && q == 1)
 			q = 0;// 0 - кавычка закрылась
 		else if (str[i] == '\'' && a == 0 && q == 0)
@@ -127,7 +125,7 @@ void lexer(char *str)
 		i++;
 	if (str[i] == ';' || str[i] == '|') // проверить поведение редиректов
 		write(2, ";// невалидный символ начала syntax error near unexpected token `;`\n", 91); //correct
-	arg_validation(str, i);
+	validation(str, i);
 	i++;
 
 }
