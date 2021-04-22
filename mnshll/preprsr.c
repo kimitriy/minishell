@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:42:37 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 20:32:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/22 21:27:38 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void lexer(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == ';' || str[i] == '|') // проверить поведение редиректов
 		write(2, ";// невалидный символ начала syntax error near unexpected token `;`\n", 91); //correct

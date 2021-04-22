@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 20:54:28 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/22 23:00:26 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_set
 {
 	t_ppline	*set;
 	char		**env;
+	char		**exp;
 	int			sn;
 	int			en;
 }				t_set;
@@ -67,6 +68,7 @@ int			main(int argc, char **argv, char **envp);
 //main_my.c
 void		null_tcmnd(t_cmnd *cmnd, int n);
 void		make_env(t_set *s, char **envp);
+void		make_exp(t_set *s);
 // void		make_tset(t_set *s, char **envp, char *str);
 // int			main(int argc, char **argv, char **envp);
 
@@ -83,7 +85,7 @@ void		parse_pipes(t_set *s, char *str, int si);
 void		parse_spaces(t_set *s, char *str, int si, int pi);
 
 //utils1c
-void		err_message(char *error);
+
 int			ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -92,13 +94,16 @@ void		ft_strcpy(char *dst, const char *src);
 size_t		lindx(char const *s1, char const *set);
 size_t		rindx(char const *s1, char const *set);
 char		*ft_strtrim(char const *s1, char const *set);
-char		*str_in_arr(char **arr, char *str);
 char		*ft_strdup(char *s1);
 char		*ft_strjoin(char const *s1, char const *s2);
 int			w2l(int fd, char *buf, char **line);
 int			get_next_line(int fd, char **line);
 
 //utils2.c
+void		err_message(char *error);
+char		*str_in_arr(char **arr, char *str);
+char		**arr2d_copy(char **arr);
+void		arr2d_sorted(char **arr);
 void    	write2env(t_set *s, char *field, char *str);
 
 //execute.c
@@ -115,7 +120,7 @@ void		cmnd_node(t_set *s);
 
 
 //print.c
-void		print2darr(char **arr);
+void		print2darr(char **arr, int exprt_f);
 void		print_set(t_set *s);
 
 #endif

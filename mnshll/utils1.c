@@ -6,19 +6,11 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 22:07:41 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/22 20:13:46 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	err_message(char *error)
-{
-    write(1, "Error!\n", 7);
-	write(1, error, ft_strlen(error));
-    write(1, "\n", 1);
-    exit(0);
-}
 
 int		ft_strlen(const char *s)
 {
@@ -260,19 +252,6 @@ void	ft_strcpy(char *dst, const char *src)
 	while (src[++i])
 		dst[i] = src[i];
 	dst[i] = '\0';
-}
-
-char	*str_in_arr(char **arr, char *str)
-{
-	int		i;
-
-	i = -1;
-	while (arr[++i])
-	{
-		if (0 == ft_strcmp(arr[i], str))
-			return (arr[i]);
-	}
-	return (NULL);
 }
 
 char	*ft_strdup(char *s1)

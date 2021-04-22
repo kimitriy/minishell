@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 21:06:30 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/22 19:43:07 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ void	bltn_pwd()
 	printf("%s\n", path);
 }
 
+void	bltn_export(t_set *s)
+{
+	print2darr(s->env, 1);
+}
+
+void	bltn_env(t_set *s)
+{
+	print2darr(s->env, 0);
+}
+
 void	bltn_exit()
 {
 	exit(0);
@@ -104,14 +114,13 @@ void	bltn_node(t_set *s)
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "pwd"))
 				bltn_pwd();
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "export"))
-				printf("export\n");
+				bltn_export(s);
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "unset"))
 				printf("unset\n");
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "env"))
-				printf("env\n");
+				bltn_env(s);
 			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "exit"))
 				bltn_exit();
-				// printf("exit\n");
 		}
 	}
 }
