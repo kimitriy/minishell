@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/22 19:43:07 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/24 17:54:20 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	bltn_pwd()
 
 void	bltn_export(t_set *s)
 {
-	print2darr(s->env, 1);
+	print2darr(s->exp, 1);
 }
 
 void	bltn_env(t_set *s)

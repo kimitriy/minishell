@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/22 23:19:31 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/24 22:13:21 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,44 +33,65 @@ char	*str_in_arr(char **arr, char *str)
 	return (NULL);
 }
 
-char	**arr2d_copy(char **arr)
+char	**arr2d_copy(char **arr, int en)
 {
-	int		n;
+	// int		n;
 	int		i;
 	char	**narr;
 
-	n = 0;
-	while (arr[n] != NULL)
-		n++;
-	narr = (char**)malloc(n * sizeof(char*));
+	// n = 0;
+	// while (arr[n] != NULL)
+		// n++;
+	narr = (char**)malloc((en + 1) * sizeof(char*));
 	if (NULL == narr)
 		return (NULL);
+	narr[en] = NULL;
 	i = 0;
-	while (i < n)
+	while (i < en)
 	{
 		narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
 		ft_strcpy(narr[i], arr[i]);
 		i++;
 	}
+	// print2darr(arr, 0);
 	return(narr);
 }
 
-void	arr2d_sorted(char	**arr)
+void	str_swap(char **arr, int i1, int i2)
 {
-	int		si; //string indx
 	char	*tmp;
 
-	si = 0;
-	while (0 < ft_strcmp(arr[si], arr[si + 1]))
+	tmp = (char*)malloc(1 * sizeof(char));
+	tmp = ft_strjoin(tmp, arr[i1]);
+	arr[i1] = NULL;
+	arr[i1] = (char*)malloc(1 * sizeof(char));
+	arr[i1] = ft_strjoin(arr[i1], arr[i2]);
+	arr[i2] = NULL;
+	arr[i2] = (char*)malloc(1 * sizeof(char));
+	arr[i2] = ft_strjoin(arr[i2], tmp);
+}
+
+void	arr2d_sorted(char **arr, int en)
+{
+	int		sc; //swap case
+	int		i;
+
+	sc = -1;
+	while (sc != 0)
 	{
-		tmp = (char*)malloc((ft_strlen(arr[si]) + 1) * sizeof(char));
-		ft_strcpy(tmp, arr[si]);
-        free(arr[si]);
-        arr[si] = ft_strjoin(arr[si], arr[si + 1]);
-        free(arr[si + 1]);
-        arr[si] = ft_strjoin(arr[si + 1], tmp);
-		free(tmp);
+		sc = 0;
+		i = 0;
+		while (i < en)
+		{
+			if (arr[i + 1] != NULL && ft_strcmp(arr[i], arr[i + 1]) > 0)
+			{
+				str_swap(arr, i, i + 1);
+				sc++;
+			}
+			i++;
+		}
 	}
+	print2darr(arr, 0);
 }
 
 void    write2env(t_set *s, char *field, char *str)

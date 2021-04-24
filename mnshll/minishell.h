@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/22 23:00:26 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/24 19:33:33 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void		parse_spaces(t_set *s, char *str, int si, int pi);
 
 //utils1c
 
+void		ft_bzero(void *s, size_t n);
 int			ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -102,8 +103,8 @@ int			get_next_line(int fd, char **line);
 //utils2.c
 void		err_message(char *error);
 char		*str_in_arr(char **arr, char *str);
-char		**arr2d_copy(char **arr);
-void		arr2d_sorted(char **arr);
+char		**arr2d_copy(char **arr, int en);
+void		arr2d_sorted(char **arr, int en);
 void    	write2env(t_set *s, char *field, char *str);
 
 //execute.c

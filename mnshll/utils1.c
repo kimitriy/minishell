@@ -6,11 +6,22 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/22 20:13:46 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/24 20:13:17 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*mem;
+
+	mem = s;
+	i = -1;
+	while (++i < n)
+		mem[i] = '\0';
+}
 
 int		ft_strlen(const char *s)
 {
