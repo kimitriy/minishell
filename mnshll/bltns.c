@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/24 17:54:20 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/29 18:50:13 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,31 +96,21 @@ void	bltn_exit()
 	exit(0);
 }
 
-void	bltn_node(t_set *s)
+void	bltn_node(t_set *s, int si, int pi)
 {
-	int		si;
-	int		pi;
-
-	si = -1;
-	while (++si < s->sn)
-	{
-		pi = -1;
-		while (++pi < s->set[si].pn)
-		{
-			if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "echo"))
-				printf("echo\n");
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "cd"))
-				bltn_cd(s, si, pi);
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "pwd"))
-				bltn_pwd();
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "export"))
-				bltn_export(s);
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "unset"))
-				printf("unset\n");
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "env"))
-				bltn_env(s);
-			else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "exit"))
-				bltn_exit();
-		}
-	}
+	
+	if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "echo"))
+		printf("echo\n");
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "cd"))
+		bltn_cd(s, si, pi);
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "pwd"))
+		bltn_pwd();
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "export"))
+		bltn_export(s);
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "unset"))
+		printf("unset\n");
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "env"))
+		bltn_env(s);
+	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "exit"))
+		bltn_exit();
 }

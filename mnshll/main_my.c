@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/24 22:08:21 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/29 17:44:56 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ void	make_exp(t_set *s)
 {
 	s->exp = arr2d_copy(s->env, s->en);
 	arr2d_sorted(s->exp, s->en);
+}
+
+void	save_argv(t_set *s, char *argv0)
+{
+	int		len;
+
+	len = ft_strlen(argv0);
+	s->argv0 = (char*)malloc((len + 1) * sizeof(char));
+	if (NULL == s->argv0)
+		err_message("argv malloc error");
+	ft_strcpy(s->argv0, argv0);
 }
