@@ -13,6 +13,7 @@ typedef struct	s_ter
 {
 	struct termios	term;
 	int				fd;
+	int				f;
 	char 			*term_name;
 	int				symbols_count;
 	t_list			*hist_list;
