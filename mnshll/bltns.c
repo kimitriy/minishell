@@ -6,23 +6,23 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/29 18:50:13 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/05 12:42:00 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*set_path(t_set *s, int si, int pi)
+char	*set_path(t_set *s, int pi, int ci)
 {
 	int		i;
 	char	*path;
 
-	if (s->set[si].ppline[pi].cmnd[1] != NULL)
+	if (s->set[pi].ppline[ci].cmnd[1] != NULL)
 	{
-		path = (char*)malloc((ft_strlen(s->set[si].ppline[pi].cmnd[1]) + 1) * sizeof(char));
+		path = (char*)malloc((ft_strlen(s->set[pi].ppline[ci].cmnd[1]) + 1) * sizeof(char));
 		if (NULL == path)
 			return (NULL);
-		ft_strcpy(path, s->set[si].ppline[pi].cmnd[1]);
+		ft_strcpy(path, s->set[pi].ppline[ci].cmnd[1]);
 	}
 	else
 	{
@@ -41,14 +41,14 @@ char	*set_path(t_set *s, int si, int pi)
 	return (path);
 }
 
-void	bltn_cd(t_set *s, int si, int pi)
+void	bltn_cd(t_set *s, int pi, int ci)
 {
 	int		err_num;
 	int		chdir_err;
 	char	*path;
 
 	errno = 0;
-	path = set_path(s, si, pi);
+	path = set_path(s, pi, ci);
 	chdir_err = chdir(path);
 	if (chdir_err != 0)
 	{
@@ -96,21 +96,21 @@ void	bltn_exit()
 	exit(0);
 }
 
-void	bltn_node(t_set *s, int si, int pi)
+void	bltn_node(t_set *s, int pi, int ci)
 {
 	
-	if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "echo"))
+	if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "echo"))
 		printf("echo\n");
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "cd"))
-		bltn_cd(s, si, pi);
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "pwd"))
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "cd"))
+		bltn_cd(s, pi, ci);
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "pwd"))
 		bltn_pwd();
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "export"))
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "export"))
 		bltn_export(s);
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "unset"))
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "unset"))
 		printf("unset\n");
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "env"))
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "env"))
 		bltn_env(s);
-	else if (0 == ft_strcmp(s->set[si].ppline[pi].cmnd[0], "exit"))
+	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "exit"))
 		bltn_exit();
 }

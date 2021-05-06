@@ -6,19 +6,11 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/24 22:13:21 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/06 23:35:55 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	err_message(char *error)
-{
-    write(1, "Error!\n", 7);
-	write(1, error, ft_strlen(error));
-    write(1, "\n", 1);
-    exit(0);
-}
 
 char	*str_in_arr(char **arr, char *str)
 {
@@ -91,7 +83,7 @@ void	arr2d_sorted(char **arr, int en)
 			i++;
 		}
 	}
-	print2darr(arr, 0);
+	// print2darr(arr, 0);
 }
 
 void    write2env(t_set *s, char *field, char *str)

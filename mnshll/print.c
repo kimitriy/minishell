@@ -18,28 +18,63 @@ void	print2darr(char **arr, int exprt_f)
 	}
 }
 
-void	print_set(t_set *s)
+void	print2darr_int(int **arr)
 {
-	int		si; //set indx
-	int		pi; //ppln indx
+	int		n;
+	int		i;
+	int		j;
+
+	n = 0;
+	// while (arr[n])
+	// 	n++;
+	i = 0;
+	j = 0;
+	while (arr[i])
+	{
+		while (arr[i][j])
+		{
+			printf("PIPE FD: %d\n", arr[i][j]);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
+
+void	print_arr_int(int *arr)
+{
 	int		i;
 
-	si = pi = i = 0;
-
-	while (si < s->sn)
+	i = 0;
+	while (arr[i])
 	{
-		while (pi < s->set[si].pn)
+		printf("%d\n", arr[i]);
+		i++;
+	}
+}
+
+void	print_set(t_set *s)
+{
+	int		pi; //pipeline indx
+	int		ci; //command indx
+	int		i;
+
+	pi = ci = i = 0;
+
+	while (pi < s->pn)
+	{
+		while (ci < s->set[pi].cn)
 		{
-			while (i < s->set[si].ppline[pi].n)
+			while (i < s->set[pi].ppline[ci].n)
 			{
-				printf("s->set[%d].ppline[%d].cmnd[%d]: %s\n", si, pi, i, s->set[si].ppline[pi].cmnd[i]);
+				printf("s->set[%d].ppline[%d].cmnd[%d]: %s\n", pi, ci, i, s->set[pi].ppline[ci].cmnd[i]);
 				i++;
 			}
 			i = 0;
 			pi++;
 		}
-		pi = 0;
-		si++;
+		ci = 0;
+		pi++;
 	}
 
 	print2darr(s->env, 0);

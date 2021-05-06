@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/30 12:38:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/06 23:36:01 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct	s_ppline
 {
 	t_cmnd		*ppline;
 	char		*ppln_tmp;
-	int			pn;
+	int			cn;
+	int			**fd_arr;
+	int			*pid_arr;
 }				t_ppline;
 
 //t_ppline *set - is an arr that contains a set of pipelines delimited upon ';' (semicolon).
@@ -60,7 +62,7 @@ typedef struct	s_set
 	char		**env;
 	char		**exp;
 	char		*argv0;
-	int			sn;
+	int			pn;
 	int			en;
 }				t_set;
 
@@ -82,7 +84,7 @@ void		ft_aft_splitting(char c, int q, int a); // обратная подмена
 void		validation(char *str, int i);
 void		lexer(char *str);
 
-//miniprsr.c
+//miniprsr.chan
 void		mini_prsr(t_set *s, char *cmd);
 void		parse_semicolons(t_set *s, char *str);
 void		parse_pipes(t_set *s, char *str, int si);
@@ -105,13 +107,13 @@ int			w2l(int fd, char *buf, char **line);
 int			get_next_line(int fd, char **line);
 
 //utils2.c
-void		err_message(char *error);
 char		*str_in_arr(char **arr, char *str);
 char		**arr2d_copy(char **arr, int en);
 void		arr2d_sorted(char **arr, int en);
 void    	write2env(t_set *s, char *field, char *str);
 
 //execute.c
+int			bltn_check(t_set *s, int pi, int ci);
 void		mnshll_execute(t_set *s);
 
 //builtin.c
@@ -121,11 +123,23 @@ void		bltn_cd(t_set *s, int si, int pi);
 char		*set_path(t_set *s, int si, int pi);
 
 //cmnd.c
-void		cmnd_node(t_set *s, int si, int pi);
+void		single_cmnd_node(t_set *s, int si, int pi);
+void		mltple_cmnd_node(t_set *s, int pi, int ci);
 
+//pipes.c	
+int			**make_fd_arr(t_set *s, int pi);
+void		change_fd(t_set *s, int pi, int ci);
+int			*launch(t_set *s, int pi);
+void    	pipes_node(t_set *s, int si);
+
+//error.c
+void		err_message(char *error);
+void		err_cmnd_not_fnd(t_set *s, int pi, int ci);
 
 //print.c
 void		print2darr(char **arr, int exprt_f);
+void		print2darr_int(int **arr);
+void		print_arr_int(int *arr);
 void		print_set(t_set *s);
 
 #endif

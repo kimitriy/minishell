@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniprsr.c                                         :+:      :+:    :+:   */
+/*   prsr.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/18 20:50:20 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/06 22:07:41 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse_spaces(t_set *s, char *str, int si, int pi)
+void	parse_spaces(t_set *s, char *str, int pi, int ci)
 {
 	char	**cmnd_tmp; //2d arr, first line is a command itself and following are args
 	int		n; //number of elements in command
@@ -23,24 +23,24 @@ void	parse_spaces(t_set *s, char *str, int si, int pi)
 	n = 0;
 	while (cmnd_tmp[n] != NULL)
 		n++;
-	if (!(s->set[si].ppline[pi].cmnd = (char**)malloc(n * sizeof(char*))))
+	if (!(s->set[pi].ppline[ci].cmnd = (char**)malloc(n * sizeof(char*))))
 			err_message("s->set[si].ppline[pi].cmnd malloc error");
 	i = -1;
 	while (++i < n)
 	{
 		cmnd_tmp[i] = ft_strtrim(cmnd_tmp[i], " ");
-		s->set[si].ppline[pi].n = n;
+		s->set[pi].ppline[pi].n = n;
 		int len = ft_strlen(cmnd_tmp[i]);
-		if (!(s->set[si].ppline[pi].cmnd[i] = (char*)malloc((len + 1) * sizeof(char))))
+		if (!(s->set[pi].ppline[ci].cmnd[i] = (char*)malloc((len + 1) * sizeof(char))))
 			err_message("s->set[si].ppline[pi].cmnd[i] malloc error");
-		ft_strcpy(s->set[si].ppline[pi].cmnd[i], cmnd_tmp[i]);
+		ft_strcpy(s->set[pi].ppline[ci].cmnd[i], cmnd_tmp[i]);
 	}
-	s->set[si].ppline[pi].cmnd[i] = NULL;
+	s->set[pi].ppline[ci].cmnd[i] = NULL;
 	// print2darr(s->set[si].ppline[pi].cmnd);
 	free(cmnd_tmp);
 }
 
-void	parse_pipes(t_set *s, char *str, int si)
+void	parse_pipes(t_set *s, char *str, int pi)
 {
 	char	**ppln_tmp; //2d arr, each line is a command with its args
 	int		n; //number of elements in pipeline
@@ -52,20 +52,20 @@ void	parse_pipes(t_set *s, char *str, int si)
 	n = 0;
 	while (ppln_tmp[n] != NULL)
 		n++;
-	if (!(s->set[si].ppline = (t_cmnd*)malloc(n * sizeof(t_cmnd))))
+	if (!(s->set[pi].ppline = (t_cmnd*)malloc(n * sizeof(t_cmnd))))
 			err_message("s->set[si].ppline malloc error");
 	i = -1;
 	while (++i < n)
 	{
 		ppln_tmp[i] = ft_strtrim(ppln_tmp[i], " ");
-		s->set[si].pn = n;
+		s->set[pi].cn = n;
 		int len = ft_strlen(ppln_tmp[i]);
-		if (!(s->set[si].ppline[i].cmnd_tmp = (char*)malloc((len + 1) * sizeof(char))))
+		if (!(s->set[pi].ppline[i].cmnd_tmp = (char*)malloc((len + 1) * sizeof(char))))
 			err_message("s->set[si].ppline[i].cmnd_tmp malloc error");
-		ft_strcpy(s->set[si].ppline[i].cmnd_tmp, ppln_tmp[i]);
+		ft_strcpy(s->set[pi].ppline[i].cmnd_tmp, ppln_tmp[i]);
 		// printf("parse_pipes: ppln_tmp[%d]: %s\n", i, ppln_tmp[i]);
 		// printf("parse_pipes: s->set[%d].ppline[%d].cmnd_tmp: %s\n", si, i, s->set[si].ppline[i].cmnd_tmp);
-		parse_spaces(s, s->set[si].ppline[i].cmnd_tmp, si, i);
+		parse_spaces(s, s->set[pi].ppline[i].cmnd_tmp, pi, i);
 	}
 	free(ppln_tmp);
 }
@@ -81,14 +81,14 @@ void	parse_semicolons(t_set *s, char *str)
 	n = 0;
 	while (set_tmp[n] != NULL)
 		n++;
-	s->sn = n;
+	s->pn = n;
 	if (!(s->set = (t_ppline*)malloc(n * sizeof(t_ppline)))) //allocates memory for n elements of set
 		err_message("s->set malloc error");
 	i = -1;
 	while (++i < n)
 	{
 		set_tmp[i] = ft_strtrim(set_tmp[i], " ");
-		int len  = ft_strlen(set_tmp[i]);
+		int len = ft_strlen(set_tmp[i]);
 		if (!(s->set[i].ppln_tmp = (char*)malloc((len + 1) * sizeof(char)))) //allocates memory for parsed string
 			err_message("s->set malloc error");
 		ft_strcpy(s->set[i].ppln_tmp, set_tmp[i]);
@@ -97,8 +97,6 @@ void	parse_semicolons(t_set *s, char *str)
 	}
 	free(set_tmp);
 }
-
-
 
 void	mini_prsr(t_set *s, char *str)
 {

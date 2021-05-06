@@ -6,7 +6,7 @@
 #    By: rburton <rburton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/28 11:32:38 by rburton           #+#    #+#              #
-#    Updated: 2021/04/21 20:38:17 by rburton          ###   ########.fr        #
+#    Updated: 2021/05/06 17:59:31 by rburton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRC 		= 	main.c \
 				utils2.c \
 				execute.c \
 				bltns.c \
-				cmnd.c \
+				cmnds.c \
+				pipes.c \
+				error.c \
 				print.c \
 
 OBJS		= ${SRC:.c=.o}
