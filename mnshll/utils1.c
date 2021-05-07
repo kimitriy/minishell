@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/24 20:13:17 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/07 16:30:53 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,3 +353,26 @@ int		get_next_line(int fd, char **line)
 }
 
 ////
+
+void	ft_putnbr(int n)
+{
+	char	ch;
+
+	if (n == -2147483648)
+		write(1, "-2147483648", 11);
+	else if (n < 0)
+	{
+		write(1, "-", 1);
+		ft_putnbr(n * (-1));
+	}
+	else if (n > 9)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+	{
+		ch = n + '0';
+		write(1, &ch, 1);
+	}
+}

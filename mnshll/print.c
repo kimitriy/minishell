@@ -33,7 +33,7 @@ void	print2darr_int(int **arr)
 	{
 		while (arr[i][j])
 		{
-			printf("PIPE FD: %d\n", arr[i][j]);
+			printf("PIPE FD[%d][%d]: %d\n", i, j, arr[i][j]);
 			j++;
 		}
 		j = 0;
@@ -77,5 +77,5 @@ void	print_set(t_set *s)
 		pi++;
 	}
 
-	print2darr(s->env, 0);
+	// print2darr(s->env, 0);
 }

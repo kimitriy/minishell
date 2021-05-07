@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/06 22:07:41 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/07 14:40:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 	int		i; //index of elements in command
 
 	cmnd_tmp = ft_split(str, ' ');
-	// print2darr(cmnd_tmp);
+	// print2darr(cmnd_tmp, 0);
 	n = 0;
 	while (cmnd_tmp[n] != NULL)
 		n++;
@@ -36,7 +36,7 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 		ft_strcpy(s->set[pi].ppline[ci].cmnd[i], cmnd_tmp[i]);
 	}
 	s->set[pi].ppline[ci].cmnd[i] = NULL;
-	// print2darr(s->set[si].ppline[pi].cmnd);
+	// print2darr(s->set[pi].ppline[ci].cmnd, 0);
 	free(cmnd_tmp);
 }
 
@@ -48,7 +48,7 @@ void	parse_pipes(t_set *s, char *str, int pi)
 
 	// printf("parse_pipes: str: %s, si: %d\n", str, si);
 	ppln_tmp = ft_split(str, '|');
-	// print2darr(ppln_tmp);
+	// print2darr(ppln_tmp, 0);
 	n = 0;
 	while (ppln_tmp[n] != NULL)
 		n++;
@@ -64,7 +64,7 @@ void	parse_pipes(t_set *s, char *str, int pi)
 			err_message("s->set[si].ppline[i].cmnd_tmp malloc error");
 		ft_strcpy(s->set[pi].ppline[i].cmnd_tmp, ppln_tmp[i]);
 		// printf("parse_pipes: ppln_tmp[%d]: %s\n", i, ppln_tmp[i]);
-		// printf("parse_pipes: s->set[%d].ppline[%d].cmnd_tmp: %s\n", si, i, s->set[si].ppline[i].cmnd_tmp);
+		// printf("parse_pipes: s->set[%d].ppline[%d].cmnd_tmp: %s\n", pi, i, s->set[pi].ppline[i].cmnd_tmp);
 		parse_spaces(s, s->set[pi].ppline[i].cmnd_tmp, pi, i);
 	}
 	free(ppln_tmp);
@@ -77,7 +77,7 @@ void	parse_semicolons(t_set *s, char *str)
 	int		i; //index of elements in set
 
 	set_tmp = ft_split(str, ';');
-	// print2darr(set_tmp);
+	// print2darr(set_tmp, 0);
 	n = 0;
 	while (set_tmp[n] != NULL)
 		n++;
