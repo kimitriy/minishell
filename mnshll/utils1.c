@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/07 16:30:53 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/08 22:15:19 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,4 +375,26 @@ void	ft_putnbr(int n)
 		ch = n + '0';
 		write(1, &ch, 1);
 	}
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	if (NULL == s)
+		return (NULL);
+	i = 0;
+	if (c == '\0')
+	{
+		while (s[i])
+			i++;
+		return ((char*)&s[i]);
+	}
+	while (s[i])
+	{
+		if (s[i] == (unsigned char)c)
+			return ((char*)&s[i]);
+		i++;
+	}
+	return (NULL);
 }

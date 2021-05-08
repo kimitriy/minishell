@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/07 16:32:27 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/08 22:02:35 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 int			w2l(int fd, char *buf, char **line);
 int			get_next_line(int fd, char **line);
 void		ft_putnbr(int n);
+char		*ft_strchr(const char *s, int c);
 
 //utils2.c
 char		*str_in_arr(char **arr, char *str);

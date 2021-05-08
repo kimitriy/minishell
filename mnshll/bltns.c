@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/05 12:42:00 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/08 23:04:04 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ char	*set_path(t_set *s, int pi, int ci)
 		}
 	}
 	return (path);
+}
+
+void	bltn_echo(t_set *s, int pi, int ci)
+{
+	int		len;
+
+	if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[1], "-n"))
+	{
+		len = ft_strlen(s->set[pi].ppline[ci].cmnd[2]);
+		write(1, s->set[pi].ppline[ci].cmnd[2], len);
+	}
+	else
+	{
+		len = ft_strlen(s->set[pi].ppline[ci].cmnd[1]);
+		write(1, s->set[pi].ppline[ci].cmnd[1], len);
+		write(1, "\n", 1);
+	}
 }
 
 void	bltn_cd(t_set *s, int pi, int ci)
@@ -81,13 +98,37 @@ void	bltn_pwd()
 	printf("%s\n", path);
 }
 
-void	bltn_export(t_set *s)
+void	bltn_export(t_set *s, int pi, int ci)
 {
+	printf("export arg: %s\n", s->set[pi].ppline[ci].cmnd[1]);
+	
+	char	*rvno;
+	int		len;
+	int		i;
+
+	len = ft_strlen(s->set[pi].ppline[ci].cmnd[1]);
+	rvno = ft_strchr(s->set[pi].ppline[ci].cmnd[1], 61);
+	if (rvno == NULL)
+	{
+		//add to the export arr
+	}
+	else
+	{
+		i = 0;
+		while ()
+	}
+
 	print2darr(s->exp, 1);
 }
 
+// void 	bltn_unset()
+// {
+	
+// }
+
 void	bltn_env(t_set *s)
 {
+	
 	print2darr(s->env, 0);
 }
 
@@ -100,13 +141,13 @@ void	bltn_node(t_set *s, int pi, int ci)
 {
 	
 	if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "echo"))
-		printf("echo\n");
+		bltn_echo(s, pi, ci);
 	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "cd"))
 		bltn_cd(s, pi, ci);
 	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "pwd"))
 		bltn_pwd();
 	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "export"))
-		bltn_export(s);
+		bltn_export(s, pi, ci);
 	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "unset"))
 		printf("unset\n");
 	else if (0 == ft_strcmp(s->set[pi].ppline[ci].cmnd[0], "env"))
