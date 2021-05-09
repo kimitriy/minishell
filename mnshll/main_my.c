@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/29 17:44:56 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/09 15:00:54 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	make_env(t_set *s, char **envp)
 void	make_exp(t_set *s)
 {
 	s->exp = arr2d_copy(s->env, s->en);
-	arr2d_sorted(s->exp, s->en);
+	s->exn = s->en;
+	arr2d_sorted(s->exp, s->exn);
 }
 
 void	save_argv(t_set *s, char *argv0)

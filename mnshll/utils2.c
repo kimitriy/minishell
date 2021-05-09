@@ -29,6 +29,7 @@ char	**arr2d_copy(char **arr, int en)
 {
 	// int		n;
 	int		i;
+	int		j;
 	char	**narr;
 
 	// n = 0;
@@ -39,11 +40,15 @@ char	**arr2d_copy(char **arr, int en)
 		return (NULL);
 	narr[en] = NULL;
 	i = 0;
+	j = 0;
 	while (i < en)
 	{
-		narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
-		ft_strcpy(narr[i], arr[i]);
+		narr[j] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
+		if (arr[i] == NULL)
+			i++;
+		ft_strcpy(narr[j], arr[i]);
 		i++;
+		j++;
 	}
 	// print2darr(arr, 0);
 	return(narr);

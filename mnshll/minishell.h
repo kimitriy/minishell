@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/08 22:02:35 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/09 15:00:26 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_ppline
 //env - is 2d arr that contains parsed environment variables
 //sn - is a number of strings in set arr (number of pipelines)
 //en - is a number of strings in env arr
+//exn - is a number of strings in exp arr
 typedef struct	s_set
 {
 	t_ppline	*set;
@@ -64,6 +65,7 @@ typedef struct	s_set
 	char		*argv0;
 	int			pn;
 	int			en;
+	int			exn;
 }				t_set;
 
 //main.c

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/07 14:45:38 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/09 15:01:29 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
+	(void)argv;
 	
     char    *line;
     t_set	*s;
 
     if (!(s = (t_set*)malloc(1 * sizeof(t_set))))
 		err_message("t_big malloc error");
-	save_argv(s, argv[0]);
+	// save_argv(s, argv[0]);
     make_env(s, envp); //makes env
 	write(1, "waiting for a new command\n", 27);
 	while (get_next_line(0, &line))
