@@ -2,7 +2,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static char **ft_free(char **arr)
+{
+	int		i;
 
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+	arr = NULL;
+	return (arr);
+}
 
 int		ft_strlen(const char *s)
 {
@@ -67,34 +77,6 @@ char	*str_in_arr(char **arr, char *str)
 	return (NULL);
 }
 
-char	**arr2d_copy(char **arr, int en)
-{
-	int		i;
-	char	**narr;
-
-	narr = (char**)malloc(en * sizeof(char*));
-	if (NULL == narr)
-		return (NULL);
-	i = 0;
-	while (i < en)
-	{
-		narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
-		if (arr[i] == NULL)
-		{
-			i++;
-			break;
-		}
-		ft_strcpy(narr[i], arr[i]);
-		write(1, "narr[i]: ", 9);
-		write(1, narr[i], ft_strlen(narr[i]));
-		write(1, "\n", 1);
-		// printf("narr[%d]: %s", j, narr[j]);
-		i++;
-	}
-	narr[i] = NULL;
-	return(narr);
-}
-
 void	print2darr(char **arr, int exprt_f)
 {
 	int		n;
@@ -107,37 +89,118 @@ void	print2darr(char **arr, int exprt_f)
 	while (++i < n)
 	{
 		if (exprt_f != 0)
-			printf("declare -x ");
-		printf("%s\n", arr[i]);
+			write(1, "declare -x ", 11);
+			// printf("declare -x ");
+		write(1, arr[i], ft_strlen(arr[i]));
+		write(1, "\n", 1);
+		// printf("%s\n", arr[i]);
 		// printf("line:%d, %s\n", i, arr[i]);
 	}
 }
 
+char	**arr2d_copy(char **arr, int en)
+{
+	int		i; //arr indx
+	char	**narr;
+
+	narr = (char**)malloc((en + 1) * sizeof(char*));
+	if (NULL == narr)
+		return (NULL);
+	i = -1;
+	while (++i < en)
+	{
+		if (NULL == arr[i])
+			break;
+		else
+		{
+			narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
+			ft_strcpy(narr[i], arr[i]);
+		}
+	}
+	narr[i] = NULL;
+	return(narr);
+}
+
+void	mark_str_to_del(char **arr, char *str)
+{
+	int		i;
+
+	i = 0;
+	while (arr[i])
+	{
+		if (0 == ft_strcmp(arr[i], str))
+			arr[i][0] = '\0';
+		i++;
+	}
+}
+
+
+char	**ft_rlcc_del(char **arr, int nsize)
+{
+	char	**narr;
+	int		i;
+	int		j;
+
+	narr = (char**)malloc((nsize + 1) * sizeof(char*));
+	if (NULL == narr)
+		err_message("realloc error");
+	i = -1;
+	j = 0;
+	while (arr[++i])
+	{
+		if (arr[i][0] != '\0')
+		{
+			narr[j] = (char*)malloc((nsize + 1) * sizeof(char));
+			if (NULL == narr)
+				err_message("realloc error");
+			ft_strcpy(narr[j], arr[i]);
+		}
+		else
+			continue;
+		j++;
+	}
+	narr[j] = NULL;
+	ft_free(arr);
+	return (narr);
+}
+
+char	**ft_rlcc_add(char **arr, int nsize, char *str)
+{
+	char	**narr;
+
+	narr = arr2d_copy(arr, nsize);
+	narr[nsize - 1] = (char*)malloc(ft_strlen(str) * sizeof(char));
+	ft_strcpy(narr[nsize - 1], str);
+	return (narr);
+}
+
 char	**ft_realloc(char **arr, int osize, int nsize, char *str)
 {
-	char	**narr = NULL;
-	// char	*tmp;
+	char	**narr_1 = NULL;
+	char	**narr_2 = NULL;
 
 	if (NULL != str_in_arr(arr, str))
 	{
 		if (nsize < osize) //соответствует unset
 		{
-			//subtract a string
-			free(str_in_arr(arr, str));
-			narr = arr2d_copy(arr, nsize);
+			narr_1 = arr2d_copy(arr, osize);
+			mark_str_to_del(narr_1, str);
+			narr_2 = ft_rlcc_del(narr_1, nsize);
+			return (narr_2);
 		}
+		else
+			return (arr);
 	}
 	else
 	{
 		if (osize < nsize) //соответствует export
 		{
-			//add a string
-			narr = arr2d_copy(arr, nsize);
-			ft_strcpy(narr[nsize - 1], str);
+			narr_1 = ft_rlcc_add(arr, nsize, str);
+			return (narr_1);
 		}
+		else
+			return (arr);
 	}
-	//in other cases do nothing
-	return (narr);
 }
 
 int		main()
@@ -145,8 +208,9 @@ int		main()
     int		i;
 	int		j;
 	size_t	size = 5;
-	size_t	n_size = 6;
+	size_t	n_size = 4;
 	char	**arr;
+	char	**tmp;
 
 	arr = (char**)malloc((size + 1) * sizeof(char*));
 
@@ -165,37 +229,18 @@ int		main()
 	}
 	arr[i] = NULL;
 
-	i = 0;
-	j = 0;
-	while (arr[i] != NULL)
-	{
-		while (arr[i][j] != '\0')
-		{
-			printf("arr[%d][%d]: %c ; ", i, j, arr[i][j]);
-			j++;
-		}
-		j = 0;
-		i++;
-		printf("\n");
-	}
+	printf("before:\n");
+	print2darr(arr, 0);
 
-	arr = ft_realloc(arr, size, n_size, "bbb");
-
-	i = 0;
-	j = 0;
-	while (arr[i] != NULL)
+	tmp = arr;
+	arr = ft_realloc(arr, size, n_size, "qqq");
+	
+	printf("after:\n");
+	print2darr(arr, 0);
+	ft_free(tmp);
+	while (1)
 	{
-		printf("arr[%d][%d]: %c ; ", i, j, arr[i][j]);
-		while (arr[i][j])
-		{
-			// write(1, "arr[i]: ", 8);
-			// write(1, arr[i], ft_strlen(arr[i]));
-			// write(1, "\n", 1);
-			printf("arr[%d][%d]: %c ; ", i, j, arr[i][j]);
-			j++;
-		}
-		j = 0;
-		i++;
-		printf("\n");
+		
 	}
+	return (0);
 }
