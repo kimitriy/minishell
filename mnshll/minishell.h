@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/09 15:00:26 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 01:40:25 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ typedef struct	s_cmnd
 //t_cmnd *ppline - is a arr that contains a pipeline of commands delimited upon '|' (pipe).
 //Each element is a command with its args wrapped in t_cmnd struct.
 //char *ppln_tmp - is a tmp str used to save parsed pipeline string.
-//pn - is a number of strings in ppline arr (number of commands in a pipeline)
+//cn - is a number of strings in ppln arr (number of commands in a pipeline)
 typedef struct	s_ppline
 {
-	t_cmnd		*ppline;
+	t_cmnd		*ppln;
 	char		*ppln_tmp;
 	int			cn;
 	int			**fd_arr;
@@ -98,6 +98,8 @@ void		ft_bzero(void *s, size_t n);
 int			ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
+static char	**ft_free(char **arr);
+static char	**ft_free_j(char **arr, int j);
 char		**ft_split(char const *s, char c);
 void		ft_strcpy(char *dst, const char *src);
 size_t		lindx(char const *s1, char const *set);
@@ -115,6 +117,10 @@ char		*str_in_arr(char **arr, char *str);
 char		**arr2d_copy(char **arr, int en);
 void		arr2d_sorted(char **arr, int en);
 void    	write2env(t_set *s, char *field, char *str);
+void		mark_str_to_del(char **arr, char *str);
+char		**ft_rlcc_del(char **arr, int nsize);
+char		**ft_rlcc_add(char **arr, int nsize, char *str);
+char		**ft_realloc(char **arr, int osize, int nsize, char *str);
 
 //execute.c
 int			bltn_check(t_set *s, int pi, int ci);

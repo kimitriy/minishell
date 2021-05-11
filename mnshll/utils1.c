@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/08 22:15:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 00:45:48 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,19 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 
 ////split
 
-static char **ft_free(char **arr, int j)
+static char **ft_free(char **arr)
+{
+	int		i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+	arr = NULL;
+	return (arr);
+}
+
+static char **ft_free_j(char **arr, int j)
 {
 	int		i;
 
@@ -173,7 +185,7 @@ char	**ft_split(char const *s, char c)
 		if (s[i] != '\0' && s[i] != c)
 		{
 			if (!(arr[j++] = ft_word(&s[i], c)))
-				return (ft_free(arr, j));
+				return (ft_free_j(arr, j));
 			while (s[i] != '\0' && s[i] != c)
 				i++;
 		}

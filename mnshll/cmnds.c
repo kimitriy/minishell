@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/08 17:42:37 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 01:32:28 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	complete_pth(char **pth, t_set *s, int pi, int ci)
 	i = 0;
 	while (NULL != pth[i])
 	{
-		pth[i] = ft_strjoin(pth[i], s->set[pi].ppline[ci].cmnd[0]);
+		pth[i] = ft_strjoin(pth[i], s->set[pi].ppln[ci].cmnd[0]);
 		i++;
 	}
 }
@@ -82,7 +82,7 @@ void	single_cmnd_node(t_set *s, int pi, int ci)
 		pid = fork();
 		if (pid == 0)
 			// execve(true_path, exc_arr, s->env);
-			execve(true_path, s->set[pi].ppline[ci].cmnd, s->env);
+			execve(true_path, s->set[pi].ppln[ci].cmnd, s->env);
 		else
 			wait(&pid);
 	}
@@ -110,7 +110,7 @@ void	mltple_cmnd_node(t_set *s, int pi, int ci)
 	true_path = path_checker(pth);
 	if (true_path != NULL)
 	{
-		execve(true_path, s->set[pi].ppline[ci].cmnd, s->env);
+		execve(true_path, s->set[pi].ppln[ci].cmnd, s->env);
 	}
 	else
 	{

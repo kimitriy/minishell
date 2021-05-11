@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:19:44 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/06 23:15:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 01:31:54 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		bltn_check(t_set *s, int pi, int ci)
 {
 	char	*bltins[8] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 
-	if (NULL != str_in_arr(bltins, s->set[pi].ppline[ci].cmnd[0]))
+	if (NULL != str_in_arr(bltins, s->set[pi].ppln[ci].cmnd[0]))
 	{
 		// write(1, "yes", 3);
 		return(1);
@@ -73,7 +73,7 @@ void	mnshll_execute(t_set *s)
 	{
 		pi = -1;
 		while (++pi < s->set[si].pn)
-			if (NULL != str_in_arr(bltins, s->set[si].ppline[pi].cmnd[0]))
+			if (NULL != str_in_arr(bltins, s->set[si].ppln[pi].cmnd[0]))
 				bltn_node(s, si, pi);
 			else
 				cmnd_node(s, si, pi);

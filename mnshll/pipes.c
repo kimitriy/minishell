@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 15:55:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/08 21:01:55 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 01:31:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		*launch(t_set *s, int pi)
 	arr = (int*)malloc(s->set[pi].cn * sizeof(int));
 	if (NULL == arr)
 		err_message("fd_arr malloc error");
-	printf("%s\n", s->set[pi].ppline[1].cmnd[1]);
+	printf("%s\n", s->set[pi].ppln[1].cmnd[1]);
 	ci = 0;
 	while (ci < s->set[pi].cn)
 	{

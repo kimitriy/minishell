@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+// void	print2darr(char **arr, int exprt_f)
+// {
+// 	int		n;
+// 	int		i;
+
+// 	n = 0;
+// 	while (arr[n] != NULL)
+// 		n++;
+// 	i = -1;
+// 	while (++i < n)
+// 	{
+// 		if (exprt_f != 0)
+// 			printf("declare -x ");
+// 		printf("%s\n", arr[i]);
+// 		// printf("line:%d, %s\n", i, arr[i]);
+// 	}
+// }
+
 void	print2darr(char **arr, int exprt_f)
 {
 	int		n;
@@ -12,8 +30,11 @@ void	print2darr(char **arr, int exprt_f)
 	while (++i < n)
 	{
 		if (exprt_f != 0)
-			printf("declare -x ");
-		printf("%s\n", arr[i]);
+			write(1, "declare -x ", 11);
+			// printf("declare -x ");
+		write(1, arr[i], ft_strlen(arr[i]));
+		write(1, "\n", 1);
+		// printf("%s\n", arr[i]);
 		// printf("line:%d, %s\n", i, arr[i]);
 	}
 }
@@ -65,9 +86,9 @@ void	print_set(t_set *s)
 	{
 		while (ci < s->set[pi].cn)
 		{
-			while (i < s->set[pi].ppline[ci].n)
+			while (i < s->set[pi].ppln[ci].n)
 			{
-				printf("s->set[%d].ppline[%d].cmnd[%d]: %s\n", pi, ci, i, s->set[pi].ppline[ci].cmnd[i]);
+				printf("s->set[%d].ppln[%d].cmnd[%d]: %s\n", pi, ci, i, s->set[pi].ppln[ci].cmnd[i]);
 				i++;
 			}
 			i = 0;

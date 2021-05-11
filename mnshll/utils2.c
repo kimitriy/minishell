@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/06 23:35:55 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 00:47:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,27 @@ char	*str_in_arr(char **arr, char *str)
 
 char	**arr2d_copy(char **arr, int en)
 {
-	// int		n;
-	int		i;
-	int		j;
+	int		i; //arr indx
 	char	**narr;
 
-	// n = 0;
-	// while (arr[n] != NULL)
-		// n++;
 	narr = (char**)malloc((en + 1) * sizeof(char*));
 	if (NULL == narr)
 		return (NULL);
-	narr[en] = NULL;
-	i = 0;
-	j = 0;
-	while (i < en)
+	i = -1;
+	while (++i < en)
 	{
-		narr[j] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
-		if (arr[i] == NULL)
-			i++;
-		ft_strcpy(narr[j], arr[i]);
-		i++;
-		j++;
+		if (NULL == arr[i])
+			break;
+		else
+		{
+			narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
+			ft_strcpy(narr[i], arr[i]);
+			// printf("narr[%d]: %s\n", i, narr[i]);
+		}
 	}
-	// print2darr(arr, 0);
+	narr[i] = NULL;
+	// printf("arr2d_copy:\n");
+	// print2darr(narr, 0);
 	return(narr);
 }
 
@@ -106,3 +103,88 @@ void    write2env(t_set *s, char *field, char *str)
 		}
     }
 }
+
+
+/////realloc
+void	mark_str_to_del(char **arr, char *str)
+{
+	int		i;
+
+	i = 0;
+	while (arr[i])
+	{
+		if (0 == ft_strcmp(arr[i], str))
+			arr[i][0] = '\0';
+		i++;
+	}
+}
+
+
+char	**ft_rlcc_del(char **arr, int nsize)
+{
+	char	**narr;
+	int		i;
+	int		j;
+
+	narr = (char**)malloc((nsize + 1) * sizeof(char*));
+	if (NULL == narr)
+		err_message("realloc error");
+	i = -1;
+	j = 0;
+	while (arr[++i])
+	{
+		if (arr[i][0] != '\0')
+		{
+			narr[j] = (char*)malloc((nsize + 1) * sizeof(char));
+			if (NULL == narr)
+				err_message("realloc error");
+			ft_strcpy(narr[j], arr[i]);
+		}
+		else
+			continue;
+		j++;
+	}
+	narr[j] = NULL;
+	ft_free(arr);
+	return (narr);
+}
+
+char	**ft_rlcc_add(char **arr, int nsize, char *str)
+{
+	char	**narr;
+
+	narr = arr2d_copy(arr, nsize);
+	narr[nsize - 1] = (char*)malloc(ft_strlen(str) * sizeof(char));
+	ft_strcpy(narr[nsize - 1], str);
+	return (narr);
+}
+
+char	**ft_realloc(char **arr, int osize, int nsize, char *str)
+{
+	char	**narr_1 = NULL;
+	char	**narr_2 = NULL;
+
+	if (NULL != str_in_arr(arr, str))
+	{
+		if (nsize < osize) //соответствует unset
+		{
+			narr_1 = arr2d_copy(arr, osize);
+			mark_str_to_del(narr_1, str);
+			narr_2 = ft_rlcc_del(narr_1, nsize);
+			return (narr_2);
+		}
+		else
+			return (arr);
+	}
+	else
+	{
+		if (osize < nsize) //соответствует export
+		{
+			narr_1 = ft_rlcc_add(arr, nsize, str);
+			return (narr_1);
+		}
+		else
+			return (arr);
+	}
+}
+
