@@ -84,11 +84,11 @@ void	print_set(t_set *s)
 
 	while (pi < s->pn)
 	{
-		while (ci < s->set[pi].cn)
+		while (ci < s->st[pi].cn)
 		{
-			while (i < s->set[pi].ppln[ci].n)
+			while (i < s->st[pi].pln[ci].n)
 			{
-				printf("s->set[%d].ppln[%d].cmnd[%d]: %s\n", pi, ci, i, s->set[pi].ppln[ci].cmnd[i]);
+				printf("s->st[%d].pln[%d].cmd[%d]: %s\n", pi, ci, i, s->st[pi].pln[ci].cmd[i]);
 				i++;
 			}
 			i = 0;

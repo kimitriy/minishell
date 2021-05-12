@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:19:44 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 01:31:54 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:51:54 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		bltn_check(t_set *s, int pi, int ci)
 {
 	char	*bltins[8] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 
-	if (NULL != str_in_arr(bltins, s->set[pi].ppln[ci].cmnd[0]))
+	if (NULL != str_in_arr(bltins, s->st[pi].pln[ci].cmd[0]))
 	{
 		// write(1, "yes", 3);
 		return(1);
@@ -38,16 +38,16 @@ void	mnshll_execute(t_set *s)
 	while (++pi < s->pn)
 	{
 		ci = -1;
-		if (s->set[pi].cn > 1)
+		if (s->st[pi].cn > 1)
 			pipes_node(s, pi);
 		else
 		{
-			while (++ci < s->set[pi].cn)
+			while (++ci < s->st[pi].cn)
 			{
 				if (bltn_check(s, pi, ci) == 1)
 					bltn_node(s, pi, ci);
 				else
-					single_cmnd_node(s, pi, ci);
+					single_cmd_node(s, pi, ci);
 			}
 		}
 	}
@@ -72,11 +72,11 @@ void	mnshll_execute(t_set *s)
 	while (++si < s->sn)
 	{
 		pi = -1;
-		while (++pi < s->set[si].pn)
-			if (NULL != str_in_arr(bltins, s->set[si].ppln[pi].cmnd[0]))
+		while (++pi < s->st[si].pn)
+			if (NULL != str_in_arr(bltins, s->st[si].pln[pi].cmd[0]))
 				bltn_node(s, si, pi);
 			else
-				cmnd_node(s, si, pi);
+				cmd_node(s, si, pi);
 	}
 }
 */

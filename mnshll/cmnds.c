@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 01:32:28 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 19:04:07 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	complete_pth(char **pth, t_set *s, int pi, int ci)
 	i = 0;
 	while (NULL != pth[i])
 	{
-		pth[i] = ft_strjoin(pth[i], s->set[pi].ppln[ci].cmnd[0]);
+		pth[i] = ft_strjoin(pth[i], s->st[pi].pln[ci].cmd[0]);
 		i++;
 	}
 }
@@ -66,11 +66,10 @@ char	*path_checker(char **pth)
 	return (NULL);
 }
 
-void	single_cmnd_node(t_set *s, int pi, int ci)
+void	single_cmd_node(t_set *s, int pi, int ci)
 {
-    (void)s;
-
 	pid_t   pid;
+	int		status;
 	char	**pth;
 	char	*true_path;
 
@@ -81,26 +80,26 @@ void	single_cmnd_node(t_set *s, int pi, int ci)
 	{
 		pid = fork();
 		if (pid == 0)
-			// execve(true_path, exc_arr, s->env);
-			execve(true_path, s->set[pi].ppln[ci].cmnd, s->env);
+			execve(true_path, s->st[pi].pln[ci].cmd, s->env);
 		else
-			wait(&pid);
+		{
+			wait(&status);
+			s->err = WEXITSTATUS(status);
+		}
 	}
 	else
-	{
 		err_cmnd_not_fnd(s, pi, ci);
-	}
 }
 
 int		rvrs_indx(t_set *s, int pi, int ci)
 {
 	int		rv;
 
-	rv = s->set[pi].cn - ci - 1;
+	rv = s->st[pi].cn - ci - 1;
 	return (rv);
 }
 
-void	mltple_cmnd_node(t_set *s, int pi, int ci)
+void	mltple_cmd_node(t_set *s, int pi, int ci)
 {
 	char	**pth;
 	char	*true_path;
@@ -110,7 +109,7 @@ void	mltple_cmnd_node(t_set *s, int pi, int ci)
 	true_path = path_checker(pth);
 	if (true_path != NULL)
 	{
-		execve(true_path, s->set[pi].ppln[ci].cmnd, s->env);
+		execve(true_path, s->st[pi].pln[ci].cmd, s->env);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 01:30:49 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:57:52 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,60 @@
 
 void	parse_spaces(t_set *s, char *str, int pi, int ci)
 {
-	char	**cmnd_tmp; //2d arr, first line is a command itself and following are args
+	char	**cmd_tmp; //2d arr, first line is a command itself and following are args
 	int		n; //number of elements in command
 	int		i; //index of elements in command
 
-	cmnd_tmp = ft_split(str, ' ');
-	// print2darr(cmnd_tmp, 0);
+	cmd_tmp = ft_split(str, ' ');
+	// print2darr(cmd_tmp, 0);
 	n = 0;
-	while (cmnd_tmp[n] != NULL)
+	while (cmd_tmp[n] != NULL)
 		n++;
-	if (!(s->set[pi].ppln[ci].cmnd = (char**)malloc(n * sizeof(char*))))
-			err_message("s->set[si].ppln[pi].cmnd malloc error");
+	if (!(s->st[pi].pln[ci].cmd = (char**)malloc(n * sizeof(char*))))
+			err_message("s->st[si].pln[pi].cmd malloc error");
 	i = -1;
 	while (++i < n)
 	{
-		cmnd_tmp[i] = ft_strtrim(cmnd_tmp[i], " ");
-		s->set[pi].ppln[pi].n = n;
-		int len = ft_strlen(cmnd_tmp[i]);
-		if (!(s->set[pi].ppln[ci].cmnd[i] = (char*)malloc((len + 1) * sizeof(char))))
-			err_message("s->set[si].ppln[pi].cmnd[i] malloc error");
-		ft_strcpy(s->set[pi].ppln[ci].cmnd[i], cmnd_tmp[i]);
+		cmd_tmp[i] = ft_strtrim(cmd_tmp[i], " ");
+		s->st[pi].pln[pi].n = n;
+		int len = ft_strlen(cmd_tmp[i]);
+		if (!(s->st[pi].pln[ci].cmd[i] = (char*)malloc((len + 1) * sizeof(char))))
+			err_message("s->st[si].pln[pi].cmd[i] malloc error");
+		ft_strcpy(s->st[pi].pln[ci].cmd[i], cmd_tmp[i]);
 	}
-	s->set[pi].ppln[ci].cmnd[i] = NULL;
-	// print2darr(s->set[pi].ppln[ci].cmnd, 0);
-	free(cmnd_tmp);
+	s->st[pi].pln[ci].cmd[i] = NULL;
+	// print2darr(s->st[pi].pln[ci].cmd, 0);
+	free(cmd_tmp);
 }
 
 void	parse_pipes(t_set *s, char *str, int pi)
 {
-	char	**ppln_tmp; //2d arr, each line is a command with its args
+	char	**pln_tmp; //2d arr, each line is a command with its args
 	int		n; //number of elements in pipeline
 	int		i; //index of elements in pipeline
 
 	// printf("parse_pipes: str: %s, si: %d\n", str, si);
-	ppln_tmp = ft_split(str, '|');
-	// print2darr(ppln_tmp, 0);
+	pln_tmp = ft_split(str, '|');
+	// print2darr(pln_tmp, 0);
 	n = 0;
-	while (ppln_tmp[n] != NULL)
+	while (pln_tmp[n] != NULL)
 		n++;
-	if (!(s->set[pi].ppln = (t_cmnd*)malloc(n * sizeof(t_cmnd))))
-			err_message("s->set[si].ppln malloc error");
+	if (!(s->st[pi].pln = (t_cmnd*)malloc(n * sizeof(t_cmnd))))
+			err_message("s->st[si].pln malloc error");
 	i = -1;
 	while (++i < n)
 	{
-		ppln_tmp[i] = ft_strtrim(ppln_tmp[i], " ");
-		s->set[pi].cn = n;
-		int len = ft_strlen(ppln_tmp[i]);
-		if (!(s->set[pi].ppln[i].cmnd_tmp = (char*)malloc((len + 1) * sizeof(char))))
-			err_message("s->set[si].ppln[i].cmnd_tmp malloc error");
-		ft_strcpy(s->set[pi].ppln[i].cmnd_tmp, ppln_tmp[i]);
-		// printf("parse_pipes: ppln_tmp[%d]: %s\n", i, ppln_tmp[i]);
-		// printf("parse_pipes: s->set[%d].ppln[%d].cmnd_tmp: %s\n", pi, i, s->set[pi].ppln[i].cmnd_tmp);
-		parse_spaces(s, s->set[pi].ppln[i].cmnd_tmp, pi, i);
+		pln_tmp[i] = ft_strtrim(pln_tmp[i], " ");
+		s->st[pi].cn = n;
+		int len = ft_strlen(pln_tmp[i]);
+		if (!(s->st[pi].pln[i].cmd_tmp = (char*)malloc((len + 1) * sizeof(char))))
+			err_message("s->st[si].pln[i].cmd_tmp malloc error");
+		ft_strcpy(s->st[pi].pln[i].cmd_tmp, pln_tmp[i]);
+		// printf("parse_pipes: pln_tmp[%d]: %s\n", i, pln_tmp[i]);
+		// printf("parse_pipes: s->st[%d].pln[%d].cmd_tmp: %s\n", pi, i, s->st[pi].pln[i].cmd_tmp);
+		parse_spaces(s, s->st[pi].pln[i].cmd_tmp, pi, i);
 	}
-	free(ppln_tmp);
+	free(pln_tmp);
 }
 
 void	parse_semicolons(t_set *s, char *str)
@@ -82,18 +82,18 @@ void	parse_semicolons(t_set *s, char *str)
 	while (set_tmp[n] != NULL)
 		n++;
 	s->pn = n;
-	if (!(s->set = (t_ppline*)malloc(n * sizeof(t_ppline)))) //allocates memory for n elements of set
+	if (!(s->st = (t_ppline*)malloc(n * sizeof(t_ppline)))) //allocates memory for n elements of set
 		err_message("s->set malloc error");
 	i = -1;
 	while (++i < n)
 	{
 		set_tmp[i] = ft_strtrim(set_tmp[i], " ");
 		int len = ft_strlen(set_tmp[i]);
-		if (!(s->set[i].ppln_tmp = (char*)malloc((len + 1) * sizeof(char)))) //allocates memory for parsed string
+		if (!(s->st[i].pln_tmp = (char*)malloc((len + 1) * sizeof(char)))) //allocates memory for parsed string
 			err_message("s->set malloc error");
-		ft_strcpy(s->set[i].ppln_tmp, set_tmp[i]);
-		// printf("parse_semicolons: s->set[%d].ppln_tmp: <%s>\n", i, s->set[i].ppln_tmp);
-		parse_pipes(s, s->set[i].ppln_tmp, i);
+		ft_strcpy(s->st[i].pln_tmp, set_tmp[i]);
+		// printf("parse_semicolons: s->st[%d].pln_tmp: <%s>\n", i, s->st[i].pln_tmp);
+		parse_pipes(s, s->st[i].pln_tmp, i);
 	}
 	free(set_tmp);
 }

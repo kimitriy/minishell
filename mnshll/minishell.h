@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 01:40:25 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 18:46:47 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 //n - is a number of strings in cmnd arr (number of args in a command).
 typedef struct	s_cmnd
 {
-	char		**cmnd;
-	char		*cmnd_tmp;
+	char		**cmd;
+	char		*cmd_tmp;
 	int			n;
 }				t_cmnd;
 
@@ -44,8 +44,8 @@ typedef struct	s_cmnd
 //cn - is a number of strings in ppln arr (number of commands in a pipeline)
 typedef struct	s_ppline
 {
-	t_cmnd		*ppln;
-	char		*ppln_tmp;
+	t_cmnd		*pln;
+	char		*pln_tmp;
 	int			cn;
 	int			**fd_arr;
 	int			*pid_arr;
@@ -57,15 +57,17 @@ typedef struct	s_ppline
 //sn - is a number of strings in set arr (number of pipelines)
 //en - is a number of strings in env arr
 //exn - is a number of strings in exp arr
+//err - is an error code, needs to be initialised by 0
 typedef struct	s_set
 {
-	t_ppline	*set;
+	t_ppline	*st;
 	char		**env;
 	char		**exp;
 	char		*argv0;
 	int			pn;
 	int			en;
 	int			exn;
+	int			err;
 }				t_set;
 
 //main.c
@@ -111,6 +113,8 @@ int			w2l(int fd, char *buf, char **line);
 int			get_next_line(int fd, char **line);
 void		ft_putnbr(int n);
 char		*ft_strchr(const char *s, int c);
+int			ft_isalpha(int c);
+int			ft_isdigit(int c);
 
 //utils2.c
 char		*str_in_arr(char **arr, char *str);
@@ -132,9 +136,12 @@ void		bltn_pwd();
 void		bltn_cd(t_set *s, int si, int pi);
 char		*set_path(t_set *s, int si, int pi);
 
+//bltn_export.c
+void		bltn_export(t_set *s, int pi, int ci);
+
 //cmnd.c
-void		single_cmnd_node(t_set *s, int si, int pi);
-void		mltple_cmnd_node(t_set *s, int pi, int ci);
+void		single_cmd_node(t_set *s, int si, int pi);
+void		mltple_cmd_node(t_set *s, int pi, int ci);
 
 //pipes.c	
 int			**make_fd_arr(t_set *s, int pi);
@@ -145,6 +152,7 @@ void    	pipes_node(t_set *s, int si);
 //error.c
 void		err_message(char *error);
 void		err_cmnd_not_fnd(t_set *s, int pi, int ci);
+void		err_not_a_valid_id(t_set *s, int pi, int ci);
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

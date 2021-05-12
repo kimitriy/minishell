@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 02:09:38 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:49:52 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ char	*set_path(t_set *s, int pi, int ci)
 	int		i;
 	char	*path;
 
-	if (s->set[pi].ppln[ci].cmnd[1] != NULL)
+	if (s->st[pi].pln[ci].cmd[1] != NULL)
 	{
-		path = (char*)malloc((ft_strlen(s->set[pi].ppln[ci].cmnd[1]) + 1) * sizeof(char));
+		path = (char*)malloc((ft_strlen(s->st[pi].pln[ci].cmd[1]) + 1) * sizeof(char));
 		if (NULL == path)
 			return (NULL);
-		ft_strcpy(path, s->set[pi].ppln[ci].cmnd[1]);
+		ft_strcpy(path, s->st[pi].pln[ci].cmd[1]);
 	}
 	else
 	{
@@ -45,15 +45,15 @@ void	bltn_echo(t_set *s, int pi, int ci)
 {
 	int		len;
 
-	if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[1], "-n"))
+	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[1], "-n"))
 	{
-		len = ft_strlen(s->set[pi].ppln[ci].cmnd[2]);
-		write(1, s->set[pi].ppln[ci].cmnd[2], len);
+		len = ft_strlen(s->st[pi].pln[ci].cmd[2]);
+		write(1, s->st[pi].pln[ci].cmd[2], len);
 	}
 	else
 	{
-		len = ft_strlen(s->set[pi].ppln[ci].cmnd[1]);
-		write(1, s->set[pi].ppln[ci].cmnd[1], len);
+		len = ft_strlen(s->st[pi].pln[ci].cmd[1]);
+		write(1, s->st[pi].pln[ci].cmd[1], len);
 		write(1, "\n", 1);
 	}
 }
@@ -98,43 +98,43 @@ void	bltn_pwd()
 	printf("%s\n", path);
 }
 
-void	bltn_export(t_set *s, int pi, int ci)
-{
-	printf("export arg: %s\n", s->set[pi].ppln[ci].cmnd[1]);
+// void	bltn_export(t_set *s, int pi, int ci)
+// {
+// 	printf("export arg: %s\n", s->st[pi].pln[ci].cmd[1]);
 	
-	char	*rvno;
-	char	*str;
-	int		len;
-	int		i;
+// 	char	*rvno;
+// 	char	*str;
+// 	int		len;
+// 	int		i;
 
-	len = ft_strlen(s->set[pi].ppln[ci].cmnd[1]);
-	rvno = ft_strchr(s->set[pi].ppln[ci].cmnd[1], 61);
-	str = str_in_arr(s->exp, s->set[pi].ppln[ci].cmnd[1]);
-	if (NULL == rvno)
-	{
-		//add to the export arr
-		if (NULL == str)
-		{
-			ft_realloc(s->exp, s->exn, s->exn + 1, s->set[pi].ppln[ci].cmnd[1]);
-		}
-	}
-	else
-	{
-		//check +=
-		if (--rvno == 43)
-		{
-			//strjoin
-		}
-		else
-		{
-			str = NULL;
-			str = (char*)malloc(1 * sizeof(char));
-			str = ft_strjoin(str, s->set[pi].ppln[ci].cmnd[1]);
-		}
-	}
+// 	len = ft_strlen(s->st[pi].pln[ci].cmd[1]);
+// 	rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
+// 	str = str_in_arr(s->exp, s->st[pi].pln[ci].cmd[1]);
+// 	if (NULL == rvno)
+// 	{
+// 		//add to the export arr
+// 		if (NULL == str)
+// 		{
+// 			ft_realloc(s->exp, s->exn, s->exn + 1, s->st[pi].pln[ci].cmd[1]);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		//check +=
+// 		if (--rvno == 43)
+// 		{
+// 			//strjoin
+// 		}
+// 		else
+// 		{
+// 			str = NULL;
+// 			str = (char*)malloc(1 * sizeof(char));
+// 			str = ft_strjoin(str, s->st[pi].pln[ci].cmd[1]);
+// 		}
+// 	}
 
-	print2darr(s->exp, 1);
-}
+// 	print2darr(s->exp, 1);
+// }
 
 // void 	bltn_unset()
 // {
@@ -155,18 +155,18 @@ void	bltn_exit()
 void	bltn_node(t_set *s, int pi, int ci)
 {
 	
-	if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "echo"))
+	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "echo"))
 		bltn_echo(s, pi, ci);
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "cd"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "cd"))
 		bltn_cd(s, pi, ci);
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "pwd"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "pwd"))
 		bltn_pwd();
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "export"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "export"))
 		bltn_export(s, pi, ci);
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "unset"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "unset"))
 		printf("unset\n");
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "env"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "env"))
 		bltn_env(s);
-	else if (0 == ft_strcmp(s->set[pi].ppln[ci].cmnd[0], "exit"))
+	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "exit"))
 		bltn_exit();
 }

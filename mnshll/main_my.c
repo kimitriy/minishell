@@ -6,13 +6,13 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/09 15:00:54 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/11 15:53:53 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	null_tcmnd(t_cmnd *cmnd, int n)
+void	null_tcmnd(t_cmnd *cmd, int n)
 {
 	int		i;
 	int		j;
@@ -21,15 +21,15 @@ void	null_tcmnd(t_cmnd *cmnd, int n)
 	j = 0;
 	while (i < n)
 	{
-		while (cmnd->cmnd[i][j])
+		while (cmd->cmd[i][j])
 		{
-			cmnd->cmnd[i][j] = '\0';
+			cmd->cmd[i][j] = '\0';
 			j++;
 		}
 		i++;
 		j = 0;
 	}
-	cmnd->cmnd[i] = NULL;
+	cmd->cmd[i] = NULL;
 }
 
 void	make_env(t_set *s, char **envp)
