@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/12 03:19:30 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/13 05:48:51 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		key_vldtr(t_set *s, int pi, int ci)
 		return (1);
 }
 
-char	*fill_str(char *str, int len, int offset)
+char	*fill_str(char *str, int len, int offset, int trm)
 {
 	char	*arr;
 	int		i;
@@ -40,6 +40,8 @@ char	*fill_str(char *str, int len, int offset)
 	while (++i < len)
 		arr[i] = str[offset + i];
 	arr[i] = '\0';
+	if (trm != 0)
+		arr = ft_strtrim(arr, "+");
 	return (arr);
 }
 
@@ -56,13 +58,15 @@ char	**parse_arg(char *str)
 	len = 0;
 	while (str[len] && str[len] != 61)
 		len++;
-	arr[0] = fill_str(str, len, 0);
-	offset = len;
-	offset++;
+	arr[0] = fill_str(str, len, 0, 43);
+	if (NULL == ft_strchr(str, 61))
+		offset = len;
+	else
+		offset = len + 1;
 	len = 0;
 	while(str[offset + len])
 		len++;
-	arr[1] = fill_str(str, len, offset);
+	arr[1] = fill_str(str, len, offset, 0);
 	return (arr);
 }
 
@@ -70,6 +74,8 @@ void	bltn_export(t_set *s, int pi, int ci)
 {
 	char	*rvno;
 	char	*str;
+	char	**arg;
+
 	
 	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
 	{
@@ -78,19 +84,25 @@ void	bltn_export(t_set *s, int pi, int ci)
 		else
 		{
 			rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
-			if (NULL == rvno) //if there is no '='
+			if (NULL == rvno) //if there is no '=' therefore all the str is a key
 			{
-				str = str_in_arr(s->exp, s->st[pi].pln[ci].cmd[1]);
-				if (NULL == str_in_arr(s->exp, str)) //if there is no such key in the export arr
-					ft_realloc(s->exp, s->exn, s->exn + 1, s->st[pi].pln[ci].cmd[1]);
+				// str = key_in_arr(s->exp, s->st[pi].pln[ci].cmd[1]);
+				if (NULL == key_in_arr(s->exp, s->st[pi].pln[ci].cmd[1])) //if there is no such key in the export arr
+					s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, s->st[pi].pln[ci].cmd[1]); //adds key into the export arr
 			}
 			else //if there is '='
 			{
 				if (--rvno == 43) //if + before =
 				{
-					str = str_in_arr(s->env, s->st[pi].pln[ci].cmd[1]);
+					arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses arg
+					str = key_in_arr(s->env, s->st[pi].pln[ci].cmd[1]);
+					if (NULL == str)
+						s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //if there is no the key in env, add str
+					else
+						str = 
+
 				}
-				else
+				else //if there is no + before =
 				{
 					str = NULL;
 					str = (char*)malloc(1 * sizeof(char));

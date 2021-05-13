@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 00:47:14 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/13 04:22:50 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,25 @@ char	*str_in_arr(char **arr, char *str)
 	return (NULL);
 }
 
+char	*key_in_arr(char **arr, char *key)
+{
+	int		i;
+	char 	**prsd_arr;
+
+	i = -1;
+	while (arr[++i])
+	{
+		prsd_arr = parse_arg(arr[i]);
+		if (0 == ft_strcmp(prsd_arr[0], key))
+		{
+			ft_free(prsd_arr);
+			return (arr[i]);
+		}
+		ft_free(prsd_arr);
+	}
+	return (NULL);
+}
+
 char	**arr2d_copy(char **arr, int en)
 {
 	int		i; //arr indx
@@ -32,22 +51,16 @@ char	**arr2d_copy(char **arr, int en)
 
 	narr = (char**)malloc((en + 1) * sizeof(char*));
 	if (NULL == narr)
-		return (NULL);
+		err_message("pzdts");
 	i = -1;
 	while (++i < en)
 	{
-		if (NULL == arr[i])
-			break;
+		if (NULL != arr[i])
+			narr[i] = ft_strdup(arr[i]);
 		else
-		{
-			narr[i] = (char*)malloc(ft_strlen(arr[i]) * sizeof(char));
-			ft_strcpy(narr[i], arr[i]);
-			// printf("narr[%d]: %s\n", i, narr[i]);
-		}
+			narr[i] = NULL;
 	}
 	narr[i] = NULL;
-	// printf("arr2d_copy:\n");
-	// print2darr(narr, 0);
 	return(narr);
 }
 
@@ -106,15 +119,22 @@ void    write2env(t_set *s, char *field, char *str)
 
 
 /////realloc
-void	mark_str_to_del(char **arr, char *str)
+void	mark_str_to_del(char **arr, char *key)
 {
+	char	**prsd_arr;
 	int		i;
 
 	i = 0;
 	while (arr[i])
 	{
-		if (0 == ft_strcmp(arr[i], str))
+		prsd_arr = parse_arg(arr[i]);
+		if (0 == ft_strcmp(prsd_arr[0], key))
+		{
 			arr[i][0] = '\0';
+			ft_free(prsd_arr);
+			return ;
+		}
+		ft_free(prsd_arr);
 		i++;
 	}
 }
@@ -134,12 +154,7 @@ char	**ft_rlcc_del(char **arr, int nsize)
 	while (arr[++i])
 	{
 		if (arr[i][0] != '\0')
-		{
-			narr[j] = (char*)malloc((nsize + 1) * sizeof(char));
-			if (NULL == narr)
-				err_message("realloc error");
-			ft_strcpy(narr[j], arr[i]);
-		}
+			narr[j] = ft_strdup(arr[i]);
 		else
 			continue;
 		j++;
@@ -154,37 +169,40 @@ char	**ft_rlcc_add(char **arr, int nsize, char *str)
 	char	**narr;
 
 	narr = arr2d_copy(arr, nsize);
-	narr[nsize - 1] = (char*)malloc(ft_strlen(str) * sizeof(char));
-	ft_strcpy(narr[nsize - 1], str);
+	narr[nsize - 1] = ft_strdup(str);
 	return (narr);
 }
 
-char	**ft_realloc(char **arr, int osize, int nsize, char *str)
+char**	ft_realloc(char **arr, int osize, int nsize, char *str)
 {
 	char	**narr_1 = NULL;
 	char	**narr_2 = NULL;
+	char	**prsd_str;
 
-	if (NULL != str_in_arr(arr, str))
+	prsd_str = parse_arg(str);
+	if (NULL != key_in_arr(arr, prsd_str[0]))
 	{
 		if (nsize < osize) //соответствует unset
 		{
 			narr_1 = arr2d_copy(arr, osize);
-			mark_str_to_del(narr_1, str);
+			mark_str_to_del(narr_1, prsd_str[0]);
 			narr_2 = ft_rlcc_del(narr_1, nsize);
+			ft_free(prsd_str);
+			ft_free(arr);
 			return (narr_2);
 		}
-		else
-			return (arr);
+		ft_free(prsd_str);
+		return (arr);
 	}
-	else
-	{
+	else //there is no such key in the arr
 		if (osize < nsize) //соответствует export
 		{
 			narr_1 = ft_rlcc_add(arr, nsize, str);
-			return (narr_1);
+			ft_free(prsd_str);
+			ft_free(arr);
+			return(narr_1);
 		}
-		else
-			return (arr);
-	}
+	ft_free(prsd_str);
+	return (arr);
 }
 

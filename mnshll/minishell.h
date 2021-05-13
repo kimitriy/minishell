@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 18:46:47 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/12 20:20:42 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,9 @@ void		bltn_cd(t_set *s, int si, int pi);
 char		*set_path(t_set *s, int si, int pi);
 
 //bltn_export.c
+int			key_vldtr(t_set *s, int pi, int ci);
+char		*fill_str(char *str, int len, int offset, int trm);
+char		**parse_arg(char *str);
 void		bltn_export(t_set *s, int pi, int ci);
 
 //cmnd.c

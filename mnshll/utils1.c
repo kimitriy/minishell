@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 16:40:31 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/13 04:15:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static char **ft_free(char **arr)
 	int		i;
 
 	i = 0;
-	while (arr[i])
+	while (arr[i] != NULL)
 		free(arr[i++]);
 	free(arr);
 	arr = NULL;
@@ -242,7 +242,7 @@ size_t	rindx(char const *s1, char const *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	char	*strtrim;
 	size_t	i;
@@ -260,6 +260,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (lindx(s1, set) == 0 && rindx(s1, set) == 0)
 		strtrim[0] = '\0';
 	strtrim[i] = '\0';
+	free(s1);
 	return (strtrim);
 }
 
@@ -277,22 +278,22 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(const char *s1)
 {
-	char	*p_s1;
-	int		i;
+	size_t	i;
+	char	*pntr;
 
-	p_s1 = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (NULL == p_s1)
+	pntr = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (NULL == pntr)
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1[i])
 	{
-		p_s1[i] = s1[i];
+		pntr[i] = s1[i];
 		i++;
 	}
-	p_s1[i] = '\0';
-	return (p_s1);
+	pntr[i] = '\0';
+	return (pntr);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
