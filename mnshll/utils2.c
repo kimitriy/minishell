@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/13 04:22:50 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 07:34:44 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	str_swap(char **arr, int i1, int i2)
 	arr[i2] = ft_strjoin(arr[i2], tmp);
 }
 
-void	arr2d_sorted(char **arr, int en)
+void	arr2d_sorted(char **arr, int exn)
 {
 	int		sc; //swap case
 	int		i;
@@ -88,7 +88,7 @@ void	arr2d_sorted(char **arr, int en)
 	{
 		sc = 0;
 		i = 0;
-		while (i < en)
+		while (i < exn)
 		{
 			if (arr[i + 1] != NULL && ft_strcmp(arr[i], arr[i + 1]) > 0)
 			{
@@ -98,7 +98,7 @@ void	arr2d_sorted(char **arr, int en)
 			i++;
 		}
 	}
-	// print2darr(arr, 0);
+	// print2darr(arr, 1);
 }
 
 void    write2env(t_set *s, char *field, char *str)
@@ -116,7 +116,6 @@ void    write2env(t_set *s, char *field, char *str)
 		}
     }
 }
-
 
 /////realloc
 void	mark_str_to_del(char **arr, char *key)
@@ -173,34 +172,60 @@ char	**ft_rlcc_add(char **arr, int nsize, char *str)
 	return (narr);
 }
 
-char**	ft_realloc(char **arr, int osize, int nsize, char *str)
+char	**unst(char **arr, int osize, int nsize, char **prsd_str)
 {
 	char	**narr_1 = NULL;
 	char	**narr_2 = NULL;
+
+	narr_1 = arr2d_copy(arr, osize);
+	mark_str_to_del(narr_1, prsd_str[0]);
+	narr_2 = ft_rlcc_del(narr_1, nsize);
+	ft_free(prsd_str);
+	ft_free(arr);
+	return (narr_2);
+}
+
+void	str_ovrwrite(char *pstr, char *str)
+{
+	free(pstr);
+	pstr = NULL;
+	pstr = ft_strdup(str);
+	// return (pstr);
+}
+
+char	**exprt(char **arr, int nsize, char *str)
+{
+	char	**narr;
+
+	narr = ft_rlcc_add(arr, nsize, str);
+	ft_free(arr);
+	return(narr);
+}
+
+char**	ft_realloc(char **arr, int osize, int nsize, char *str)
+{
+	char	**narr;
 	char	**prsd_str;
 
 	prsd_str = parse_arg(str);
-	if (NULL != key_in_arr(arr, prsd_str[0]))
+	if (NULL != key_in_arr(arr, prsd_str[0])) //searches corresponding str upon the keys
 	{
 		if (nsize < osize) //соответствует unset
 		{
-			narr_1 = arr2d_copy(arr, osize);
-			mark_str_to_del(narr_1, prsd_str[0]);
-			narr_2 = ft_rlcc_del(narr_1, nsize);
-			ft_free(prsd_str);
-			ft_free(arr);
-			return (narr_2);
+			narr = unst(arr, osize, nsize, prsd_str);
+			return (narr);
 		}
+		else if (nsize == osize)
+			str_ovrwrite(key_in_arr(arr, prsd_str[0]), str);
 		ft_free(prsd_str);
 		return (arr);
 	}
 	else //there is no such key in the arr
 		if (osize < nsize) //соответствует export
 		{
-			narr_1 = ft_rlcc_add(arr, nsize, str);
+			narr = exprt(arr, nsize, str);
 			ft_free(prsd_str);
-			ft_free(arr);
-			return(narr_1);
+			return(narr);
 		}
 	ft_free(prsd_str);
 	return (arr);

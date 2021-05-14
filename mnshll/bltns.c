@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 15:49:52 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 00:35:19 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*set_path(t_set *s, int pi, int ci)
 
 void	bltn_echo(t_set *s, int pi, int ci)
 {
+	//проверить валидность -n (-nnnnn -nn (-nnnnnnnf - аргумент))
+	
 	int		len;
 
 	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[1], "-n"))
@@ -92,6 +94,7 @@ void	bltn_cd(t_set *s, int pi, int ci)
 
 void	bltn_pwd()
 {
+	//переписать под write
 	char	*path;
 
 	path = getcwd(NULL, 0);
@@ -143,7 +146,7 @@ void	bltn_pwd()
 
 void	bltn_env(t_set *s)
 {
-	
+	//после unset path ничего не печаттать и вывести ошибку bash: env: No such file or directory 127
 	print2darr(s->env, 0);
 }
 
@@ -164,7 +167,7 @@ void	bltn_node(t_set *s, int pi, int ci)
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "export"))
 		bltn_export(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "unset"))
-		printf("unset\n");
+		bltn_unset(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "env"))
 		bltn_env(s);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "exit"))

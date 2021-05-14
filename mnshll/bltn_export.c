@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/13 05:48:51 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 07:55:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,26 @@
 
 int		key_vldtr(t_set *s, int pi, int ci)
 {
-	if (s->st[pi].pln[ci].cmd[1][0] != 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][0]))
-	{	
-		err_not_a_valid_id(s, pi, ci);
-		return (0);
-	}
-	else if (s->st[pi].pln[ci].cmd[1][0] = 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][1]) && 1 != ft_isdigit(s->st[pi].pln[ci].cmd[1][1]) && s->st[pi].pln[ci].cmd[1][1] != 95)
-	{	
-		err_not_a_valid_id(s, pi, ci);
-		return (0);
+	if (s->st[pi].pln[ci].cmd[1] != NULL)
+	{
+		if (s->st[pi].pln[ci].cmd[1][0] != 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][0]))
+		{	
+			err_not_a_valid_id(s, pi, ci);
+			return (0);
+		}
+		else if (s->st[pi].pln[ci].cmd[1][0] == 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][1]) && 1 != ft_isdigit(s->st[pi].pln[ci].cmd[1][1]) && s->st[pi].pln[ci].cmd[1][1] != 95)
+		{	
+			err_not_a_valid_id(s, pi, ci);
+			return (0);
+		}
+		else
+			return (1);
 	}
 	else
-		return (1);
+	{
+		print2darr(s->exp, 1);
+		return (0);
+	}
 }
 
 char	*fill_str(char *str, int len, int offset, int trm)
@@ -51,9 +59,7 @@ char	**parse_arg(char *str)
 	int		len;
 	int		offset;
 
-	arr = (char**)malloc(3 * sizeof(char*));
-	if (NULL == arr)
-		err_message("pzdts");
+	arr = ft_calloc(3, sizeof(char*));
 	arr[2] = NULL;
 	len = 0;
 	while (str[len] && str[len] != 61)
@@ -76,40 +82,48 @@ void	bltn_export(t_set *s, int pi, int ci)
 	char	*str;
 	char	**arg;
 
-	
 	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
 	{
-		if (s->st[pi].pln[ci].cmd[1][0] == 35) //if #
-			print2darr(s->exp, 1);
-		else
+		arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses key and value
+		rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
+		if (NULL == rvno) //if there is no '=' therefore all the str is a key
 		{
-			rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
-			if (NULL == rvno) //if there is no '=' therefore all the str is a key
-			{
-				// str = key_in_arr(s->exp, s->st[pi].pln[ci].cmd[1]);
-				if (NULL == key_in_arr(s->exp, s->st[pi].pln[ci].cmd[1])) //if there is no such key in the export arr
-					s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, s->st[pi].pln[ci].cmd[1]); //adds key into the export arr
-			}
-			else //if there is '='
-			{
-				if (--rvno == 43) //if + before =
-				{
-					arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses arg
-					str = key_in_arr(s->env, s->st[pi].pln[ci].cmd[1]);
-					if (NULL == str)
-						s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //if there is no the key in env, add str
-					else
-						str = 
-
-				}
-				else //if there is no + before =
-				{
-					str = NULL;
-					str = (char*)malloc(1 * sizeof(char));
-					str = ft_strjoin(str, s->st[pi].pln[ci].cmd[1]);
-				}
-			}
+			str = key_in_arr(s->exp, arg[0]); //searches key in the s->exp and returns corresponding str
+			if (NULL == str)
+				s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, arg[0]); //adds key into the export arr
+			print2darr(s->exp, 1);
 		}
-		print2darr(s->exp, 1);	
+		else //if there is '='
+		{
+			str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns corresponding str
+			if (NULL == str) //if there is no corresponding key
+				s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //add str to the s->env
+			else
+				if (*rvno - 1 != 43) //no + before =
+					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
+				else // + before
+					str = ft_strjoin(str, arg[1]); //concatenates symbols from arg[1] to the founded str
+			make_exp(s, 1);
+			// print2darr(s->env, 0);
+			print2darr(s->exp, 1);
+		}
+	}
+}
+
+void	bltn_unset(t_set *s, int pi, int ci)
+{
+	char	**arg;
+
+	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
+	{
+		arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses key and value
+		if (NULL != key_in_arr(s->env, arg[0]))
+			s->env = ft_realloc(s->env, s->en, s->en - 1, s->st[pi].pln[ci].cmd[1]);
+		else
+			if (NULL != key_in_arr(s->exp, arg[0]))
+				s->env = ft_realloc(s->exp, s->exn, s->exn - 1, s->st[pi].pln[ci].cmd[1]);
+		make_exp(s, 1);
+		// print2darr(s->env, 0);
+		print2darr(s->exp, 1);
 	}
 }

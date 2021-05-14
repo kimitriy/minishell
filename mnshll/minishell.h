@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/12 20:20:42 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 07:55:17 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct	s_set
 	t_ppline	*st;
 	char		**env;
 	char		**exp;
-	char		*argv0;
+	// char		*argv0;
 	int			pn;
 	int			en;
 	int			exn;
@@ -78,7 +78,7 @@ int			main(int argc, char **argv, char **envp);
 void		null_tcmnd(t_cmnd *cmnd, int n);
 void		save_argv(t_set *s, char *argv0);
 void		make_env(t_set *s, char **envp);
-void		make_exp(t_set *s);
+void		make_exp(t_set *s, int n);
 // void		make_tset(t_set *s, char **envp, char *str);
 // int			main(int argc, char **argv, char **envp);
 
@@ -97,16 +97,21 @@ void		parse_spaces(t_set *s, char *str, int si, int pi);
 //utils1c
 
 void		ft_bzero(void *s, size_t n);
+void		*ft_calloc(size_t count, size_t size);
 int			ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
+int			ft_strncmp(const char *s1, const char *s2, int n);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
-static char	**ft_free(char **arr);
-static char	**ft_free_j(char **arr, int j);
+char	**ft_free(char **arr);
+char	**ft_free_j(char **arr, int j);
+char	*ft_word(char const *s, char c);
+int	ft_num(char const *s, char c);
 char		**ft_split(char const *s, char c);
-void		ft_strcpy(char *dst, const char *src);
+
 size_t		lindx(char const *s1, char const *set);
 size_t		rindx(char const *s1, char const *set);
 char		*ft_strtrim(char const *s1, char const *set);
+void		ft_strcpy(char *dst, const char *src);
 char		*ft_strdup(char *s1);
 char		*ft_strjoin(char const *s1, char const *s2);
 int			w2l(int fd, char *buf, char **line);
@@ -118,12 +123,17 @@ int			ft_isdigit(int c);
 
 //utils2.c
 char		*str_in_arr(char **arr, char *str);
+char		*key_in_arr(char **arr, char *key);
 char		**arr2d_copy(char **arr, int en);
+void		str_swap(char **arr, int i1, int i2);
 void		arr2d_sorted(char **arr, int en);
 void    	write2env(t_set *s, char *field, char *str);
 void		mark_str_to_del(char **arr, char *str);
 char		**ft_rlcc_del(char **arr, int nsize);
 char		**ft_rlcc_add(char **arr, int nsize, char *str);
+char		**unst(char **arr, int osize, int nsize, char **prsd_str);
+void		str_ovrwrite(char *pstr, char *str);
+char		**exprt(char **arr, int nsize, char *str);
 char		**ft_realloc(char **arr, int osize, int nsize, char *str);
 
 //execute.c
@@ -141,6 +151,7 @@ int			key_vldtr(t_set *s, int pi, int ci);
 char		*fill_str(char *str, int len, int offset, int trm);
 char		**parse_arg(char *str);
 void		bltn_export(t_set *s, int pi, int ci);
+void		bltn_unset(t_set *s, int pi, int ci);
 
 //cmnd.c
 void		single_cmd_node(t_set *s, int si, int pi);
