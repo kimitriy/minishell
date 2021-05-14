@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 07:55:39 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 12:08:13 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	bltn_export(t_set *s, int pi, int ci)
 			str = key_in_arr(s->exp, arg[0]); //searches key in the s->exp and returns corresponding str
 			if (NULL == str)
 				s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, arg[0]); //adds key into the export arr
-			print2darr(s->exp, 1);
+			// print2darr(s->exp, 1);
 		}
 		else //if there is '='
 		{
@@ -103,9 +103,9 @@ void	bltn_export(t_set *s, int pi, int ci)
 					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
 				else // + before
 					str = ft_strjoin(str, arg[1]); //concatenates symbols from arg[1] to the founded str
-			make_exp(s, 1);
 			// print2darr(s->env, 0);
-			print2darr(s->exp, 1);
+			make_exp(s, 1);
+			// print2darr(s->exp, 1);
 		}
 	}
 }

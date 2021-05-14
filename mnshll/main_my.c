@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 08:02:03 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 11:59:27 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,31 @@ void	make_exp(t_set *s, int n)
 	int		i;
 	int		j;
 
-	if (n != 0)
+	if (n != 0) //n - is a flag. if it is not 0 then s->exp needs to be freed
 		ft_free(s->exp);
 	s->exn = s->en;
 	s->exp = calloc(s->exn + 1, sizeof(char*));
 	i = -1;
 	while (++i < s->exn)
 	{
-		prsd_arg = parse_arg(s->env[i]);
-		s->exp[i] = ft_strdup(prsd_arg[0]);
-		len = ft_strlen(prsd_arg[1]);
-		str = ft_calloc(len + 3, sizeof(char));
-		str[0] = 61;
-		str[1] = 34;
+		prsd_arg = parse_arg(s->env[i]); //parses each str of the env
+		s->exp[i] = ft_strdup(prsd_arg[0]); //gives memory and key to each str of exp 
+		len = ft_strlen(prsd_arg[1]); //calcs length of value str
+		str = ft_calloc(len + 4, sizeof(char)); //gives memory to the str
+		str[0] = 61; //writes '=' to the zero element of str
+		str[1] = 34; //writes the first '"' to the 1st element of the str
 		j = -1;
-		while (++j < len)
+		while (++j < len) //writes the rest of value to the str in cycle 
 			str[j + 2] = prsd_arg[1][j];
-		str[j + 2] = 34;
-		tmp = s->exp[i];
-		s->exp[i] = ft_strjoin(s->exp[i], str);
+		str[j + 2] = 34; //writes the second '"' to the before last element of the str
+		str[j + 3] = '\0'; //null terminates the end of the str
+		tmp = s->exp[i]; //saves access to the allocated memory through tmp pointer
+		s->exp[i] = ft_strjoin(s->exp[i], str); //joins key in the exp arr and prepared str
 		// printf("s->exp[%d]: %s\n", i, s->exp[i]);
-		free(tmp);
-		free(str);
+		free(tmp); //frees tmp
+		free(str); //frees str
 	}
-	s->exp[i] = NULL;
+	// s->exp[i] = NULL;
 	arr2d_sorted(s->exp, s->exn);
 }
 
