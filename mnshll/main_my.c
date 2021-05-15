@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 23:49:23 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/15 19:27:36 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,37 @@ void	null_tcmnd(t_cmnd *cmd, int n)
 void	make_env(t_set *s, char **envp)
 {
 	int		i; //index of lines in envp
-	int		l;
+	char	**opwd_envptr;
+	char	**opwd_expptr;
 
-	// print2darr(envp, 0);
-
+	opwd_envptr = NULL;
+	opwd_expptr = NULL;
 	s->en = 0;
 	while (envp[s->en] != NULL)
 		s->en++;
 	s->env = ft_calloc(s->en + 1, sizeof(char*));
-	// if (!(s->env = (char**)malloc((n + 1) * sizeof(char*))))
-	// 	err_message("env malloc error");
 	s->env[s->en] = NULL;
 	i = -1;
 	while (++i < s->en)
-	{
-		l = ft_strlen(envp[i]);
-		s->env[i] = ft_calloc(l + 1, sizeof(char));
-		// if (!(s->env[i] = (char*)malloc((l + 1) * sizeof(char))))
-		// 	err_message("env malloc error");
-		ft_strcpy(s->env[i], envp[i]);
-		// printf("s->env[%d]: %s\n", i, s->env[i]);
-	}
+		s->env[i] = ft_strdup(envp[i]);
+	// printf("s->env:\n");
+	// print2darr(s->env, 0);
+
+	opwd_envptr = key_in_arr(s->env, "OLDPWD");
+	// write(1, "before: *opwd_envptr: ", 22);
+	// write(1, *opwd_envptr, ft_strlen(*opwd_envptr));
+	// write(1, "\n", 1);
+	
+	// printf("opwd_envptr: %s", *opwd_envptr);
+	// ft_realloc(s->env, s->en, s->en - 1, *opwd_envptr);
+	// write(1, "after: *opwd_envptr: ", 21);
+	// write(1, *opwd_envptr, ft_strlen(*opwd_envptr));
+	// write(1, "\n", 1);
+	// printf("s->env:\n");
+	// print2darr(s->env, 0);
 	make_exp(s, 0);
+	// opwd_expptr = key_in_arr(s->exp, "OLDPWD");
+	// str_ovrwrite(opwd_expptr, "OLDPWD");
 }
 
 void	make_exp(t_set *s, int n)

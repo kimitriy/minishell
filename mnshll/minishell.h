@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 03:29:03 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/15 13:29:47 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,14 @@ char		**parse_arg(char *str);
 void		bltn_export(t_set *s, int pi, int ci);
 void		bltn_unset(t_set *s, int pi, int ci);
 
+//bltn_cd.c
+char		*cd_tilda(t_set *s, int pi, int ci);
+char		*cd_minus(t_set *s, int pi, int ci);
+char		*cd_home(t_set *s, int pi, int ci);
+char		*cd_freepath(t_set *s, int pi, int ci);
+char		*set_path(t_set *s, int pi, int ci);
+void		bltn_cd(t_set *s, int pi, int ci);
+
 //cmnd.c
 void		single_cmd_node(t_set *s, int si, int pi);
 void		mltple_cmd_node(t_set *s, int pi, int ci);
@@ -169,6 +177,8 @@ void    	pipes_node(t_set *s, int si);
 void		err_message(char *error);
 void		err_cmnd_not_fnd(t_set *s, int pi, int ci);
 void		err_not_a_valid_id(t_set *s, int pi, int ci);
+void		err_home_not_set(t_set *s, int pi, int ci);
+void		err_oldpwd_not_set(t_set *s, int pi, int ci);
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

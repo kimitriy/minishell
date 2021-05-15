@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 03:34:01 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/15 09:20:04 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		key_vldtr(t_set *s, int pi, int ci)
 {
-	if (s->st[pi].pln[ci].cmd[1] != NULL) //if there is arg
+	if (s->st[pi].pln[ci].cmd[1] != NULL && s->st[pi].pln[ci].cmd[1][0] != 35) //if there is arg
 	{
 		if (s->st[pi].pln[ci].cmd[1][0] != 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][0]))
 		{	

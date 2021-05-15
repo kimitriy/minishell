@@ -6,44 +6,19 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 00:35:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/15 12:43:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*set_path(t_set *s, int pi, int ci)
-{
-	int		i;
-	char	*path;
 
-	if (s->st[pi].pln[ci].cmd[1] != NULL)
-	{
-		path = (char*)malloc((ft_strlen(s->st[pi].pln[ci].cmd[1]) + 1) * sizeof(char));
-		if (NULL == path)
-			return (NULL);
-		ft_strcpy(path, s->st[pi].pln[ci].cmd[1]);
-	}
-	else
-	{
-		i = 0;
-		while (i < s->en)
-		{
-			if (NULL != ft_strnstr(s->env[i], "HOME=", 5))
-			{	
-				path = (char*)malloc((ft_strlen(s->env[i]) + 1) * sizeof(char));
-				ft_strcpy(path, s->env[i]);
-				path = ft_strtrim(path, "HOME=");
-			}
-			i++;
-		}
-	}
-	return (path);
-}
 
 void	bltn_echo(t_set *s, int pi, int ci)
 {
 	//проверить валидность -n (-nnnnn -nn (-nnnnnnnf - аргумент))
+	//echo #xxx
+	//echo ~
 	
 	int		len;
 
@@ -60,23 +35,7 @@ void	bltn_echo(t_set *s, int pi, int ci)
 	}
 }
 
-void	bltn_cd(t_set *s, int pi, int ci)
-{
-	int		err_num;
-	int		chdir_err;
-	char	*path;
 
-	errno = 0;
-	path = set_path(s, pi, ci);
-	chdir_err = chdir(path);
-	if (chdir_err != 0)
-	{
-		err_num = errno;
-		printf("%s", strerror(err_num));
-	}
-	
-	bltn_pwd(s);
-}
 
 // void	bltn_pwd(t_set *s)
 // {
@@ -98,7 +57,9 @@ void	bltn_pwd()
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	printf("%s\n", path);
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+	// printf("%s\n", path);
 }
 
 // void	bltn_export(t_set *s, int pi, int ci)
