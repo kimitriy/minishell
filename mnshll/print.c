@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print2darr(char **arr)
+void	print2darr(char **arr, int exprt_f)
 {
 	int		n;
 	int		i;
@@ -10,7 +10,12 @@ void	print2darr(char **arr)
 		n++;
 	i = -1;
 	while (++i < n)
-		printf("line:%d, %s\n", i, arr[i]);
+	{
+		if (exprt_f != 0)
+			printf("declare -x ");
+		printf("%s\n", arr[i]);
+		// printf("line:%d, %s\n", i, arr[i]);
+	}
 }
 
 void	print_set(t_set *s)
@@ -37,5 +42,5 @@ void	print_set(t_set *s)
 		si++;
 	}
 
-	print2darr(s->env);
+	print2darr(s->env, 0);
 }

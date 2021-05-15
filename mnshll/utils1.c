@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/20 19:40:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/04/28 20:50:50 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	err_message(char *error)
+void	ft_bzero(void *s, size_t n)
 {
-    write(1, "Error!\n", 7);
-	write(1, error, ft_strlen(error));
-    write(1, "\n", 1);
-    exit(0);
+	size_t			i;
+	unsigned char	*mem;
+
+	mem = s;
+	i = -1;
+	while (++i < n)
+		mem[i] = '\0';
 }
 
-size_t	ft_strlen(const char *s)
+int		ft_strlen(const char *s)
 {
-	size_t	i;
+	int		i;
 
 	if (s == NULL)
 		return (0);
@@ -50,9 +53,9 @@ int		ft_strcmp(char *s1, char *s2)
 	return (output);
 }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int		ft_strncmp(const char *s1, const char *s2, int n)
 {
-	size_t	i;
+	int		i;
 
 	if (n == 0)
 		return (0);
@@ -197,7 +200,7 @@ size_t	lindx(char const *s1, char const *set)
         while (set[++j])
 			if (s1[i] != set[j])
 				nomatch++;
-		if (nomatch < ft_strlen(set))
+		if (nomatch < (size_t)ft_strlen(set))
 			nomatch = 0;
 		else
 			return (i);		
@@ -219,7 +222,7 @@ size_t	rindx(char const *s1, char const *set)
         while (set[++j])
 			if (s1[i] != set[j])
 				nomatch++;
-		if (nomatch < ft_strlen(set))
+		if (nomatch < (size_t)ft_strlen(set))
 			nomatch = 0;
 		else
 			return (i);		
@@ -262,17 +265,22 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
-char	*str_in_arr(char **arr, char *str)
+char	*ft_strdup(char *s1)
 {
+	char	*p_s1;
 	int		i;
 
-	i = -1;
-	while (NULL != arr[++i])
+	p_s1 = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (NULL == p_s1)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
 	{
-		if (0 == strcmp(arr[i], str))
-			return (arr[i]);
+		p_s1[i] = s1[i];
+		i++;
 	}
-	return (NULL);
+	p_s1[i] = '\0';
+	return (p_s1);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -301,4 +309,64 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	sjn[i] = '\0';
 	return (sjn);
+}
+
+
+////GNL
+
+int		w2l(int fd, char *buf, char **line)
+{
+	int		rv;
+	char	*lineleak;
+
+	while (1)
+	{
+		rv = read(fd, buf, 1);
+		if (rv < 0)
+			return (-1);
+		else if (rv == 0)
+			return (0);
+		else
+		{
+			if (*buf == '\n')
+				return (1);
+			else
+			{
+				lineleak = *line;
+				*line = ft_strjoin(*line, buf);
+				free(lineleak);
+			}
+		}
+	}
+}
+
+int		get_next_line(int fd, char **line)
+{
+	static char		buf;
+	int				rv;
+
+	if (!(*line = malloc(1)))
+		return (-1);
+	**line = 0;
+	rv = w2l(fd, &buf, line);
+	return (rv);
+}
+
+////
+
+void	*ft_calloc(size_t count, size_t size) // ДОБАВИТЬ ДИМЕ
+{
+	size_t	i;
+	char	*arr;
+
+	arr = (void *)malloc(count * size);
+	if (NULL == arr)
+		return (NULL);
+	i = 0;
+	while (i < count * size)
+	{
+		arr[i] = 0;
+		i++;
+	}
+	return (arr);
 }

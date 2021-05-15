@@ -1,19 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmnd.c                                             :+:      :+:    :+:   */
+/*   termcap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/04/21 23:00:06 by rburton          ###   ########.fr       */
+/*   Created: 2021/04/26 18:36:18 by smyriell          #+#    #+#             */
+/*   Updated: 2021/04/26 18:36:19 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	cmnd_node(t_set *s)
-{
-    (void)s;
-    printf("cmnd_node has reached\n");
-}
