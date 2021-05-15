@@ -6,7 +6,7 @@
 #    By: rburton <rburton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/28 11:32:38 by rburton           #+#    #+#              #
-#    Updated: 2021/05/14 00:02:39 by rburton          ###   ########.fr        #
+#    Updated: 2021/05/14 22:58:35 by rburton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC 		= 	main.c \
 				prsr.c \
 				utils1.c \
 				utils2.c \
+				realloc.c \
 				execute.c \
 				bltns.c \
 				bltn_export.c \

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 07:00:52 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/14 23:48:02 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,38 +264,38 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
-// char	*ft_strdup(char *s1)
-// {
-// 	size_t	i;
-// 	char	*pntr;
-
-// 	pntr = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
-// 	if (NULL == pntr)
-// 		return (NULL);
-// 	i = -1;
-// 	while (s1[++i])
-// 		pntr[i] = s1[i];
-// 	i++;
-// 	pntr[i] = '\0';
-// 	return (pntr);
-// }
-
 char	*ft_strdup(char *s1)
 {
-	char	*p_s1;
-	int		i;
-	p_s1 = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (NULL == p_s1)
+	size_t	i;
+	char	*pntr;
+
+	pntr = (char*)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
+	if (NULL == pntr)
 		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		p_s1[i] = s1[i];
-		i++;
-	}
-	p_s1[i] = '\0';
-	return (p_s1);
+	i = -1;
+	while (s1[++i])
+		pntr[i] = s1[i];
+	i++;
+	pntr[i] = '\0';
+	return (pntr);
 }
+
+// char	*ft_strdup(char *s1)
+// {
+// 	char	*p_s1;
+// 	int		i;
+// 	p_s1 = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
+// 	if (NULL == p_s1)
+// 		return (NULL);
+// 	i = 0;
+// 	while (s1[i] != '\0')
+// 	{
+// 		p_s1[i] = s1[i];
+// 		i++;
+// 	}
+// 	p_s1[i] = '\0';
+// 	return (p_s1);
+// }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

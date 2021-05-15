@@ -20,17 +20,16 @@
 
 void	print2darr(char **arr, int exprt_f)
 {
-	int		n;
 	int		i;
 
-	n = 0;
-	i = -1;
-	while (arr[++i])
+	i = 0;
+	while (arr[i])
 	{
 		if (exprt_f != 0)
 			write(1, "declare -x ", 12);
 		write(1, arr[i], ft_strlen(arr[i]));
 		write(1, "\n", 1);
+		i++;
 	}
 }
 
