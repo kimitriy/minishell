@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 19:27:36 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/16 21:33:34 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,47 @@ void	null_tcmnd(t_cmnd *cmd, int n)
 void	make_env(t_set *s, char **envp)
 {
 	int		i; //index of lines in envp
-	char	**opwd_envptr;
-	char	**opwd_expptr;
+	int		j; //index of lines in s->env
+	// char	dgt;
+	// char	**opwd_env_ptr;
+	// char	**opwd_exp_ptr;
 
-	opwd_envptr = NULL;
-	opwd_expptr = NULL;
+	// opwd_env_ptr = NULL;
+	// opwd_exp_ptr = NULL;
 	s->en = 0;
 	while (envp[s->en] != NULL)
 		s->en++;
 	s->env = ft_calloc(s->en + 1, sizeof(char*));
-	s->env[s->en] = NULL;
-	i = -1;
-	while (++i < s->en)
-		s->env[i] = ft_strdup(envp[i]);
-	// printf("s->env:\n");
-	// print2darr(s->env, 0);
+	// s->env[s->en] = NULL;
+	i = 0;
+	j = 0;
+	while (i < s->en)
+	{
+		// printf("envp[%d]: %s", i, envp[i]);
+		// write(1, "envp[", 5);
+		// dgt = i + '0';
+		// write(1, &dgt, 1);
+		// write(1, "]: ", 3);
+		// write(1, envp[i], ft_strlen(envp[i]));
+		// write(1, "\n", 1);
+		if (0 == ft_strncmp(envp[i], "OLDPWD=", 7))
+			i++;
+			// s->env[i] = ft_strdup("OLDPWD");
+		else
+			s->env[j] = ft_strdup(envp[i]);
+		i++;
+		j++;
+		// write(1, "s->env[", 7);
+		// dgt = i + '0';
+		// write(1, &dgt, 1);
+		// write(1, "]: ", 3);
+		// write(1, s->env[i], ft_strlen(s->env[i]));
+		// write(1, "\n", 1);
+	}
+	printf("s->env:\n");
+	print2darr(s->env, 0);
 
-	opwd_envptr = key_in_arr(s->env, "OLDPWD");
+	// opwd_env_ptr = key_in_arr(s->env, "OLDPWD");
 	// write(1, "before: *opwd_envptr: ", 22);
 	// write(1, *opwd_envptr, ft_strlen(*opwd_envptr));
 	// write(1, "\n", 1);
