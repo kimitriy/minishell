@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/19 07:28:33 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 08:58:58 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	bltn_export(t_set *s, int pi, int ci)
 		str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns corresponding str
 		if (NULL == str) //if there is no such key in the s->env
 		{
-			s->env = ft_realloc(s->env, s->en, s->en + 1, arg[0]); //adds key into the env arr
+			s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //adds the whole arg str into the env arr
 			s->en++;
 		}
 		else
