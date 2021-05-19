@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 22:52:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 17:59:06 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 23:18:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	str_ovrwrite(char **pstr, char *str)
 	free(*pstr);
 	// pstr = NULL;
 	*pstr = ft_strdup(str);
-    write(1, "pstr: ", 7);
-    write(1, *pstr, ft_strlen(*pstr));
-    write(1, "\n", 1);
+    // write(1, "pstr: ", 7);
+    // write(1, *pstr, ft_strlen(*pstr));
+    // write(1, "\n", 1);
 	// return (pstr);
 }
 
@@ -116,7 +116,7 @@ char    **ft_realloc(char **arr, int osize, int nsize, char *str)
 		else if (nsize == osize)
             str_ovrwrite(tmp, str);
 		ft_free(prsd_str);
-        print2darr(arr, 0);
+        // print2darr(arr, 0);
 		return (arr);
 	}
 	else //there is no such key in the arr

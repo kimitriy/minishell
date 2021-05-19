@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:19:44 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 15:51:54 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 23:46:53 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,33 @@ void	mnshll_execute(t_set *s)
 	int		pi; //pipeline indx
 	int		ci; //command indx
 	
-	
-	pi = -1;
-	while (++pi < s->pn)
+	// printf("s->st[0].pln[0].cmd[0]: %s\n", s->st[0].pln[0].cmd[0]);
+	// printf("s->st[0].pln[0].cmd[1]: %s\n", s->st[0].pln[0].cmd[1]);
+	// printf("s->st[1].pln[0].cmd[0]: %s\n", s->st[1].pln[0].cmd[0]);
+	// printf("s->st[1].pln[0].cmd[1]: %s\n", s->st[1].pln[0].cmd[1]);
+	// printf("s->st[2].pln[0].cmd[0]: %s\n", s->st[2].pln[0].cmd[0]);
+	// printf("s->st[2].pln[0].cmd[1]: %s\n", s->st[2].pln[0].cmd[1]);
+
+	pi = 0;
+	while (pi < s->pn)
 	{
-		ci = -1;
 		if (s->st[pi].cn > 1)
 			pipes_node(s, pi);
 		else
 		{
-			while (++ci < s->st[pi].cn)
+			ci = 0;
+			while (ci < s->st[pi].cn)
 			{
+				// printf("s->st[%d].pln[%d].cmd[0]: %s\n", pi, ci, s->st[pi].pln[ci].cmd[0]);
+				// printf("s->st[%d].pln[%d].cmd[1]: %s\n", pi, ci, s->st[pi].pln[ci].cmd[1]);
 				if (bltn_check(s, pi, ci) == 1)
 					bltn_node(s, pi, ci);
 				else
 					single_cmd_node(s, pi, ci);
+				ci++;
 			}
 		}
+		pi++;
 	}
 }
 

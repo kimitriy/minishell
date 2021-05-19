@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/09 15:01:29 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 23:49:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ int main(int argc, char **argv, char **envp)
 	{
 		lexer(line);
 		mini_prsr(s, line); //makes set
-		// print_set(s);
+		
+		// printf("s->st[0].pln[0].cmd[0]: %s\n", s->st[0].pln[0].cmd[0]);
+		// printf("s->st[0].pln[0].cmd[1]: %s\n", s->st[0].pln[0].cmd[1]);
+		// printf("s->st[1].pln[0].cmd[0]: %s\n", s->st[1].pln[0].cmd[0]);
+		// printf("s->st[1].pln[0].cmd[1]: %s\n", s->st[1].pln[0].cmd[1]);
+		// printf("s->st[2].pln[0].cmd[0]: %s\n", s->st[2].pln[0].cmd[0]);
+		// printf("s->st[2].pln[0].cmd[1]: %s\n", s->st[2].pln[0].cmd[1]);
+		
 		mnshll_execute(s);
         write(1, "minishell-1.0$ ", 15);
 	}
