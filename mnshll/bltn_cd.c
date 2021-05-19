@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 08:33:31 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 16:39:11 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 07:23:09 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	update_pwd(t_set *s)
 	write(1, *pwd_ptr, ft_strlen(*pwd_ptr));
 	write(1, "\n", 1);
 	
-	make_exp(s, 1);
+	// make_exp(s, 1);
 }
 
 void	bltn_cd(t_set *s, int pi, int ci)

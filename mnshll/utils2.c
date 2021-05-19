@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 03:09:23 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 05:12:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,18 @@ char	**arr2d_copy(char **arr, int en)
 	int		i; //arr indx
 	char	**narr;
 
-	narr = (char**)malloc((en + 1) * sizeof(char*));
-	if (NULL == narr)
-		err_message("pzdts");
-	i = -1;
-	while (++i < en)
+	narr = (char**)calloc(en + 1, sizeof(char*));
+	i = 0;
+	while (i < en)
 	{
 		if (NULL != arr[i])
 			narr[i] = ft_strdup(arr[i]);
 		else
 			narr[i] = NULL;
+		i++;
 	}
 	narr[i] = NULL;
+	// print2darr(narr, 0);
 	return(narr);
 }
 
@@ -79,7 +79,7 @@ void	str_swap(char **arr, int i1, int i2)
 	arr[i2] = ft_strjoin(arr[i2], tmp);
 }
 
-void	arr2d_sorted(char **arr, int exn)
+void	arr2d_sorted(char **arr, int en)
 {
 	int		sc; //swap case
 	int		i;
@@ -90,7 +90,7 @@ void	arr2d_sorted(char **arr, int exn)
 	{
 		sc = 0;
 		i = 0;
-		while (i < exn)
+		while (i < en)
 		{
 			if (arr[i + 1] != NULL && ft_strcmp(arr[i], arr[i + 1]) > 0)
 			{

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/14 23:48:02 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 05:06:55 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,8 +270,8 @@ char	*ft_strdup(char *s1)
 	char	*pntr;
 
 	pntr = (char*)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
-	if (NULL == pntr)
-		return (NULL);
+	// if (NULL == pntr)
+	// 	return (NULL);
 	i = -1;
 	while (s1[++i])
 		pntr[i] = s1[i];

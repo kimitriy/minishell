@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 13:29:47 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 07:19:00 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ typedef struct	s_set
 {
 	t_ppline	*st;
 	char		**env;
-	char		**exp;
+	// char		**exp;
 	// char		*argv0;
 	int			pn;
 	int			en;
-	int			exn;
+	// int			exn;
 	int			err;
 }				t_set;
 
@@ -179,6 +179,7 @@ void		err_cmnd_not_fnd(t_set *s, int pi, int ci);
 void		err_not_a_valid_id(t_set *s, int pi, int ci);
 void		err_home_not_set(t_set *s, int pi, int ci);
 void		err_oldpwd_not_set(t_set *s, int pi, int ci);
+void		err_no_such_file_or_directory(t_set *s, int pi, int ci);
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

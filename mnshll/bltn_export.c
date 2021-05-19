@@ -6,11 +6,40 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 09:20:04 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 07:28:33 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_exp(t_set *s)
+{
+	int		i;
+	char	**arr;
+	char	**arg;
+
+	arr = arr2d_copy(s->env, s->en);
+	arr2d_sorted(arr, s->en);
+	i = 0;
+	while (i < s->en)
+	{
+		arg = parse_arg(arr[i]);
+		if (0 != ft_strcmp(arg[0], "_"))
+		{
+			write(1, "declare -x ", 11);
+			write(1, arg[0], ft_strlen(arg[0]));
+			if (arg[1][0] != '\0')
+			{
+				write(1, "=\"", 2);
+				write(1, arg[1], ft_strlen(arg[1]));
+				write(1, "\"", 1);
+			}
+			write(1, "\n", 1);
+			ft_free(arg);
+		}
+		i++;
+	}
+}
 
 int		key_vldtr(t_set *s, int pi, int ci)
 {
@@ -31,7 +60,7 @@ int		key_vldtr(t_set *s, int pi, int ci)
 	}
 	else
 	{
-		print2darr(s->exp, 1);
+		print_exp(s);
 		return (0);
 	}
 }
@@ -41,9 +70,7 @@ char	*fill_str(char *str, int len, int offset, int trm)
 	char	*arr;
 	int		i;
 
-	arr = (char*)malloc((len + 1) * sizeof(char));
-	if (NULL == arr)
-		err_message("pzdts");
+	arr = (char*)calloc(len + 1, sizeof(char));
 	i = -1;
 	while (++i < len)
 		arr[i] = str[offset + i];
@@ -76,43 +103,73 @@ char	**parse_arg(char *str)
 	return (arr);
 }
 
+// void	bltn_export(t_set *s, int pi, int ci)
+// {
+// 	char	*rvno;
+// 	char	**str;
+// 	char	**arg;
+// 	char 	*tmp;
+
+// 	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
+// 	{
+// 		arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses key and value
+// 		rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
+// 		if (NULL == rvno) //if there is no '=' therefore all the str is a key
+// 		{
+// 			str = key_in_arr(s->exp, arg[0]); //searches key in the s->exp and returns corresponding str
+// 			if (NULL == str)
+// 			{
+// 				s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, arg[0]); //adds key into the export arr
+// 				s->exn++;
+// 			}
+// 		}
+// 		else //if there is '='
+// 		{
+// 			str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns a pointer of a corresponding str
+// 			if (NULL == str) //if there is no corresponding key
+// 			{
+// 				s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //add str to the s->env
+// 				s->en++;
+// 			}
+// 			else
+// 				if (*(rvno - 1) != 43) //no + before =
+// 					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
+// 				else // + before
+// 				{
+// 					tmp = ft_strjoin(*str, arg[1]);
+// 					s->env = ft_realloc(s->env, s->en, s->en, tmp); //rewrite str with a new value
+// 				}
+// 			make_exp(s, 1);
+// 		}
+// 	}
+// }
+
 void	bltn_export(t_set *s, int pi, int ci)
 {
 	char	*rvno;
 	char	**str;
 	char	**arg;
-	char 	*tmp;
+	// char 	*tmp;
 
-	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
+	if ( key_vldtr(s, pi, ci) == 1) //validates arg str or prints out exp if there is no arg str
 	{
 		arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses key and value
-		rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
-		if (NULL == rvno) //if there is no '=' therefore all the str is a key
+		str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns corresponding str
+		if (NULL == str) //if there is no such key in the s->env
 		{
-			str = key_in_arr(s->exp, arg[0]); //searches key in the s->exp and returns corresponding str
-			if (NULL == str)
-			{
-				s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, arg[0]); //adds key into the export arr
-				s->exn++;
-			}
+			s->env = ft_realloc(s->env, s->en, s->en + 1, arg[0]); //adds key into the env arr
+			s->en++;
 		}
-		else //if there is '='
+		else
 		{
-			str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns a pointer of a corresponding str
-			if (NULL == str) //if there is no corresponding key
+			rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61); //checks out whether '=' is in the arg str
+			if (NULL != rvno)
 			{
-				s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //add str to the s->env
-				s->en++;
-			}
-			else
-				if (*(rvno - 1) != 43) //no + before =
+				if (*(rvno - 1) != 43) //no '+' before '='
 					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
-				else // + before
-				{
-					tmp = ft_strjoin(*str, arg[1]);
-					s->env = ft_realloc(s->env, s->en, s->en, tmp); //rewrite str with a new value
-				}
-			make_exp(s, 1);
+				else // '+' before '='
+					s->env = ft_realloc(s->env, s->en, s->en, ft_strjoin(*str, arg[1])); //rewrite str with a new value
+			}	
 		}
 	}
 }
@@ -129,11 +186,7 @@ void	bltn_unset(t_set *s, int pi, int ci)
 			s->env = ft_realloc(s->env, s->en, s->en - 1, s->st[pi].pln[ci].cmd[1]);
 			s->en--;
 		}
-		else
-			if (NULL != key_in_arr(s->exp, arg[0]))
-				s->exp = ft_realloc(s->exp, s->exn, s->exn - 1, s->st[pi].pln[ci].cmd[1]);
-				s->exn--;
-		make_exp(s, 1);
+		// make_exp(s, 1);
 		// print2darr(s->env, 0);
 		// print2darr(s->exp, 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/15 12:43:14 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/19 07:16:48 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ void	bltn_echo(t_set *s, int pi, int ci)
 	}
 }
 
-
-
-// void	bltn_pwd(t_set *s)
-// {
-// 	int		i;
-
-// 	i = 0;
-// 	while (i < s->en)
-// 	{
-// 		// printf("s->env[%d]: %s\n", i, s->env[i]);
-// 		if (NULL != ft_strnstr(s->env[i], "PWD=", 4))
-// 			printf("%s\n", ft_strtrim(s->env[i], "PWD="));
-// 		i++;
-// 	}
-// }
-
 void	bltn_pwd()
 {
 	//переписать под write
@@ -62,53 +46,28 @@ void	bltn_pwd()
 	// printf("%s\n", path);
 }
 
-// void	bltn_export(t_set *s, int pi, int ci)
-// {
-// 	printf("export arg: %s\n", s->st[pi].pln[ci].cmd[1]);
-	
-// 	char	*rvno;
-// 	char	*str;
-// 	int		len;
-// 	int		i;
-
-// 	len = ft_strlen(s->st[pi].pln[ci].cmd[1]);
-// 	rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
-// 	str = str_in_arr(s->exp, s->st[pi].pln[ci].cmd[1]);
-// 	if (NULL == rvno)
-// 	{
-// 		//add to the export arr
-// 		if (NULL == str)
-// 		{
-// 			ft_realloc(s->exp, s->exn, s->exn + 1, s->st[pi].pln[ci].cmd[1]);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		//check +=
-// 		if (--rvno == 43)
-// 		{
-// 			//strjoin
-// 		}
-// 		else
-// 		{
-// 			str = NULL;
-// 			str = (char*)malloc(1 * sizeof(char));
-// 			str = ft_strjoin(str, s->st[pi].pln[ci].cmd[1]);
-// 		}
-// 	}
-
-// 	print2darr(s->exp, 1);
-// }
-
-// void 	bltn_unset()
-// {
-	
-// }
-
-void	bltn_env(t_set *s)
+void	bltn_env(t_set *s, int pi, int ci)
 {
-	//после unset path ничего не печаттать и вывести ошибку bash: env: No such file or directory 127
-	print2darr(s->env, 0);
+	//после unset path ничего не печатать и вывести ошибку bash: env: No such file or directory 127
+	int		i;
+
+	char	**path_key;
+	path_key = key_in_arr(s->env, "PATH");
+	if (NULL == path_key)
+		err_no_such_file_or_directory(s, pi, ci);
+	else
+	{
+		i = 0;
+		while (i < s->en)
+		{
+			if (NULL != ft_strchr(s->env[i], 61))
+			{
+				write(1, s->env[i], ft_strlen(s->env[i]));
+				write(1, "\n", 1);
+			}
+			i++;
+		}
+	}
 }
 
 void	bltn_exit()
@@ -130,7 +89,7 @@ void	bltn_node(t_set *s, int pi, int ci)
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "unset"))
 		bltn_unset(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "env"))
-		bltn_env(s);
+		bltn_env(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "exit"))
 		bltn_exit();
 }
