@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/19 07:19:00 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/20 06:08:52 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,15 @@ typedef struct	s_ppline
 //t_ppline *set - is an arr that contains a set of pipelines delimited upon ';' (semicolon).
 //Each element is a pipeline which may consists of one or a few commands delimited by '|'.
 //env - is 2d arr that contains parsed environment variables
-//sn - is a number of strings in set arr (number of pipelines)
+//pn - is a number of strings in set arr (pipelines number)
 //en - is a number of strings in env arr
-//exn - is a number of strings in exp arr
 //err - is an error code, needs to be initialised by 0
 typedef struct	s_set
 {
 	t_ppline	*st;
 	char		**env;
-	// char		**exp;
-	// char		*argv0;
 	int			pn;
 	int			en;
-	// int			exn;
 	int			err;
 }				t_set;
 
@@ -163,6 +159,11 @@ char		*cd_freepath(t_set *s, int pi, int ci);
 char		*set_path(t_set *s, int pi, int ci);
 void		bltn_cd(t_set *s, int pi, int ci);
 
+//bltn_echo.c
+int			isnt_dash_n(char *str);
+int			echo_vld(t_set *s, int pi, int ci);
+void		bltn_echo(t_set *s, int pi, int ci);
+
 //cmnd.c
 void		single_cmd_node(t_set *s, int si, int pi);
 void		mltple_cmd_node(t_set *s, int pi, int ci);
@@ -180,6 +181,8 @@ void		err_not_a_valid_id(t_set *s, int pi, int ci);
 void		err_home_not_set(t_set *s, int pi, int ci);
 void		err_oldpwd_not_set(t_set *s, int pi, int ci);
 void		err_no_such_file_or_directory(t_set *s, int pi, int ci);
+void		err_numeric_arg_required(t_set *s, int pi, int ci);
+void		err_too_many_arguments(t_set *s, int pi, int ci);
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

@@ -6,34 +6,11 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/20 01:39:53 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/20 05:38:46 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
-void	bltn_echo(t_set *s, int pi, int ci)
-{
-	//проверить валидность -n (-nnnnn -nn (-nnnnnnnf - аргумент))
-	//echo #xxx
-	//echo ~
-	
-	int		len;
-
-	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[1], "-n"))
-	{
-		len = ft_strlen(s->st[pi].pln[ci].cmd[2]);
-		write(1, s->st[pi].pln[ci].cmd[2], len);
-	}
-	else
-	{
-		len = ft_strlen(s->st[pi].pln[ci].cmd[1]);
-		write(1, s->st[pi].pln[ci].cmd[1], len);
-		write(1, "\n", 1);
-	}
-}
 
 void	bltn_pwd()
 {
@@ -72,6 +49,7 @@ void	bltn_env(t_set *s, int pi, int ci)
 
 void	bltn_exit()
 {
+	
 	exit(0);
 }
 

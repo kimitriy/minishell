@@ -6,7 +6,7 @@
 #    By: rburton <rburton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/28 11:32:38 by rburton           #+#    #+#              #
-#    Updated: 2021/05/15 12:42:52 by rburton          ###   ########.fr        #
+#    Updated: 2021/05/20 05:36:56 by rburton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC 		= 	main.c \
 				bltns.c \
 				bltn_export.c \
 				bltn_cd.c \
+				bltn_echo.c \
 				cmnds.c \
 				pipes.c \
 				error.c \
