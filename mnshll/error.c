@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:03:31 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/20 06:07:49 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/21 10:14:01 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ void	err_too_many_arguments(t_set *s, int pi, int ci)
 	write(1, "minishell: ",  11);
 	write(1, s->st[pi].pln[ci].cmd[0], ft_strlen(s->st[pi].pln[ci].cmd[0]));
 	write(1, ": ", 2);
-	write(1, "too many argumnents",  25);
+	write(1, "too many argumnents",  19);
 	write(1, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/20 05:38:46 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/21 10:20:50 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,36 @@ void	bltn_env(t_set *s, int pi, int ci)
 	}
 }
 
-void	bltn_exit()
+int		is_number(char* str)
 {
-	
-	exit(0);
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (0 == ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	bltn_exit(t_set *s, int pi, int ci)
+{
+	if (s->st[pi].pln[ci].cmd[1] != NULL)
+	{
+		if (1 == is_number(s->st[pi].pln[ci].cmd[1]))
+		{
+			if (s->st[pi].pln[ci].n > 2)
+				err_too_many_arguments(s, pi, ci);
+			else
+				exit(0);
+		}
+		else
+			err_numeric_arg_required(s, pi, ci);
+	}
+	else
+		exit(0);
 }
 
 void	bltn_node(t_set *s, int pi, int ci)
@@ -69,5 +95,5 @@ void	bltn_node(t_set *s, int pi, int ci)
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "env"))
 		bltn_env(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "exit"))
-		bltn_exit();
+		bltn_exit(s, pi, ci);
 }
