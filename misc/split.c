@@ -2,86 +2,165 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int		**give_memory(int axlr[10000][2], int w)
+int		ft_strlen(const char *s)
 {
-	int		**arr;
 	int		i;
 
-	i = -1;
-	if (!(arr = (int**)malloc(w * sizeof(int*))))
-		return (NULL);
-	i = -1;
-	while (++i < w)
-	{
-		if (!(arr[i] = (int*)malloc(2 * sizeof(int))))
-			return (NULL);
-		arr[i][0] = axlr[i][0];
-		arr[i][1] = axlr[i][1];
-	}
-	return (arr);
+	if (s == NULL)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-int		**wrd_cntr(int *wn, char const *s, char c)
+void	ft_bzero(void *s, size_t n)
 {
-	int		i; //line symbol counter
-	int		w; //words(lines) counter
-	int		f; //flag
-	int		axlr[10000][2];
-	int		**arr;
-	
+	size_t			i;
+	unsigned char	*mem;
+
+	mem = s;
 	i = -1;
-	w = 0;
-	f = 0;
-	while (s[++i])
+	while (++i < n)
+		mem[i] = '\0';
+}
+
+void	err_message(char *error)
+{
+    write(1, "Error!\n", 7);
+	write(1, error, ft_strlen(error));
+    write(1, "\n", 1);
+    exit(0);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*pntr;
+
+	pntr = (void *)malloc(count * size);
+	if (NULL == pntr)
+		err_message("Memory allocation error! Exit!");
+	ft_bzero(pntr, count * size);
+	return (pntr);
+}
+
+char	*ft_strdup(char *s1)
+{
+	size_t	i;
+	char	*pntr;
+
+	pntr = (char*)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
+	// if (NULL == pntr)
+	// 	return (NULL);
+	i = -1;
+	while (s1[++i])
+		pntr[i] = s1[i];
+	i++;
+	pntr[i] = '\0';
+	return (pntr);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char		*str_n;
+	size_t		k;
+	size_t		sl;
+
+	if (!s)
+		return (0);
+	sl = ft_strlen(s);
+	if (start >= sl)
+		return (ft_strdup(""));
+	str_n = ft_calloc((len + 1), sizeof(char));
+	if (!str_n)
+		return (NULL);
+	k = 0;
+	while (k + start < sl && k < len)
 	{
-		if (s[i] != c)
-		{
-			if (f == 0 && (f = 1))
-				axlr[w][0] = i;
-			if (s[i + 1] == '\0' && (axlr[w][1] = i - axlr[w][0] + 1))
-				w++;
-		}
-		else if (s[i] == c && f == 1 && (axlr[w++][1] = i - axlr[w][0]))
-			f = 0;
+		*(str_n + k) = *(s + start + k);
+		k++;
 	}
-	arr = give_memory(axlr, w);
-	*wn = w;
-	return (arr);
+	str_n[k] = '\0';
+	return (str_n);
+}
+
+void	ft_free_str(char **arr)
+{
+	int		i;
+
+	i = 0;
+	while (arr[i] != NULL)
+		free(arr[i++]);
+	free(arr);
+	arr = NULL;
+}
+
+int		words_counter(const char *str, char dlmtr)
+{
+	int		wn; //words number
+	int		ndf; //non dlmtr flag
+	int		i;
+
+	i = 0;
+	wn = 0;
+	ndf = 0;
+	while (str[i])
+	{
+		if (str[i] != dlmtr && ndf == 0 && str[i + 1] != '\0')
+			ndf = 1;
+		else if (str[i] != dlmtr && ndf == 0 && str[i + 1] == '\0')
+			wn++;
+		else if (str[i] == dlmtr && ndf == 1)
+		{
+			wn++;
+			ndf = 0;
+		}
+		i++;
+	}
+	return (wn);
+}
+
+void	parse_and_write_to_arr(char **arr, const char *str, char dlmtr, int wn)
+{
+	int				i;
+	int				wi; //word indx
+	size_t			len; //length number
+	unsigned int	strt; //start indx
+
+	i = -1;
+	wi = 0;
+	len = 0;
+	strt = 0;
+	while (wi < wn && str[++i])
+	{
+		if (str[i] != dlmtr)
+		{
+			strt = i;
+			len = 1;
+			while (str[++i] != dlmtr)
+				len++;
+			arr[wi] = ft_substr(str, strt, len);
+			wi++;
+			len = 0;
+		}
+	}
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		k;
-	int		wn;
-	int		**axlr;
 	char	**arr;
-	
-	if (!s)
-		return (NULL);
-	axlr = wrd_cntr(&wn, s, c);
-	if (!(arr = (char**)malloc(wn * sizeof(char*))))
-		return (NULL);
-	i = -1;
-	while (++i < wn)
-	{
-		if (!(arr[i] = (char*)malloc(axlr[i][1] * sizeof(char))))
-			return (NULL);
-		k = -1;
-		while (++k < axlr[i][1])
-			arr[i][k] = s[k + axlr[i][0]];
-	}
-	arr[i] = NULL;
-	free(axlr);
+	int		wn; //words number
+
+	wn = words_counter(s, c);
+	arr = (char**)ft_calloc(wn + 1, sizeof(char*));
+	parse_and_write_to_arr(arr, s, c, wn);
 	return (arr);
 }
 
 int		main(void)
 {
-	// while (1)
-	// {
-		char	str[] = "3   lorem   ipsum dolor     1";
-		// char	str[] = "   lorem   ipsum dolor     sit amet, consectetur   adipiscing elit. Sed non risus. Suspendisse 1";
+		// char	*str = ft_strdup("3   lorem   ipsum dolor     1");
+		char	*str = ft_strdup("   lorem   ipsum dolor     sit amet, consectetur   adipiscing elit. Sed non risus. Suspendisse 1");
 		char		c;
 		char		**arrofp;
 		int		i;	
@@ -98,14 +177,9 @@ int		main(void)
 			i++;
 		}
 		
-		// printf("arrofp[0]:%s\n", arrofp[0]);
-		// printf("arrofp[1]:%s\n", arrofp[1]);
-		// printf("arrofp[2]:%s\n", arrofp[2]);
-		// printf("arrofp[3]:%s\n", arrofp[3]);
-		// printf("arrofp[4]:%s\n", arrofp[4]);
-		// printf("arrofp[5]:%s\n", arrofp[5]);
-		// printf("arrofp[25]:%s\n", arrofp[25]);
-		// printf("arrofp[26]:%s\n", arrofp[26]);
-	// }
+		while(1)
+		{
+
+		}
 	return (0);
 }
