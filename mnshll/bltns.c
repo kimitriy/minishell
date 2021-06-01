@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/21 10:20:50 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/27 23:08:48 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	bltn_pwd()
 {
-	//переписать под write
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	write(1, path, ft_strlen(path));
 	write(1, "\n", 1);
-	// printf("%s\n", path);
+	free(path);
 }
 
 void	bltn_env(t_set *s, int pi, int ci)

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/19 05:06:55 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:19:50 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ void	ft_bzero(void *s, size_t n)
 	unsigned char	*mem;
 
 	mem = s;
-	i = -1;
-	while (++i < n)
+	i = 0;
+	while (i < n)
+	{
 		mem[i] = '\0';
+		i++;
+	}
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -107,101 +110,107 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		return (NULL);
 }
 
-////split
+// char **ft_free(char **arr)
+// {
+// 	int		i;
 
-char **ft_free(char **arr)
+// 	i = 0;
+// 	while (arr[i] != NULL)
+// 		free(arr[i++]);
+// 	free(arr);
+// 	arr = NULL;
+// 	return (arr);
+// }
+
+void ft_free_int(int **arr)
 {
 	int		i;
 
 	i = 0;
-	while (arr[i] != NULL)
-		free(arr[i++]);
-	free(arr);
-	arr = NULL;
-	return (arr);
-}
-
-char **ft_free_j(char **arr, int j)
-{
-	int		i;
-
-	i = 0;
-	while (i < j)
-		free(arr[i++]);
-	free(arr);
-	arr = NULL;
-	return (arr);
-}
-
-char		*ft_word(char const *s, char c)
-{
-	char	*arr;
-	size_t	i;
-	size_t	j;
-	
-	i = 0;
-	j = 0;
-	while (s[i] != '\0' && s[i] != c)
-		i++;
-	arr = (char *)malloc(sizeof(char) * (i + 1));
-	if (arr == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0' && s[i] != c)
+	while (arr != NULL && arr[i] != NULL)
 	{
-		arr[i] = s[i];
+		free(arr[i]);
+		arr[i] = NULL;
 		i++;
 	}
-	arr[i] = '\0';
-	return (arr);
+	free(arr);
 }
 
-int		ft_num(char const *s, char c)
+void	ft_free_str(char **arr)
 {
-	size_t	i;
-	size_t	j;
-	
+	int		i;
+
 	i = 0;
-	j = 0;
-	while (s[i])
+	while (arr != NULL && arr[i] != NULL)
 	{
-		while (s[i] != '\0' && s[i] == c)
-			i++;
-		if (s[i] != '\0' && s[i] != c)
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
+}
+
+////split
+int		words_counter(const char *str, char dlmtr)
+{
+	int		wn; //words number
+	int		ndf; //non dlmtr flag
+	int		i;
+
+	i = 0;
+	wn = 0;
+	ndf = 0;
+	while (str[i])
+	{
+		if (str[i] != dlmtr && ndf == 0 && str[i + 1] != '\0')
+			ndf = 1;
+		else if (str[i] != dlmtr && ndf == 0 && str[i + 1] == '\0')
+			wn++;
+		else if ((str[i] == dlmtr && ndf == 1) || (str[i] != dlmtr && str[i + 1] == '\0'))
 		{
-			j++;
-			while (s[i] != '\0' && s[i] != c)
+			wn++;
+			ndf = 0;
+		}
+		i++;
+	}
+	return (wn);
+}
+
+void	parse_and_write_to_arr(char **arr, const char *str, char dlmtr, int wn)
+{
+	int				i;
+	int				wi; //word indx
+	size_t			len; //length number
+	unsigned int	strt; //start indx
+
+	i = -1;
+	wi = 0;
+	strt = 0;
+	while (wi < wn && str[++i])
+	{
+		if (str[i] != dlmtr)
+		{
+			strt = i;
+			len = 0;
+			while (str[i] != dlmtr && str[i] != '\0')
+			{
+				len++;
 				i++;
+			}	
+			arr[wi] = ft_substr(str, strt, len);
+			wi++;
 		}
 	}
-	return (j);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	size_t	j;
 	char	**arr;
-	
-	if (s == NULL)
-		return (NULL);
-	if (!(arr = (char **)malloc((ft_num(s, c) + 1) * sizeof(char *))))
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		while (s[i] != '\0' && s[i] == c)
-			i++;
-		if (s[i] != '\0' && s[i] != c)
-		{
-			if (!(arr[j++] = ft_word(&s[i], c)))
-				return (ft_free_j(arr, j));
-			while (s[i] != '\0' && s[i] != c)
-				i++;
-		}
-	}
-	arr[j] = NULL;
+	int		wn; //words number
+
+	wn = words_counter(s, c);
+	arr = (char**)ft_calloc(wn + 1, sizeof(char*));
+	parse_and_write_to_arr(arr, s, c, wn);
 	return (arr);
 }
 
@@ -270,12 +279,13 @@ char	*ft_strdup(char *s1)
 	char	*pntr;
 
 	pntr = (char*)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
-	// if (NULL == pntr)
-	// 	return (NULL);
-	i = -1;
-	while (s1[++i])
+	
+	i = 0;
+	while (s1[i])
+	{
 		pntr[i] = s1[i];
-	i++;
+		i++;
+	}
 	pntr[i] = '\0';
 	return (pntr);
 }
@@ -325,9 +335,31 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (sjn);
 }
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char		*str_n;
+	size_t		k;
+	size_t		sl;
+
+	if (!s)
+		return (0);
+	sl = ft_strlen(s);
+	if (start >= sl)
+		return (ft_strdup(""));
+	str_n = ft_calloc((len + 1), sizeof(char));
+	if (!str_n)
+		return (NULL);
+	k = 0;
+	while (k + start < sl && k < len)
+	{
+		*(str_n + k) = *(s + start + k);
+		k++;
+	}
+	str_n[k] = '\0';
+	return (str_n);
+}
 
 ////GNL
-
 int		w2l(int fd, char *buf, char **line)
 {
 	int		rv;
@@ -349,6 +381,7 @@ int		w2l(int fd, char *buf, char **line)
 				lineleak = *line;
 				*line = ft_strjoin(*line, buf);
 				free(lineleak);
+				lineleak = NULL;
 			}
 		}
 	}
@@ -359,8 +392,9 @@ int		get_next_line(int fd, char **line)
 	static char		buf;
 	int				rv;
 
-	if (!(*line = malloc(1)))
-		return (-1);
+	*line = (char*)ft_calloc(1, sizeof(char*));
+	// if (!(*line = malloc(1)))
+	// 	return (-1);
 	**line = 0;
 	rv = w2l(fd, &buf, line);
 	return (rv);

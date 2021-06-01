@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/11 19:04:07 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/31 17:29:57 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,22 @@
 void	complete_pth(char **pth, t_set *s, int pi, int ci)
 {
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (NULL != pth[i])
 	{
+		tmp = pth[i];
 		pth[i] = ft_strjoin(pth[i], "/");
+		free(tmp);
 		i++;
 	}
 	i = 0;
 	while (NULL != pth[i])
 	{
+		tmp = pth[i];
 		pth[i] = ft_strjoin(pth[i], s->st[pi].pln[ci].cmd[0]);
+		free(tmp);
 		i++;
 	}
 }
@@ -43,6 +48,7 @@ char	**split_path(t_set *s)
 		{
 			str = ft_strtrim(s->env[i], "PATH=");
 			pth = ft_split(str, ':');
+			free(str);
 		}
 		i++;
 	}
@@ -88,7 +94,11 @@ void	single_cmd_node(t_set *s, int pi, int ci)
 		}
 	}
 	else
+	{
+		write(1, "single_cmnd_node\n", 17);
 		err_cmnd_not_fnd(s, pi, ci);
+	}	
+	ft_free_str(pth);
 }
 
 int		rvrs_indx(t_set *s, int pi, int ci)
@@ -113,7 +123,7 @@ void	mltple_cmd_node(t_set *s, int pi, int ci)
 	}
 	else
 	{
+		write(1, "mltpl_cmnd_node\n", 16);
 		err_cmnd_not_fnd(s, pi, ci);
-		write(1, "err", 3);
 	}
 }

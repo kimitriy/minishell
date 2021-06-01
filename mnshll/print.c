@@ -8,8 +8,9 @@ void	print2darr(char **arr, int exprt_f)
 	while (arr[i] != NULL)
 	{
 		if (exprt_f != 0)
-			printf("declare -x ");
-		printf("%s\n", arr[i]);
+			write(1, "declare -x ", 11);
+		write(1, arr[i], ft_strlen(arr[i]));
+		write(1, "\n", 1);
 		// write(1, arr[i], ft_strlen(arr[i]));
 		// write(1, "\n", 1);
 		i++;
@@ -70,7 +71,7 @@ void	print_set(t_set *s)
 {
 	int		pi; //pipeline indx
 	int		ci; //command indx
-	int		i;
+	int		i; //i == 0 - command, i >= 1 - args
 
 	pi = ci = i = 0;
 
@@ -84,7 +85,7 @@ void	print_set(t_set *s)
 				i++;
 			}
 			i = 0;
-			pi++;
+			ci++;
 		}
 		ci = 0;
 		pi++;

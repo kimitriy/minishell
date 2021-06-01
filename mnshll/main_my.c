@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/21 10:34:41 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/24 21:32:41 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	make_env(t_set *s, char **envp)
 		i++;
 	}
 	s->env[i] = NULL;
+	print2darr(s->env, 0);
 }

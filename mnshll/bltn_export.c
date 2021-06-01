@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/19 08:58:58 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/28 18:53:39 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ void	print_exp(t_set *s)
 	char	**arg;
 
 	arr = arr2d_copy(s->env, s->en);
+	write(1, "arr: \n", 6);
+	print2darr(arr, 0);
 	arr2d_sorted(arr, s->en);
+	write(1, "arr_sorted: \n", 13);
+	print2darr(arr, 0);
 	i = 0;
 	while (i < s->en)
 	{
 		arg = parse_arg(arr[i]);
-		if (0 != ft_strcmp(arg[0], "_"))
+		if (0 != ft_strcmp(arg[0], "_") && 0 != ft_strcmp(arg[0], "\0"))
 		{
 			write(1, "declare -x ", 11);
 			write(1, arg[0], ft_strlen(arg[0]));
@@ -35,17 +39,18 @@ void	print_exp(t_set *s)
 				write(1, "\"", 1);
 			}
 			write(1, "\n", 1);
-			ft_free(arg);
 		}
+		ft_free_str(arg);
 		i++;
 	}
+	ft_free_str(arr);
 }
 
 int		key_vldtr(t_set *s, int pi, int ci)
 {
-	if (s->st[pi].pln[ci].cmd[1] != NULL && s->st[pi].pln[ci].cmd[1][0] != 35) //if there is arg
+	if (s->st[pi].pln[ci].cmd[1] != NULL && s->st[pi].pln[ci].cmd[1][0] != 35) //if there is an arg and its first character isn't '#'
 	{
-		if (s->st[pi].pln[ci].cmd[1][0] != 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][0]))
+		if (s->st[pi].pln[ci].cmd[1][0] != 95 && 1 != ft_isalpha(s->st[pi].pln[ci].cmd[1][0])) //if the first char isn't '_' and it isn't a letter
 		{	
 			err_not_a_valid_id(s, pi, ci);
 			return (0);
@@ -68,15 +73,20 @@ int		key_vldtr(t_set *s, int pi, int ci)
 char	*fill_str(char *str, int len, int offset, int trm)
 {
 	char	*arr;
+	char	*tmp;
 	int		i;
 
-	arr = (char*)calloc(len + 1, sizeof(char));
+	arr = (char*)ft_calloc(len + 1, sizeof(char));
 	i = -1;
 	while (++i < len)
 		arr[i] = str[offset + i];
 	arr[i] = '\0';
 	if (trm != 0)
+	{
+		tmp = arr;
 		arr = ft_strtrim(arr, "+");
+		free(tmp);
+	}	
 	return (arr);
 }
 
@@ -86,7 +96,7 @@ char	**parse_arg(char *str)
 	int		len;
 	int		offset;
 
-	arr = ft_calloc(3, sizeof(char*));
+	arr = (char**)ft_calloc(3, sizeof(char*));
 	arr[2] = NULL;
 	len = 0;
 	while (str[len] && str[len] != 61)
@@ -103,53 +113,12 @@ char	**parse_arg(char *str)
 	return (arr);
 }
 
-// void	bltn_export(t_set *s, int pi, int ci)
-// {
-// 	char	*rvno;
-// 	char	**str;
-// 	char	**arg;
-// 	char 	*tmp;
-
-// 	if (key_vldtr(s, pi, ci) == 1) //if key_vldtr says OK
-// 	{
-// 		arg = parse_arg(s->st[pi].pln[ci].cmd[1]); //parses key and value
-// 		rvno = ft_strchr(s->st[pi].pln[ci].cmd[1], 61);
-// 		if (NULL == rvno) //if there is no '=' therefore all the str is a key
-// 		{
-// 			str = key_in_arr(s->exp, arg[0]); //searches key in the s->exp and returns corresponding str
-// 			if (NULL == str)
-// 			{
-// 				s->exp = ft_realloc(s->exp, s->exn, s->exn + 1, arg[0]); //adds key into the export arr
-// 				s->exn++;
-// 			}
-// 		}
-// 		else //if there is '='
-// 		{
-// 			str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns a pointer of a corresponding str
-// 			if (NULL == str) //if there is no corresponding key
-// 			{
-// 				s->env = ft_realloc(s->env, s->en, s->en + 1, s->st[pi].pln[ci].cmd[1]); //add str to the s->env
-// 				s->en++;
-// 			}
-// 			else
-// 				if (*(rvno - 1) != 43) //no + before =
-// 					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
-// 				else // + before
-// 				{
-// 					tmp = ft_strjoin(*str, arg[1]);
-// 					s->env = ft_realloc(s->env, s->en, s->en, tmp); //rewrite str with a new value
-// 				}
-// 			make_exp(s, 1);
-// 		}
-// 	}
-// }
-
 void	bltn_export(t_set *s, int pi, int ci)
 {
 	char	*rvno;
 	char	**str;
 	char	**arg;
-	// char 	*tmp;
+	char    *tmp;
 
 	if ( key_vldtr(s, pi, ci) == 1) //validates arg str or prints out exp if there is no arg str
 	{
@@ -168,9 +137,14 @@ void	bltn_export(t_set *s, int pi, int ci)
 				if (*(rvno - 1) != 43) //no '+' before '='
 					s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[1]); //rewrite str with a new value
 				else // '+' before '='
-					s->env = ft_realloc(s->env, s->en, s->en, ft_strjoin(*str, arg[1])); //rewrite str with a new value
-			}	
+                {
+					tmp = ft_strjoin(*str, arg[1]);
+					s->env = ft_realloc(s->env, s->en, s->en, tmp); //rewrite str with a new value
+					free(tmp);
+                }
+			}
 		}
+		ft_free_str(arg);
 	}
 }
 
@@ -186,6 +160,7 @@ void	bltn_unset(t_set *s, int pi, int ci)
 			s->env = ft_realloc(s->env, s->en, s->en - 1, s->st[pi].pln[ci].cmd[1]);
 			s->en--;
 		}
+		ft_free_str(arg);
 		// make_exp(s, 1);
 		// print2darr(s->env, 0);
 		// print2darr(s->exp, 1);

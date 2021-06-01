@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 04:57:25 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/20 04:58:35 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/30 19:39:55 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ int		isnt_dash_n(char *str)
 {
 	int		i;
 
-	if (str[0] != 45)
+	if (str[0] != 45) //if the first char isn't a dash
 		return (1);
-	i = 1;
-	while (str[i] != '\0')
+	else //if the first char is a dash
 	{
-		if (str[i] != 110)
-			return (1);
-		i++;
+		i = 1;
+		while (str[i] != '\0') //checks out if every char starting from the second is a n
+		{
+			if (str[i] != 110)
+				return (1);
+			i++;
+		}
+		return (0);
 	}
-	return (0);
 }
 
 int		echo_vld(t_set *s, int pi, int ci)
@@ -46,25 +49,20 @@ void	bltn_echo(t_set *s, int pi, int ci)
 {
 	int		indx;
 	int		len;
+	int		i;
 
 	indx = echo_vld(s, pi, ci);
-	if (indx > 1)
+	i = indx;
+	while (indx < s->st[pi].pln[ci].n)
 	{
-		while (s->st[pi].pln[ci].cmd[indx] != NULL)
-		{
-			len = ft_strlen(s->st[pi].pln[ci].cmd[indx]);
-			write(1, s->st[pi].pln[ci].cmd[indx], len);
-			indx++;
-		}
+		len = ft_strlen(s->st[pi].pln[ci].cmd[indx]);
+		write(1, s->st[pi].pln[ci].cmd[indx], len);
+		if (i == 1 && s->st[pi].pln[ci].n > 2)
+			write(1, " ", 1);
+		else if (i > 1 && s->st[pi].pln[ci].n > 3)
+			write(1, " ", 1);
+		indx++;
 	}
-	else if (indx == 1)
-	{
-		while (s->st[pi].pln[ci].cmd[indx] != NULL)
-		{
-			len = ft_strlen(s->st[pi].pln[ci].cmd[indx]);
-			write(1, s->st[pi].pln[ci].cmd[1], len);
-			indx++;
-		}
+	if (i == 1) //if NOT echo -n
 		write(1, "\n", 1);
-	}
 }

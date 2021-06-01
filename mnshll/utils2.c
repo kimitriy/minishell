@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/19 05:12:39 by rburton          ###   ########.fr       */
+/*   Updated: 2021/05/28 13:56:07 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ char	**key_in_arr(char **arr, char *key)
 		prsd_arr = parse_arg(arr[i]);
 		if (0 == ft_strcmp(prsd_arr[0], key))
 		{
-			ft_free(prsd_arr);
+			ft_free_str(prsd_arr);
 			return (&arr[i]);
 		}
-		ft_free(prsd_arr);
+		ft_free_str(prsd_arr);
 		i++;
 	}
 	return (NULL);
@@ -50,7 +50,7 @@ char	**arr2d_copy(char **arr, int en)
 	int		i; //arr indx
 	char	**narr;
 
-	narr = (char**)calloc(en + 1, sizeof(char*));
+	narr = (char**)ft_calloc(en + 1, sizeof(char*));
 	i = 0;
 	while (i < en)
 	{
@@ -62,6 +62,7 @@ char	**arr2d_copy(char **arr, int en)
 	}
 	narr[i] = NULL;
 	// print2darr(narr, 0);
+	// ft_free_str(arr);
 	return(narr);
 }
 
@@ -69,14 +70,14 @@ void	str_swap(char **arr, int i1, int i2)
 {
 	char	*tmp;
 
-	tmp = (char*)malloc(1 * sizeof(char));
-	tmp = ft_strjoin(tmp, arr[i1]);
-	arr[i1] = NULL;
-	arr[i1] = (char*)malloc(1 * sizeof(char));
-	arr[i1] = ft_strjoin(arr[i1], arr[i2]);
-	arr[i2] = NULL;
-	arr[i2] = (char*)malloc(1 * sizeof(char));
-	arr[i2] = ft_strjoin(arr[i2], tmp);
+	tmp = ft_strdup(arr[i1]);
+	free(arr[i1]);
+	// arr[i1] = NULL;
+	arr[i1] = ft_strdup(arr[i2]);
+	free(arr[i2]);
+	// arr[i2] = NULL;
+	arr[i2] = ft_strdup(tmp);
+	free(tmp);
 }
 
 void	arr2d_sorted(char **arr, int en)
@@ -103,18 +104,23 @@ void	arr2d_sorted(char **arr, int en)
 	// print2darr(arr, 0);
 }
 
-void    write2env(t_set *s, char *field, char *str)
-{
-    int     i;
+// void    write2env(t_set *s, char *field, char *str)
+// {
+//     int     i;
+// 	char	*tmp;
 
-    i = -1;
-    while (++i < s->en)
-    {
-        if (0 == ft_strcmp(s->env[i], field))
-        {
-			free(s->env[i]);
-			s->env[i] = ft_strjoin(s->env[i], field);
-			s->env[i] = ft_strjoin(s->env[i], str);
-		}
-    }
-}
+//     i = -1;
+//     while (++i < s->en)
+//     {
+//         if (0 == ft_strcmp(s->env[i], field))
+//         {
+// 			free(s->env[i]);
+// 			tmp = s->env[i];
+// 			s->env[i] = ft_strjoin(s->env[i], field);
+// 			free(tmp);
+// 			tmp = s->env[i];
+// 			s->env[i] = ft_strjoin(s->env[i], str);
+// 			free(tmp);
+// 		}
+//     }
+// }
