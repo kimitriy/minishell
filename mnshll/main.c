@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/28 15:43:46 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/01 23:52:54 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int main(int argc, char **argv, char **envp)
 		mini_prsr(s, line); //makes set
 
 		print_set(s);
-		
 		mnshll_execute(s);
         write(1, "minishell-1.0$ ", 15);
 		clear_s(s);

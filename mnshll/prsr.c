@@ -6,39 +6,11 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/31 22:12:22 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/02 01:43:15 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	parse_spaces(t_set *s, char *str, int pi, int ci)
-// {
-// 	char	**cmd_tmp; //2d arr, first line is a command itself and following are args
-// 	char	*tmp;
-// 	int		n; //number of elements in command
-// 	int		i; //index of elements in command
-
-// 	cmd_tmp = ft_split(str, ' ');
-// 	// print2darr(cmd_tmp, 0);
-// 	n = 0;
-// 	while (cmd_tmp[n] != NULL)
-// 		n++;
-// 	s->st[pi].pln[ci].cmd = (char**)calloc(n + 1, sizeof(char*));
-// 	i = 0;
-// 	while (i < n)
-// 	{
-// 		tmp = cmd_tmp[i];
-// 		cmd_tmp[i] = ft_strtrim(cmd_tmp[i], " ");
-// 		free(tmp);
-// 		s->st[pi].pln[pi].n = n;
-// 		s->st[pi].pln[ci].cmd[i] = ft_strdup(cmd_tmp[i]);
-// 		i++;
-// 	}
-// 	s->st[pi].pln[ci].cmd[i] = NULL;
-// 	// print2darr(s->st[pi].pln[ci].cmd, 0);
-// 	ft_free(cmd_tmp);
-// }
 
 void	parse_spaces(t_set *s, char *str, int pi, int ci)
 {
@@ -124,7 +96,59 @@ void	parse_semicolons(t_set *s, char *str)
 	free(set_tmp);
 }
 
+void	shlvl(t_set *s, int lvl)
+{
+	char	**str;
+	char	*dgt;
+	char	*tmp;
+
+	str = key_in_arr(s->env, "SHLVL");
+	if (str == NULL)
+	{
+		s->shlvl = 0;
+		s->shlvl += lvl;
+	}
+	else if (atoi(str[1]) < 0)
+		s->shlvl = 0;
+	free(*str);
+	dgt = ft_itoa(s->shlvl);
+	*str = ft_strdup("SHLVL=");
+	tmp = *str;
+	*str = ft_strjoin(*str, dgt);
+	free(tmp);
+	free(dgt);
+}
+
+void	shlvl(t_set *s, int lvl)
+{
+	char	**str;
+	char	**prsd_str;
+	char	*dgt;
+	
+	str = key_in_arr(s->env, "SHLVL");
+	prsd_str = parse_arg(*str);
+	if (lvl == 1 && str == NULL)
+	{
+
+	}
+	else if (lvl == 1 && ft_atoi(prsd_str[1]) < 0)
+	{
+
+	}
+	else if (lvl == -1 && ft_atoi(prsd_str[1]) == 0)
+	{
+
+	}
+	else
+	{
+		s->shlvl += lvl;
+		
+	}
+
+}
+
 void	mini_prsr(t_set *s, char *str)
 {
 	parse_semicolons(s, str);
+	shlvl(s, 1);
 }

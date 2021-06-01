@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/31 17:29:57 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/01 23:26:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ void	single_cmd_node(t_set *s, int pi, int ci)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
 			execve(true_path, s->st[pi].pln[ci].cmd, s->env);
+		}
 		else
 		{
 			wait(&status);
@@ -97,7 +99,7 @@ void	single_cmd_node(t_set *s, int pi, int ci)
 	{
 		write(1, "single_cmnd_node\n", 17);
 		err_cmnd_not_fnd(s, pi, ci);
-	}	
+	}
 	ft_free_str(pth);
 }
 

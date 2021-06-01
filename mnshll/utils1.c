@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/31 22:19:50 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/02 01:00:59 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -462,3 +462,94 @@ int		ft_isdigit(int c)
 	else
 		return (0);
 }
+
+int		ft_atoi(const char *str)
+{
+	size_t					i;
+	int						sign;
+	unsigned long long int	number;
+
+	i = 0;
+	number = 0;
+	sign = 1;
+	while (str[i] == 32 || str[i] == '\t' || str[i] == '\v'
+	|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
+		i++;
+	if (str[i] == 45 || str[i] == 43)
+	{
+		if (str[i] == 45)
+			sign *= (-1);
+		i++;
+	}
+	while (str[i] > 47 && str[i] < 58)
+	{
+		number = number * 10 + (str[i] - 48);
+		i++;
+	}
+	number > 9223372036854775807 && sign > 0 ? number = -1 : 0;
+	number > 9223372036854775807 && sign < 0 ? number = 0 : 0;
+	return (sign * (int)number);
+}
+
+////itoa
+static size_t	strlength(long int n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n < 0)
+	{
+		n = -n;
+		i++;
+	}
+	while (n >= 10)
+	{
+		n = n / 10;
+		i++;
+	}
+	i += 1;
+	return (i);
+}
+
+static void		strreverse(char *str)
+{
+	int		i;
+	char	tmp;
+
+	i = 0;
+	tmp = 'c';
+	while (i < ft_strlen(str) / 2)
+	{
+		tmp = str[i];
+		str[i] = str[ft_strlen(str) - 1 - i];
+		str[ft_strlen(str) - 1 - i] = tmp;
+		i++;
+	}
+}
+
+char			*ft_itoa(int n)
+{
+	size_t		j;
+	long int	innern;
+	char		*pstr;
+
+	innern = (long int)n;
+	pstr = (char*)calloc(strlength(n) + 1, sizeof(char));
+	// if (pstr == NULL)
+	// 	return (NULL);
+	if (n < 0)
+		innern = -innern;
+	j = 0;
+	while (j < strlength(n))
+	{
+		pstr[j] = (innern % 10) + '0';
+		innern = innern / 10;
+		j++;
+	}
+	if (n < 0)
+		pstr[j - 1] = '-';
+	pstr[j] = '\0';
+	strreverse(pstr);
+	return (pstr);
+}
+////

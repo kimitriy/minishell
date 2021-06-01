@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/31 21:38:27 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/02 01:01:19 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_set
 	int			pn;
 	int			en;
 	int			err;
+	int			shlvl;
 }				t_set;
 
 //main.c
@@ -117,6 +118,8 @@ void		ft_putnbr(int n);
 char		*ft_strchr(const char *s, int c);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
+int			ft_atoi(const char *str);
+char		*ft_itoa(int n);
 
 //utils2.c
 char		*str_in_arr(char **arr, char *str);
@@ -137,6 +140,7 @@ char		**ft_realloc(char **arr, int osize, int nsize, char *str);
 
 //execute.c
 int			bltn_check(t_set *s, int pi, int ci);
+void		shlvl(t_set *s, int lvl);
 void		mnshll_execute(t_set *s);
 
 //cmnds.c
