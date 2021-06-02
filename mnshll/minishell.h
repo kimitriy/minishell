@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/02 01:01:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/03 01:09:06 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		null_tcmnd(t_cmnd *cmnd, int n);
 void		save_argv(t_set *s, char *argv0);
 void		make_env(t_set *s, char **envp);
 void		make_exp(t_set *s, int n);
+void		shlvl(t_set *s);
 // void		make_tset(t_set *s, char **envp, char *str);
 // int			main(int argc, char **argv, char **envp);
 
@@ -140,7 +141,6 @@ char		**ft_realloc(char **arr, int osize, int nsize, char *str);
 
 //execute.c
 int			bltn_check(t_set *s, int pi, int ci);
-void		shlvl(t_set *s, int lvl);
 void		mnshll_execute(t_set *s);
 
 //cmnds.c

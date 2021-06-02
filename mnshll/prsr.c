@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/02 01:43:15 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/02 23:41:28 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,59 +96,7 @@ void	parse_semicolons(t_set *s, char *str)
 	free(set_tmp);
 }
 
-void	shlvl(t_set *s, int lvl)
-{
-	char	**str;
-	char	*dgt;
-	char	*tmp;
-
-	str = key_in_arr(s->env, "SHLVL");
-	if (str == NULL)
-	{
-		s->shlvl = 0;
-		s->shlvl += lvl;
-	}
-	else if (atoi(str[1]) < 0)
-		s->shlvl = 0;
-	free(*str);
-	dgt = ft_itoa(s->shlvl);
-	*str = ft_strdup("SHLVL=");
-	tmp = *str;
-	*str = ft_strjoin(*str, dgt);
-	free(tmp);
-	free(dgt);
-}
-
-void	shlvl(t_set *s, int lvl)
-{
-	char	**str;
-	char	**prsd_str;
-	char	*dgt;
-	
-	str = key_in_arr(s->env, "SHLVL");
-	prsd_str = parse_arg(*str);
-	if (lvl == 1 && str == NULL)
-	{
-
-	}
-	else if (lvl == 1 && ft_atoi(prsd_str[1]) < 0)
-	{
-
-	}
-	else if (lvl == -1 && ft_atoi(prsd_str[1]) == 0)
-	{
-
-	}
-	else
-	{
-		s->shlvl += lvl;
-		
-	}
-
-}
-
 void	mini_prsr(t_set *s, char *str)
 {
 	parse_semicolons(s, str);
-	shlvl(s, 1);
 }

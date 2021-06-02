@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/01 22:22:30 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/02 23:42:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,13 @@ void	bltn_exit(t_set *s, int pi, int ci)
 			if (s->st[pi].pln[ci].n > 2)
 				err_too_many_arguments(s, pi, ci);
 			else
-			{
-				shlvl(s, -1);
 				exit(0);
-			}
 		}
 		else
 			err_numeric_arg_required(s, pi, ci);
 	}
 	else
-	{
-		shlvl(s, -1);
 		exit(0);
-	}	
 }
 
 void	bltn_node(t_set *s, int pi, int ci)
