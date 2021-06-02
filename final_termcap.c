@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_termcap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariakalashnikova <mariakalashnikova@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:31:31 by smyriell          #+#    #+#             */
-/*   Updated: 2021/05/15 00:20:09 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/05/27 14:39:50 by mariakalash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

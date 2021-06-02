@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   super_final_dol.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mariakalashnikova <mariakalashnikova@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 23:31:50 by smyriell          #+#    #+#             */
-/*   Updated: 2021/05/15 03:10:35 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/05/27 14:39:52 by mariakalash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
