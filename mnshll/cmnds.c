@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/01 23:26:03 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/03 06:59:35 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	complete_pth(char **pth, t_set *s, int pi, int ci)
 	{
 		tmp = pth[i];
 		pth[i] = ft_strjoin(pth[i], s->st[pi].pln[ci].cmd[0]);
+
+		
 		free(tmp);
 		i++;
 	}
@@ -86,9 +88,7 @@ void	single_cmd_node(t_set *s, int pi, int ci)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
 			execve(true_path, s->st[pi].pln[ci].cmd, s->env);
-		}
 		else
 		{
 			wait(&status);
