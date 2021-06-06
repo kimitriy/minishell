@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:19:44 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/03 09:49:26 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 20:18:52 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,21 @@ int		bltn_check(t_set *s, int pi, int ci)
 
 void	launch_mnshll(t_set *s, int pi, int ci)
 {
-	pid_t   pid;
-	int		status;
 	char	**str;
 	char	**path;
-	char	*tmp;
+	char	*tmp_leak;
 	
 	str = key_in_arr(s->env, "PWD");
 	path = parse_arg(*str);
-	tmp = path[1];
+	tmp_leak = path[1];
 	path[1] = ft_strjoin(path[1], "/minishell");
-	free(tmp);
-	pid = fork();
-	if (pid == 0)
-		execve(path[1], s->st[pi].pln[ci].cmd, s->env);
-	else
-	{
-		wait(&status);
-		s->err = WEXITSTATUS(status);
-	}
+	free(tmp_leak);
+	process_launcher(s, pi, ci, path);
 	ft_free_str(path);
 }
 
 void	launch_executable(t_set *s, int pi, int ci)
 {
-	pid_t   pid;
-	int		status;
 	char	**str;
 	char	**path;
 	char	*tmp_strtrim;
@@ -60,16 +49,9 @@ void	launch_executable(t_set *s, int pi, int ci)
 	tmp_strtrim = ft_strtrim(s->st[pi].pln[ci].cmd[0], ".");
 	tmp_leak = path[1];
 	path[1] = ft_strjoin(path[1], tmp_strtrim);
-	free(tmp_strtrim);
 	free(tmp_leak);
-	pid = fork();
-	if (pid == 0)
-		execve(path[1], s->st[pi].pln[ci].cmd, s->env);
-	else
-	{
-		wait(&status);
-		s->err = WEXITSTATUS(status);
-	}
+	free(tmp_strtrim);
+	process_launcher(s, pi, ci, path);
 	ft_free_str(path);
 }
 

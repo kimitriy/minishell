@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/03 01:24:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/04 13:20:43 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	shlvl(t_set *s)
 	char	**prsd_str;
 	char	*dgt;
 	char	*tmp;
-	
+
 	str = key_in_arr(s->env, "SHLVL");
 	prsd_str = parse_arg(*str);
 	s->shlvl = ft_atoi(prsd_str[1]);

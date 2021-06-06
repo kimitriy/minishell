@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/02 23:42:14 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 19:54:42 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	bltn_env(t_set *s, int pi, int ci)
 	char	**path_key;
 	path_key = key_in_arr(s->env, "PATH");
 	if (NULL == path_key)
-		err_no_such_file_or_directory(s, pi, ci);
+		err_no_such_file_or_directory_env(s, pi, ci);
 	else
 	{
 		i = 0;
@@ -80,7 +80,6 @@ void	bltn_exit(t_set *s, int pi, int ci)
 
 void	bltn_node(t_set *s, int pi, int ci)
 {
-	
 	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "echo"))
 		bltn_echo(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "cd"))

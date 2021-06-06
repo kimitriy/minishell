@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/03 13:01:50 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 20:14:36 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct	s_set
 	char		**env;
 	int			pn;
 	int			en;
-	int			err;
+	// int			err;
 	int			shlvl;
 }				t_set;
 
@@ -209,6 +209,7 @@ void		mnshll_execute(t_set *s);
 void		complete_pth(char **pth, t_set *s, int pi, int ci);
 char		**split_path(t_set *s);
 char		*path_checker(char **pth);
+void		process_launcher(t_set *s, int pi, int ci, char **path);
 void		single_cmd_node(t_set *s, int si, int pi);
 int			rvrs_indx(t_set *s, int pi, int ci);
 void		mltple_cmd_node(t_set *s, int pi, int ci);
@@ -248,13 +249,19 @@ void    	pipes_node(t_set *s, int si);
 
 //error.c
 void		err_message(char *error);
+void		err_memory_allocation_error(void);
 void		err_cmnd_not_fnd(t_set *s, int pi, int ci);
 void		err_not_a_valid_id(t_set *s, int pi, int ci);
 void		err_home_not_set(t_set *s, int pi, int ci);
 void		err_oldpwd_not_set(t_set *s, int pi, int ci);
 void		err_no_such_file_or_directory(t_set *s, int pi, int ci);
+void		err_no_such_file_or_directory_env(t_set *s, int pi, int ci);
 void		err_numeric_arg_required(t_set *s, int pi, int ci);
 void		err_too_many_arguments(t_set *s, int pi, int ci);
+void		err_syntax_error_near_unexpected_token(t_set *s, int pi, int ci);
+void		err_syntax_error_quotes_not_closed(void);
+void		err_unxpected_backslash_at_the_end(void);
+
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

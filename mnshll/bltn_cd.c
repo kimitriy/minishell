@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 08:33:31 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/01 17:16:33 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 14:38:45 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*cd_tilda(t_set *s, int pi, int ci)
 {
 	(void)pi;
 	(void)ci;
-
 	char	*path;
 	char	*tmp;
 	char	**usr_ptr;
@@ -34,22 +33,25 @@ char	*cd_tilda(t_set *s, int pi, int ci)
 
 char	*cd_minus(t_set *s, int pi, int ci)
 {
-	char	**opwd_ptr;
+	char	**opwd_str;
+	char	**prsd_opwd;
 	char	*path;
 	char	*tmp;
 
-	opwd_ptr = NULL;
+	opwd_str = NULL;
 	path = NULL;
-	opwd_ptr = key_in_arr(s->env, "OLDPWD");
-	if (opwd_ptr == NULL)
+	opwd_str = key_in_arr(s->env, "OLDPWD");
+	prsd_opwd = parse_arg(*opwd_str);
+	if (ft_strlen(prsd_opwd[1]) == 0)
 		err_oldpwd_not_set(s, pi, ci);
 	else
 	{
-		path = ft_strdup(*opwd_ptr);
+		path = ft_strdup(*opwd_str);
 		tmp = path;
 		path = ft_strtrim(path, "OLDPWD=");
 		free(tmp);
 	}
+	ft_free_str(prsd_opwd);
 	return(path);
 }
 
@@ -100,33 +102,33 @@ char	*set_path(t_set *s, int pi, int ci)
 		return(cd_home(s, pi, ci));
 }
 
+void	updt_pwd_assist(char **pwd_ptr, char *str1, char *str2)
+{	
+	char	*pwd_str;
+	char	*leak_tmp;
+	
+	pwd_str = ft_strdup(str1);
+	leak_tmp = pwd_str;
+	pwd_str = ft_strjoin(pwd_str, str2);
+	free(leak_tmp);
+	str_ovrwrite(pwd_ptr, pwd_str);
+	free(pwd_str);
+}
+
 void	update_pwd(t_set *s)
 {
-	char	**pwd_ptr;
 	char	**opwd_ptr;
+	char	**pwd_ptr;
 	char	**prsd_tmp;
-	char	*opwd_str;
-	char	*pwd_str;
-	char	*tmp_getcwd;
-	char	*tmp_leak;
+	char	*getcwd_tmp;
 
 	opwd_ptr = key_in_arr(s->env, "OLDPWD");
 	pwd_ptr = key_in_arr(s->env, "PWD");
-	opwd_str = ft_strdup("OLDPWD=");
 	prsd_tmp = parse_arg(*pwd_ptr);
-	tmp_leak = opwd_str;
-	opwd_str = ft_strjoin(opwd_str, prsd_tmp[1]);
-	free(tmp_leak);
-	str_ovrwrite(opwd_ptr, opwd_str);
-	free(opwd_str);
-	pwd_str = ft_strdup("PWD=");
-	tmp_getcwd = getcwd(NULL, 0);
-	tmp_leak = pwd_str;
-	pwd_str = ft_strjoin(pwd_str, tmp_getcwd);
-	free(tmp_leak);
-	str_ovrwrite(pwd_ptr, pwd_str);
-	free(pwd_str);
-	free(tmp_getcwd);
+	getcwd_tmp = getcwd(NULL, 0);
+	updt_pwd_assist(opwd_ptr, "OLDPWD=", prsd_tmp[1]);
+	updt_pwd_assist(pwd_ptr, "PWD=", getcwd_tmp);
+	free(getcwd_tmp);
 	ft_free_str(prsd_tmp);
 }
 
@@ -135,11 +137,8 @@ void	bltn_cd(t_set *s, int pi, int ci)
 	//cd - (PWD / OLDPWD)
 	//cd / cd ~ / cd #
 	
-	int		err_num;
+	// int		err_num;
 	int		chdir_err;
-
-
-	
 	char	*path;
 
 	errno = 0;
@@ -147,8 +146,9 @@ void	bltn_cd(t_set *s, int pi, int ci)
 	chdir_err = chdir(path);
 	if (chdir_err != 0)
 	{
-		err_num = errno;
-		printf("%s", strerror(err_num));
+		err_no_such_file_or_directory(s, pi, ci);
+		// err_num = errno;
+		// printf("%s", strerror(err_num));
 	}
 	free(path);
 	update_pwd(s);

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/03 13:00:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 16:11:07 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,20 @@ int main(int argc, char **argv, char **envp)
     char    *line;
     t_set	*s;
 
-	s = (t_set*)calloc(1, sizeof(t_set));
-
+	s = (t_set*)ft_calloc(1, sizeof(t_set));
     make_env(s, envp); //makes env
-	write(1, "waiting for a new command\n", 27);
+	write(1, "minishell: ", 11);
 	while (get_next_line(0, &line))
 	{
 		lexer(line);
 		mini_prsr(s, line); //makes set
-
 		print_set(s);
 		mnshll_execute(s);
-        write(1, "minishell-1.0$ ", 15);
+        write(1, "minishell: ", 11);
 		clear_s(s);
 		free(line);
 	}
-	write(1, "waiting for a new command\n", 27);
+	write(1, "minishell: ", 11);
 	while (1)
 	{
 		

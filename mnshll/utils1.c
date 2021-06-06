@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/02 01:00:59 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 16:44:33 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	pntr = (void *)malloc(count * size);
 	if (NULL == pntr)
-		err_message("Memory allocation error! Exit!");
+		err_memory_allocation_error();
 	ft_bzero(pntr, count * size);
 	return (pntr);
 }
@@ -318,8 +318,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	lens1 = ft_strlen(s1);
 	lens2 = ft_strlen(s2);
-	if (!(sjn = (char*)malloc((lens1 + lens2 + 1) * sizeof(char))))
-		return (NULL);
+	sjn = (char*)ft_calloc(lens1 + lens2 + 1, sizeof(char));
 	i = 0;
 	while (i < lens1)
 	{

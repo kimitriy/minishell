@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 22:52:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/28 16:03:17 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/06 22:20:45 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,70 @@ char	**exprt(char **arr, int nsize, char *str)
 	return(narr);
 }
 
+// char    **ft_realloc(char **arr, int osize, int nsize, char *str)
+// {
+// 	char	**narr; //new arr
+// 	char	**prsd_str; //
+//     char    **tmp;
+
+// 	prsd_str = parse_arg(str);
+//     tmp = key_in_arr(arr, prsd_str[0]);
+// 	if (NULL != tmp) //searches corresponding str upon the keys
+// 	{
+// 		if (nsize < osize) //соответствует unset
+// 		{
+// 			narr = unst(arr, osize, nsize, prsd_str);
+// 			return (narr);
+// 		}
+// 		else if (nsize == osize)
+//             str_ovrwrite(tmp, str);
+// 		ft_free_str(prsd_str);
+// 		return (arr);
+// 	}
+// 	else //there is no such key in the arr
+//     {
+// 		if (osize < nsize) //соответствует export
+// 		{
+// 			narr = exprt(arr, nsize, str);
+// 			ft_free_str(prsd_str);
+// 			return(narr);
+// 		}
+//     }
+//     ft_free_str(prsd_str);
+// 	return (arr);
+// }
+
+
+// char    **ft_realloc(char **arr, int osize, int nsize, char *str)
+// {
+// 	char	**narr; //new arr
+// 	char	**prsd_str; //
+//     char    **tmp;
+
+// 	prsd_str = parse_arg(str);
+//     tmp = key_in_arr(arr, prsd_str[0]);
+// 	if (NULL != tmp) //searches corresponding str upon the keys
+// 	{
+// 		if (nsize < osize) //соответствует unset
+// 		{
+// 			narr = unst(arr, osize, nsize, prsd_str);
+// 			return (narr);
+// 		}
+// 		else if (nsize == osize)
+//             str_ovrwrite(tmp, str);
+// 		ft_free_str(prsd_str);
+// 		return (arr);
+// 	}
+// 	else if (NULL == tmp && osize < nsize)//there is no such key in the arr
+//     {
+// 		narr = exprt(arr, nsize, str);
+// 		ft_free_str(prsd_str);
+// 		return(narr);
+//     }
+//     ft_free_str(prsd_str);
+// 	return (arr);
+// }
+
 char    **ft_realloc(char **arr, int osize, int nsize, char *str)
 {
 	char	**narr; //new arr
@@ -107,27 +171,22 @@ char    **ft_realloc(char **arr, int osize, int nsize, char *str)
 
 	prsd_str = parse_arg(str);
     tmp = key_in_arr(arr, prsd_str[0]);
-	if (NULL != tmp) //searches corresponding str upon the keys
+	if (NULL != tmp && nsize < osize) //searches corresponding str upon the keys
 	{
-		if (nsize < osize) //соответствует unset
-		{
-			narr = unst(arr, osize, nsize, prsd_str);
-			return (narr);
-		}
-		else if (nsize == osize)
-            str_ovrwrite(tmp, str);
+		narr = unst(arr, osize, nsize, prsd_str);
+		return (narr);
+	}
+	else if (NULL != tmp && nsize == osize)
+	{
+        str_ovrwrite(tmp, str);
 		ft_free_str(prsd_str);
-        // print2darr(arr, 0);
 		return (arr);
 	}
-	else //there is no such key in the arr
+	else if (NULL == tmp && osize < nsize)//there is no such key in the arr
     {
-		if (osize < nsize) //соответствует export
-		{
-			narr = exprt(arr, nsize, str);
-			ft_free_str(prsd_str);
-			return(narr);
-		}
+		narr = exprt(arr, nsize, str);
+		ft_free_str(prsd_str);
+		return(narr);
     }
     ft_free_str(prsd_str);
 	return (arr);
