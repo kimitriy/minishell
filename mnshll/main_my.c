@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:48:17 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/04 13:20:43 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 21:34:46 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	make_env(t_set *s, char **envp)
 	s->en = 0;
 	while (envp[s->en] != NULL)
 		s->en++;
-	s->env = ft_calloc(s->en + 1, sizeof(char*));
+	s->env = ft_calloc(s->en + 1, sizeof(char *));
 	i = 0;
 	while (i < s->en)
 	{

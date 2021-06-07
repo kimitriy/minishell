@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 16:44:33 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/08 00:23:01 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (pntr);
 }
 
-int		ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int		i;
 
@@ -49,7 +49,7 @@ int		ft_strlen(const char *s)
 	return (i);
 }
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int		i;
 	int		output;
@@ -67,7 +67,7 @@ int		ft_strcmp(char *s1, char *s2)
 	return (output);
 }
 
-int		ft_strncmp(const char *s1, const char *s2, int n)
+int	ft_strncmp(const char *s1, const char *s2, int n)
 {
 	int		i;
 
@@ -92,15 +92,15 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 
 	i = 0;
 	return_value = NULL;
-	inner_hstck = (char*)haystack;
+	inner_hstck = (char *)haystack;
 	if (strlen(needle) == 0)
 		return (inner_hstck);
-	while(inner_hstck[i] && i < len)
+	while (inner_hstck[i] && i < len)
 	{
 		if (ft_strncmp(&inner_hstck[i], needle, ft_strlen(needle)) == 0)
 		{
-			return_value = &inner_hstck[i];	
-			break;
+			return_value = &inner_hstck[i];
+			break ;
 		}
 		i++;
 	}
@@ -122,7 +122,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 // 	return (arr);
 // }
 
-void ft_free_int(int **arr)
+void	ft_free_int(int **arr)
 {
 	int		i;
 
@@ -151,7 +151,7 @@ void	ft_free_str(char **arr)
 }
 
 ////split
-int		words_counter(const char *str, char dlmtr)
+int	words_counter(const char *str, char dlmtr)
 {
 	int		wn; //words number
 	int		ndf; //non dlmtr flag
@@ -209,11 +209,10 @@ char	**ft_split(char const *s, char c)
 	int		wn; //words number
 
 	wn = words_counter(s, c);
-	arr = (char**)ft_calloc(wn + 1, sizeof(char*));
+	arr = (char **)ft_calloc(wn + 1, sizeof(char *));
 	parse_and_write_to_arr(arr, s, c, wn);
 	return (arr);
 }
-
 ////
 
 ////ft_strtrim()
@@ -278,8 +277,8 @@ char	*ft_strdup(char *s1)
 	size_t	i;
 	char	*pntr;
 
-	pntr = (char*)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
-	
+	pntr = (char *)ft_calloc((ft_strlen(s1) + 1), sizeof(char));
+
 	i = 0;
 	while (s1[i])
 	{
@@ -318,7 +317,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	lens1 = ft_strlen(s1);
 	lens2 = ft_strlen(s2);
-	sjn = (char*)ft_calloc(lens1 + lens2 + 1, sizeof(char));
+	sjn = (char *)ft_calloc(lens1 + lens2 + 1, sizeof(char));
 	i = 0;
 	while (i < lens1)
 	{
@@ -345,9 +344,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	sl = ft_strlen(s);
 	if (start >= sl)
 		return (ft_strdup(""));
-	str_n = ft_calloc((len + 1), sizeof(char));
-	if (!str_n)
-		return (NULL);
+	str_n = (char *)ft_calloc((len + 1), sizeof(char));
+	// if (!str_n)
+	// 	return (NULL);
 	k = 0;
 	while (k + start < sl && k < len)
 	{
@@ -359,7 +358,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 ////GNL
-int		w2l(int fd, char *buf, char **line)
+int	w2l(int fd, char *buf, char **line)
 {
 	int		rv;
 	char	*lineleak;
@@ -386,12 +385,12 @@ int		w2l(int fd, char *buf, char **line)
 	}
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char		buf;
 	int				rv;
 
-	*line = (char*)ft_calloc(1, sizeof(char*));
+	*line = (char *)ft_calloc(1, sizeof(char *));
 	// if (!(*line = malloc(1)))
 	// 	return (-1);
 	**line = 0;
@@ -435,18 +434,18 @@ char	*ft_strchr(const char *s, int c)
 	{
 		while (s[i])
 			i++;
-		return ((char*)&s[i]);
+		return ((char *)&s[i]);
 	}
 	while (s[i])
 	{
 		if (s[i] == (unsigned char)c)
-			return ((char*)&s[i]);
+			return ((char *)&s[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-int		ft_isalpha(int c)
+int	ft_isalpha(int c)
 {
 	if ((c > 64 && c < 91) || (c > 96 && c < 123))
 		return (1);
@@ -454,7 +453,7 @@ int		ft_isalpha(int c)
 		return (0);
 }
 
-int		ft_isdigit(int c)
+int	ft_isdigit(int c)
 {
 	if (c > 47 && c < 58)
 		return (1);
@@ -462,7 +461,19 @@ int		ft_isdigit(int c)
 		return (0);
 }
 
-int		ft_atoi(const char *str)
+unsigned long long int	ovrloading_protection(unsigned long long int n, int sign)
+{
+	if (n > 9223372036854775807)
+	{
+		if (sign > 0)
+			n = -1;
+		else if (sign < 0)
+			n = 0;
+	}
+	return (n);
+}
+
+int	ft_atoi(const char *str)
 {
 	size_t					i;
 	int						sign;
@@ -472,7 +483,7 @@ int		ft_atoi(const char *str)
 	number = 0;
 	sign = 1;
 	while (str[i] == 32 || str[i] == '\t' || str[i] == '\v'
-	|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
 		i++;
 	if (str[i] == 45 || str[i] == 43)
 	{
@@ -485,8 +496,7 @@ int		ft_atoi(const char *str)
 		number = number * 10 + (str[i] - 48);
 		i++;
 	}
-	number > 9223372036854775807 && sign > 0 ? number = -1 : 0;
-	number > 9223372036854775807 && sign < 0 ? number = 0 : 0;
+	number = ovrloading_protection(number, sign);
 	return (sign * (int)number);
 }
 
@@ -510,7 +520,7 @@ static size_t	strlength(long int n)
 	return (i);
 }
 
-static void		strreverse(char *str)
+static void	strreverse(char *str)
 {
 	int		i;
 	char	tmp;
@@ -526,16 +536,14 @@ static void		strreverse(char *str)
 	}
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	size_t		j;
 	long int	innern;
 	char		*pstr;
 
 	innern = (long int)n;
-	pstr = (char*)calloc(strlength(n) + 1, sizeof(char));
-	// if (pstr == NULL)
-	// 	return (NULL);
+	pstr = (char *)ft_calloc(strlength(n) + 1, sizeof(char));
 	if (n < 0)
 		innern = -innern;
 	j = 0;
@@ -551,4 +559,3 @@ char			*ft_itoa(int n)
 	strreverse(pstr);
 	return (pstr);
 }
-////

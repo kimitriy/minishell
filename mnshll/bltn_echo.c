@@ -6,13 +6,13 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 04:57:25 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/30 19:39:55 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:24:52 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		isnt_dash_n(char *str)
+int	isnt_dash_n(char *str)
 {
 	int		i;
 
@@ -31,7 +31,7 @@ int		isnt_dash_n(char *str)
 	}
 }
 
-int		echo_vld(t_set *s, int pi, int ci)
+int	echo_vld(t_set *s, int pi, int ci)
 {
 	int		i;
 

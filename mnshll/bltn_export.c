@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 18:37:24 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:50:48 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_exp(t_set *s)
 	ft_free_str(arr);
 }
 
-int		key_vldtr(t_set *s, int pi, int ci)
+int	key_vldtr(t_set *s, int pi, int ci)
 {
 	if (s->st[pi].pln[ci].cmd[1] != NULL && s->st[pi].pln[ci].cmd[1][0] != 35) //if there is an arg and its first character isn't '#'
 	{
@@ -71,7 +71,7 @@ char	*fill_str(char *str, int len, int offset, int trm)
 	char	*tmp;
 	int		i;
 
-	arr = (char*)ft_calloc(len + 1, sizeof(char));
+	arr = (char *)ft_calloc(len + 1, sizeof(char));
 	i = -1;
 	while (++i < len)
 		arr[i] = str[offset + i];
@@ -91,7 +91,7 @@ char	**parse_arg(char *str)
 	int		len;
 	int		offset;
 
-	arr = (char**)ft_calloc(3, sizeof(char*));
+	arr = (char **)ft_calloc(3, sizeof(char *));
 	arr[2] = NULL;
 	len = 0;
 	while (str[len] && str[len] != 61)
@@ -102,18 +102,17 @@ char	**parse_arg(char *str)
 	else
 		offset = len + 1;
 	len = 0;
-	while(str[offset + len])
+	while (str[offset + len])
 		len++;
 	arr[1] = fill_str(str, len, offset, 0);
 	return (arr);
 }
 
-
-void 	key_assist(t_set *s, int pi, int ci, char **arg)
+void	key_assist(t_set *s, int pi, int ci, char **arg)
 {
 	char	**str;
 	char	*rvno;
-	char    *str_tmp;
+	char	*str_tmp;
 	char	*leak_tmp;
 
 	str = key_in_arr(s->env, arg[0]); //searches key in the s->env and returns corresponding str

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 18:24:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/05/28 13:56:07 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/08 00:25:01 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*str_in_arr(char **arr, char *str)
 char	**key_in_arr(char **arr, char *key)
 {
 	int		i;
-	char 	**prsd_arr;
+	char	**prsd_arr;
 
 	i = 0;
 	while (arr[i])
@@ -50,7 +50,7 @@ char	**arr2d_copy(char **arr, int en)
 	int		i; //arr indx
 	char	**narr;
 
-	narr = (char**)ft_calloc(en + 1, sizeof(char*));
+	narr = (char **)ft_calloc(en + 1, sizeof(char *));
 	i = 0;
 	while (i < en)
 	{
@@ -61,9 +61,7 @@ char	**arr2d_copy(char **arr, int en)
 		i++;
 	}
 	narr[i] = NULL;
-	// print2darr(narr, 0);
-	// ft_free_str(arr);
-	return(narr);
+	return (narr);
 }
 
 void	str_swap(char **arr, int i1, int i2)
@@ -72,10 +70,8 @@ void	str_swap(char **arr, int i1, int i2)
 
 	tmp = ft_strdup(arr[i1]);
 	free(arr[i1]);
-	// arr[i1] = NULL;
 	arr[i1] = ft_strdup(arr[i2]);
 	free(arr[i2]);
-	// arr[i2] = NULL;
 	arr[i2] = ft_strdup(tmp);
 	free(tmp);
 }
@@ -85,7 +81,6 @@ void	arr2d_sorted(char **arr, int en)
 	int		sc; //swap case
 	int		i;
 
-	// print2darr(arr, 0);
 	sc = -1;
 	while (sc != 0)
 	{
@@ -101,26 +96,4 @@ void	arr2d_sorted(char **arr, int en)
 			i++;
 		}
 	}
-	// print2darr(arr, 0);
 }
-
-// void    write2env(t_set *s, char *field, char *str)
-// {
-//     int     i;
-// 	char	*tmp;
-
-//     i = -1;
-//     while (++i < s->en)
-//     {
-//         if (0 == ft_strcmp(s->env[i], field))
-//         {
-// 			free(s->env[i]);
-// 			tmp = s->env[i];
-// 			s->env[i] = ft_strjoin(s->env[i], field);
-// 			free(tmp);
-// 			tmp = s->env[i];
-// 			s->env[i] = ft_strjoin(s->env[i], str);
-// 			free(tmp);
-// 		}
-//     }
-// }

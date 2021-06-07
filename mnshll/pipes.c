@@ -6,28 +6,28 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 15:55:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 21:55:17 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 21:55:34 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		**make_fd_arr(t_set *s, int pi)
+int	**make_fd_arr(t_set *s, int pi)
 {
-	int     **fd_arr;
-	int     ci; //command indx
+	int		**fd_arr;
+	int		ci; //command indx
  
-	fd_arr = (int**)ft_calloc(s->st[pi].cn + 1, sizeof(int*)); //command number - 1 (number of pipes) + 1 (for NULL)
+	fd_arr = (int **)ft_calloc(s->st[pi].cn + 1, sizeof(int *)); //command number - 1 (number of pipes) + 1 (for NULL)
 	ci = 0;
 	while (ci < (s->st[pi].cn - 1))
-    {
-		fd_arr[ci] = (int*)ft_calloc(2, sizeof(int));
+	{
+		fd_arr[ci] = (int *)ft_calloc(2, sizeof(int));
 		pipe(fd_arr[ci]);
-		printf("PIPE FD[%d][0]: %d, FD[%d][1]: %d\n", ci, fd_arr[ci][0], ci, fd_arr[ci][1]);
+		// printf("PIPE FD[%d][0]: %d, FD[%d][1]: %d\n", ci, fd_arr[ci][0], ci, fd_arr[ci][1]);
 		ci++;
 	}
 	fd_arr[ci] = NULL;
-	return(fd_arr);
+	return (fd_arr);
 }
 
 void	dup2protection(int	dup2rv)
@@ -90,13 +90,13 @@ void	builtin_multiple_switcher(t_set *s, int pi, int ci)
 		mltple_cmd_node(s, pi, ci);
 }
 
-int		*launch(t_set *s, int pi)
+int	*launch(t_set *s, int pi)
 {
 	int		*arr;
 	int		ci; //command indx
 	pid_t	pid;
 
-	arr = (int*)ft_calloc(s->st[pi].cn, sizeof(int));
+	arr = (int *)ft_calloc(s->st[pi].cn, sizeof(int));
 	ci = -1;
 	while (++ci < s->st[pi].cn)
 	{
@@ -122,5 +122,5 @@ int		*launch(t_set *s, int pi)
 void	pipes_node(t_set *s, int pi)
 {
 	s->st[pi].fd_arr = make_fd_arr(s, pi);
-    s->st[pi].pid_arr = launch(s, pi);
+	s->st[pi].pid_arr = launch(s, pi);
 }

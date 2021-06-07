@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 16:11:07 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 21:34:14 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,15 @@ void	clear_s(t_set *s)
 	free(s->st);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	
-    char    *line;
-    t_set	*s;
+	char	*line;
+	t_set	*s;
 
-	s = (t_set*)ft_calloc(1, sizeof(t_set));
-    make_env(s, envp); //makes env
+	s = (t_set *)ft_calloc(1, sizeof(t_set));
+	make_env(s, envp); //makes env
 	write(1, "minishell: ", 11);
 	while (get_next_line(0, &line))
 	{
@@ -57,14 +56,14 @@ int main(int argc, char **argv, char **envp)
 		mini_prsr(s, line); //makes set
 		print_set(s);
 		mnshll_execute(s);
-        write(1, "minishell: ", 11);
+		write(1, "minishell: ", 11);
 		clear_s(s);
 		free(line);
 	}
 	write(1, "minishell: ", 11);
 	while (1)
 	{
-		
+
 	}
-	return 0;
+	return (0);
 }

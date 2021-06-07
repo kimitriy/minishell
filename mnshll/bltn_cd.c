@@ -6,16 +6,14 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 08:33:31 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 14:38:45 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 22:46:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*cd_tilda(t_set *s, int pi, int ci)
+char	*cd_tilda(t_set *s)
 {
-	(void)pi;
-	(void)ci;
 	char	*path;
 	char	*tmp;
 	char	**usr_ptr;
@@ -28,7 +26,7 @@ char	*cd_tilda(t_set *s, int pi, int ci)
 	path = ft_strjoin(path, prsd_tmp[1]);
 	free(tmp);
 	ft_free_str(prsd_tmp);
-	return(path);
+	return (path);
 }
 
 char	*cd_minus(t_set *s, int pi, int ci)
@@ -52,7 +50,7 @@ char	*cd_minus(t_set *s, int pi, int ci)
 		free(tmp);
 	}
 	ft_free_str(prsd_opwd);
-	return(path);
+	return (path);
 }
 
 char	*cd_home(t_set *s, int pi, int ci)
@@ -79,7 +77,7 @@ char	*cd_home(t_set *s, int pi, int ci)
 
 char	*cd_freepath(t_set *s, int pi, int ci)
 {
-    char	*path;
+	char	*path;
 
 	path = ft_strdup(s->st[pi].pln[ci].cmd[1]);
 	return (path);
@@ -90,23 +88,25 @@ char	*set_path(t_set *s, int pi, int ci)
 	if (s->st[pi].pln[ci].cmd[1] != NULL)
 	{
 		if (s->st[pi].pln[ci].cmd[1][0] == '~')
-			return(cd_tilda(s, pi, ci));
-		else if (s->st[pi].pln[ci].cmd[1][0] == '-' && s->st[pi].pln[ci].cmd[1][1] == '\0')
-			return(cd_minus(s, pi, ci));
-		else if (s->st[pi].pln[ci].cmd[1][0] == '#' || ft_strncmp(s->st[pi].pln[ci].cmd[1], "--", 2) == 0)
-			return(cd_home(s, pi, ci));
+			return (cd_tilda(s));
+		else if (s->st[pi].pln[ci].cmd[1][0] == '-' &&
+		s->st[pi].pln[ci].cmd[1][1] == '\0')
+			return (cd_minus(s, pi, ci));
+		else if (s->st[pi].pln[ci].cmd[1][0] == '#' ||
+		ft_strncmp(s->st[pi].pln[ci].cmd[1], "--", 2) == 0)
+			return (cd_home(s, pi, ci));
 		else
-			return(cd_freepath(s, pi, ci));
+			return (cd_freepath(s, pi, ci));
 	}
 	else
-		return(cd_home(s, pi, ci));
+		return (cd_home(s, pi, ci));
 }
 
 void	updt_pwd_assist(char **pwd_ptr, char *str1, char *str2)
 {	
 	char	*pwd_str;
 	char	*leak_tmp;
-	
+
 	pwd_str = ft_strdup(str1);
 	leak_tmp = pwd_str;
 	pwd_str = ft_strjoin(pwd_str, str2);
@@ -136,7 +136,6 @@ void	bltn_cd(t_set *s, int pi, int ci)
 {
 	//cd - (PWD / OLDPWD)
 	//cd / cd ~ / cd #
-	
 	// int		err_num;
 	int		chdir_err;
 	char	*path;
@@ -152,5 +151,5 @@ void	bltn_cd(t_set *s, int pi, int ci)
 	}
 	free(path);
 	update_pwd(s);
-	bltn_pwd(s);
+	bltn_pwd();
 }

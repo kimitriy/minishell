@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 20:19:12 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:57:51 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*path_checker(char **pth)
 void	process_launcher(t_set *s, int pi, int ci, char **path)
 {
 	char	*true_path;
-	pid_t   pid;
+	pid_t	pid;
 	int		status;
 
 	true_path = path_checker(path);
@@ -104,7 +104,7 @@ void	single_cmd_node(t_set *s, int pi, int ci)
 	ft_free_str(path);
 }
 
-int		rvrs_indx(t_set *s, int pi, int ci)
+int	rvrs_indx(t_set *s, int pi, int ci)
 {
 	int		rv;
 

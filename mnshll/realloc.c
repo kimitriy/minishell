@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 22:52:30 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 22:20:45 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 22:08:29 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**ft_rlcc_del(char **arr, int nsize)
 	int		i;
 	int		j;
 
-	narr = (char**)ft_calloc(nsize + 1, sizeof(char*));
+	narr = (char **)ft_calloc(nsize + 1, sizeof(char *));
 	i = -1;
 	j = 0;
 	while (arr[++i])
@@ -46,7 +46,7 @@ char	**ft_rlcc_del(char **arr, int nsize)
 		if (arr[i][0] != '\0')
 			narr[j] = ft_strdup(arr[i]);
 		else
-			continue;
+			continue ;
 		j++;
 	}
 	narr[j] = NULL;
@@ -66,9 +66,11 @@ char	**ft_rlcc_add(char **arr, int nsize, char *str)
 
 char	**unst(char **arr, int osize, int nsize, char **prsd_str)
 {
-	char	**narr_1 = NULL;
-	char	**narr_2 = NULL;
+	char	**narr_1;
+	char	**narr_2;
 
+	narr_1 = NULL;
+	narr_2 = NULL;
 	narr_1 = arr2d_copy(arr, osize);
 	mark_str_to_del(narr_1, prsd_str[0]);
 	narr_2 = ft_rlcc_del(narr_1, nsize);
@@ -80,13 +82,7 @@ char	**unst(char **arr, int osize, int nsize, char **prsd_str)
 void	str_ovrwrite(char **pstr, char *str)
 {
 	free(*pstr);
-	// pstr = NULL;
 	*pstr = ft_strdup(str);
-//	free(str);
-    // write(1, "pstr: ", 7);
-    // write(1, *pstr, ft_strlen(*pstr));
-    // write(1, "\n", 1);
-	// return (pstr);
 }
 
 char	**exprt(char **arr, int nsize, char *str)
@@ -94,9 +90,7 @@ char	**exprt(char **arr, int nsize, char *str)
 	char	**narr;
 
 	narr = ft_rlcc_add(arr, nsize, str);
-	// ft_free_str(arr);
-	// free(str);
-	return(narr);
+	return (narr);
 }
 
 // char    **ft_realloc(char **arr, int osize, int nsize, char *str)
@@ -132,7 +126,6 @@ char	**exprt(char **arr, int nsize, char *str)
 // 	return (arr);
 // }
 
-
 // char    **ft_realloc(char **arr, int osize, int nsize, char *str)
 // {
 // 	char	**narr; //new arr
@@ -163,14 +156,14 @@ char	**exprt(char **arr, int nsize, char *str)
 // 	return (arr);
 // }
 
-char    **ft_realloc(char **arr, int osize, int nsize, char *str)
+char	**ft_realloc(char **arr, int osize, int nsize, char *str)
 {
 	char	**narr; //new arr
 	char	**prsd_str; //
-    char    **tmp;
+	char	**tmp;
 
 	prsd_str = parse_arg(str);
-    tmp = key_in_arr(arr, prsd_str[0]);
+	tmp = key_in_arr(arr, prsd_str[0]);
 	if (NULL != tmp && nsize < osize) //searches corresponding str upon the keys
 	{
 		narr = unst(arr, osize, nsize, prsd_str);
@@ -178,16 +171,16 @@ char    **ft_realloc(char **arr, int osize, int nsize, char *str)
 	}
 	else if (NULL != tmp && nsize == osize)
 	{
-        str_ovrwrite(tmp, str);
+		str_ovrwrite(tmp, str);
 		ft_free_str(prsd_str);
 		return (arr);
 	}
-	else if (NULL == tmp && osize < nsize)//there is no such key in the arr
-    {
+	else if (NULL == tmp && osize < nsize) //there is no such key in the arr
+	{
 		narr = exprt(arr, nsize, str);
 		ft_free_str(prsd_str);
-		return(narr);
-    }
-    ft_free_str(prsd_str);
+		return (narr);
+	}
+	ft_free_str(prsd_str);
 	return (arr);
 }

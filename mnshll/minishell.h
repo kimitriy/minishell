@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 20:14:36 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 21:50:41 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@
 # include <curses.h> //
 # include <errno.h> //errno
 
-
 //char **cmnd - is a 2d char arr that contains parts of one command delimited upon ' ' (space).
 //first line is always a command itself and following ones are args.
 //char *cmnd_tmp - is a tmp str used to save parsed command string.
 //n - is a number of strings in cmnd arr (number of args in a command).
-typedef struct	s_cmnd
+typedef struct s_cmnd
 {
 	char		**cmd;
 	char		*cmd_tmp;
@@ -42,7 +41,7 @@ typedef struct	s_cmnd
 //Each element is a command with its args wrapped in t_cmnd struct.
 //char *ppln_tmp - is a tmp str used to save parsed pipeline string.
 //cn - is a number of strings in ppln arr (number of commands in a pipeline)
-typedef struct	s_ppline
+typedef struct s_ppline
 {
 	t_cmnd		*pln;
 	char		*pln_tmp;
@@ -57,22 +56,21 @@ typedef struct	s_ppline
 //pn - is a number of strings in set arr (pipelines number)
 //en - is a number of strings in env arr
 //err - is an error code, needs to be initialised by 0
-typedef struct	s_set
+typedef struct s_set
 {
 	t_ppline	*st;
 	char		**env;
 	int			pn;
 	int			en;
-	// int			err;
 	int			shlvl;
 }				t_set;
 
 //global var
-int g_exit;
+int	g_exit;
 
-// структура для листа ----------------------- ДОБАВИТЬ ДИМЕ
+//структура для листа ----------------------- ДОБАВИТЬ ДИМЕ
 
-typedef struct	s_list
+typedef struct s_list
 {
 	char			*data;
 	char			*dup;
@@ -81,11 +79,11 @@ typedef struct	s_list
 }				t_list;
 
 //  структура под историю ----------------------- ДОБАВИТЬ ДИМЕ
-typedef struct	s_ter
+typedef struct s_ter
 {
 	struct termios	term;
 	int				fd;
-	char 			*term_name;
+	char			*term_name;
 	int				symbols_count;
 	int				f;
 	t_list			*hist_list;
@@ -102,7 +100,6 @@ typedef struct s_dol
 	short int		digit_aft_dol;
 	char			*path;
 	char			*env_var;
-	// char			*tmp;
 	char			*full_arg;
 	char			*in_env;
 	int				error;
@@ -117,7 +114,7 @@ typedef struct s_dol
 }				t_dol;
 
 // структура для препарсера ----------------------Добавить ДИМЕ
-typedef struct	s_pars
+typedef struct s_pars
 {
 	char			*changed;
 	char			*returned;
@@ -131,16 +128,13 @@ typedef struct	s_pars
 
 //main.c
 // int			main(int argc, char **argv, char **envp, char **apple);
+void		clear_s(t_set *s);
 int			main(int argc, char **argv, char **envp);
 
 //main_my.c
 void		null_tcmnd(t_cmnd *cmnd, int n);
-void		save_argv(t_set *s, char *argv0);
-void		make_env(t_set *s, char **envp);
-void		make_exp(t_set *s, int n);
 void		shlvl(t_set *s);
-// void		make_tset(t_set *s, char **envp, char *str);
-// int			main(int argc, char **argv, char **envp);
+void		make_env(t_set *s, char **envp);
 
 //preprsr.c
 void		ft_pre_splitting(char c, int q, int a); // подменяем для сплита
@@ -154,22 +148,19 @@ void		parse_semicolons(t_set *s, char *str);
 void		parse_pipes(t_set *s, char *str, int si);
 void		parse_spaces(t_set *s, char *str, int si, int pi);
 
-//utils1c
-
+//utils1.c
 void		ft_bzero(void *s, size_t n);
 void		*ft_calloc(size_t count, size_t size);
 int			ft_strlen(const char *s);
 int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, int n);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char 		**ft_free(char **arr);
 void		ft_free_str(char **arr);
 void		ft_free_int(int **arr);
 int			words_counter(const char *str, char dlmtr);
 void		parse_and_write_to_arr(char **arr, const char *str, char dlmtr, int wn);
 char		**ft_split(char const *s, char c);
 int			ft_check_set(char smb, char const *check);
-
 char		*ft_strtrim(char const *str, char const *set);
 void		ft_strcpy(char *dst, const char *src);
 char		*ft_strdup(char *s1);
@@ -203,6 +194,8 @@ char		**ft_realloc(char **arr, int osize, int nsize, char *str);
 
 //execute.c
 int			bltn_check(t_set *s, int pi, int ci);
+void		launch_mnshll(t_set *s, int pi, int ci);
+void		launch_executable(t_set *s, int pi, int ci);
 void		mnshll_execute(t_set *s);
 
 //cmnds.c
@@ -215,24 +208,20 @@ int			rvrs_indx(t_set *s, int pi, int ci);
 void		mltple_cmd_node(t_set *s, int pi, int ci);
 
 // builtin.c
-void		bltn_node(t_set *s, int si, int pi);
-void		bltn_pwd();
-void		bltn_cd(t_set *s, int si, int pi);
-char		*set_path(t_set *s, int si, int pi);
-
-// bltn_export.c
-int			key_vldtr(t_set *s, int pi, int ci);
-char		*fill_str(char *str, int len, int offset, int trm);
-char		**parse_arg(char *str);
-void		bltn_export(t_set *s, int pi, int ci);
-void		bltn_unset(t_set *s, int pi, int ci);
+void		bltn_pwd(void);
+void		bltn_env(t_set *s, int pi, int ci);
+int			is_number(char *str);
+void		bltn_exit(t_set *s, int pi, int ci);
+void		bltn_node(t_set *s, int pi, int ci);
 
 // bltn_cd.c
-char		*cd_tilda(t_set *s, int pi, int ci);
+char		*cd_tilda(t_set *s);
 char		*cd_minus(t_set *s, int pi, int ci);
 char		*cd_home(t_set *s, int pi, int ci);
 char		*cd_freepath(t_set *s, int pi, int ci);
 char		*set_path(t_set *s, int pi, int ci);
+void		updt_pwd_assist(char **pwd_ptr, char *str1, char *str2);
+void		update_pwd(t_set *s);
 void		bltn_cd(t_set *s, int pi, int ci);
 
 // bltn_echo.c
@@ -240,12 +229,23 @@ int			isnt_dash_n(char *str);
 int			echo_vld(t_set *s, int pi, int ci);
 void		bltn_echo(t_set *s, int pi, int ci);
 
+// bltn_export.c
+void		print_exp(t_set *s);
+int			key_vldtr(t_set *s, int pi, int ci);
+char		*fill_str(char *str, int len, int offset, int trm);
+char		**parse_arg(char *str);
+void		key_assist(t_set *s, int pi, int ci, char **arg);
+void		bltn_export(t_set *s, int pi, int ci);
+void		bltn_unset(t_set *s, int pi, int ci);
+
 //pipes.c	
 int			**make_fd_arr(t_set *s, int pi);
+void		dup2protection(int	dup2rv);
 void		change_fd(t_set *s, int pi, int ci);
 void		wpid(t_set *s, int pi, int *pid_arr);
+void		builtin_multiple_switcher(t_set *s, int pi, int ci);
 int			*launch(t_set *s, int pi);
-void    	pipes_node(t_set *s, int si);
+void		pipes_node(t_set *s, int si);
 
 //error.c
 void		err_message(char *error);
@@ -261,7 +261,6 @@ void		err_too_many_arguments(t_set *s, int pi, int ci);
 void		err_syntax_error_near_unexpected_token(t_set *s, int pi, int ci);
 void		err_syntax_error_quotes_not_closed(void);
 void		err_unxpected_backslash_at_the_end(void);
-
 
 //print.c
 void		print2darr(char **arr, int exprt_f);

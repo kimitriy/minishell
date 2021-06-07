@@ -6,13 +6,13 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/06 19:54:42 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:56:31 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bltn_pwd()
+void	bltn_pwd(void)
 {
 	char	*path;
 
@@ -26,8 +26,8 @@ void	bltn_env(t_set *s, int pi, int ci)
 {
 	//после unset path ничего не печатать и вывести ошибку bash: env: No such file or directory 127
 	int		i;
-
 	char	**path_key;
+
 	path_key = key_in_arr(s->env, "PATH");
 	if (NULL == path_key)
 		err_no_such_file_or_directory_env(s, pi, ci);
@@ -46,7 +46,7 @@ void	bltn_env(t_set *s, int pi, int ci)
 	}
 }
 
-int		is_number(char* str)
+int	is_number(char* str)
 {
 	int		i;
 

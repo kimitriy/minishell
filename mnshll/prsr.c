@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/02 23:41:28 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/07 22:03:31 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 	while (cmd_tmp[n] != NULL)
 		n++;
 	s->st[pi].pln[ci].n = n;
-	s->st[pi].pln[ci].cmd = (char**)calloc(n + 1, sizeof(char*));
+	s->st[pi].pln[ci].cmd = (char **)ft_calloc(n + 1, sizeof(char *));
 	i = 0;
 	while (i < n)
 	{
@@ -51,7 +51,7 @@ void	parse_pipes(t_set *s, char *str, int pi)
 	n = 0;
 	while (pln_tmp[n] != NULL)
 		n++;
-	s->st[pi].pln = (t_cmnd*)calloc(n, sizeof(t_cmnd));
+	s->st[pi].pln = (t_cmnd *)ft_calloc(n, sizeof(t_cmnd));
 	i = 0;
 	while (i < n)
 	{
@@ -80,7 +80,7 @@ void	parse_semicolons(t_set *s, char *str)
 	while (set_tmp[n] != NULL)
 		n++;
 	s->pn = n;
-	s->st = (t_ppline*)calloc(n, sizeof(t_ppline));
+	s->st = (t_ppline *)ft_calloc(n, sizeof(t_ppline));
 	i = 0;
 	while (i < n)
 	{
