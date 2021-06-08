@@ -6,7 +6,7 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 19:50:55 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/07 22:49:30 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/08 19:56:02 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_parse_dol(t_set *s, char *str)
 {
-	int	j;
+	int		j;
 	char	*tmp;
 	int		len;
 
@@ -39,29 +39,32 @@ void	ft_parse_dol(t_set *s, char *str)
 		return ;
 	}
 	if (ft_check_env(s, j)) //  return 1 - если не находит в перем окружении
-		ft_not_found_in_env(s, &len, tmp);
+		ft_not_found_in_env(s, &len);
 }
 
-void	ft_parsing_2(t_dol *dol, t_set *s, char *str)
+int	ft_parsing_2(t_dol *dol, t_set *s, char *str)
 {
 	if (str[dol->i] == ' ')
 		ft_parse_space(dol, str);
 	else if (str[dol->i] == '$')
 		ft_parse_dol(s, str);
-	else if (str[dol->i] == '|' && dol->redir == 1)
+	else if (str[dol->i] == '|' && dol->redir_pipe = 1)// ??????
 	{
 		s->dol.full_arg = ft_strjoin_symb(s->dol.full_arg, ';');
-		s->dol.redir = 0;// может на разные редиректы по-разному ведет себя
+		dol->redir_pipe = 0;
 	}
 	else if ((str[dol->i] == '>' || str[dol->i] == '<') && dol->q == 0)
-		ft_parse_redir(dol, str);
+	{
+		if (ft_parse_redir(dol, str))
+			return (1);
+	}
 	else
 		ft_add_symb(dol, str);
+	return (0);
 }
 
 int		ft_parsing(char *input, t_set *s)
 {
-	char *tmp;
 	char *str;
 
 	ft_dol_struct_init(&s->dol);
@@ -75,7 +78,10 @@ int		ft_parsing(char *input, t_set *s)
 		else if (str[s->dol.i] == '\"')
 			ft_parse_q(&s->dol, s, str);
 		else 
-			ft_parsing_2(&s->dol, s, str);
+		{
+			if (ft_parsing_2(&s->dol, s, str))
+				return (1);
+		}
 		if (str[s->dol.i])
 			s->dol.i++;
 	}

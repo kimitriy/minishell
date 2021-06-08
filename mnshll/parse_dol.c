@@ -6,7 +6,7 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 19:44:41 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/08 15:30:29 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/08 19:31:18 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ int	ft_check_env(t_set *s, int j)
 	return (1);
 }
 
-void	ft_not_found_in_env(t_set *s, int *len, char *tmp)	
+void	ft_not_found_in_env(t_set *s, int *len)
 {
+	char	*tmp;
+
 	free(s->dol.env_var);
 	*len = ft_strlen(s->dol.full_arg);
 	if (s->dol.full_arg[*len] == ' ' && s->dol.q == 0)// len - 1 && str[dol->i] == '\0')

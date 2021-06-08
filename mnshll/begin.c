@@ -6,11 +6,39 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 17:08:46 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/07 22:45:06 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/08 20:29:05 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clear_s(t_set *s)
+{
+	int		pi;
+	int		ci;
+	int		i;
+
+	pi = -1;
+	while (++pi < s->pn)
+	{
+		ci = -1;
+		while (++ci < s->st[pi].cn)
+		{
+			i = -1;
+			while (++i < s->st[pi].pln[ci].n)
+				if (s->st[pi].pln[ci].cmd[i] != NULL)
+					free(s->st[pi].pln[ci].cmd[i]);
+			if (s->st[pi].pln[ci].cmd != NULL)
+				free(s->st[pi].pln[ci].cmd);
+		}
+		free(s->st[pi].pln);
+		if (s->st[pi].fd_arr != NULL)
+			ft_free_int(s->st[pi].fd_arr);
+		if (s->st[pi].pid_arr != NULL)
+			free(s->st[pi].pid_arr);
+	}
+	free(s->st);
+}
 
 void	saving_inputline_to_file(t_ter *hist)
 {
@@ -41,12 +69,11 @@ void	catch_signal(int n)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
-	
 	t_ter	hist;
 	t_set	s;
 
+	(void)argc;
+	(void)argv;
 	init_all_struct(&hist, &s, envp);
 	// s = (t_set *)ft_calloc(1, sizeof(t_set));
     // make_env(s, envp); //makes env можно ли засунуть это в init_all_struct(&hist, &s)???

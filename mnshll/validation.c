@@ -6,7 +6,7 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 22:05:40 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/08 15:21:47 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/08 16:51:45 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ void	ft_valid_input(t_ter *hist, t_set *s)
 	}
 	if (ft_syntax_checker(str, i))
 		return ;
-	ft_parsing(str, s);// все от сюда и до конца вытащила из ft_valid_input(t_ter *hist, t_set *s)
-	free(str);
+	if (ft_parsing(str, s))// все от сюда и до конца вытащила из ft_valid_input(t_ter *hist, t_set *s)
+	{
+		free(str);
+		return ;
+	}
 	ft_change_the_symb(s->dol.full_arg, &pars);
 	free(s->dol.full_arg);// это потом можно засунуть внутрь ft_change_the_symb после pars->changed = ft_strdup(str);
 	mini_prsr(s, &pars.changed);

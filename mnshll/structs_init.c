@@ -6,7 +6,7 @@
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 15:04:18 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/08 15:43:15 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/08 20:15:18 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	ft_parse_init(t_pars *pars)
 	pars->symb4 = -2;
 }
 
-void	init_all_struct(t_ter *hist, t_set *s, **envp)
+void	init_all_struct(t_ter *hist, t_set *s, char **envp)
 {
-	s = (t_set *)ft_calloc(1, sizeof(t_set));
+	s = (t_set *)ft_calloc(1, sizeof(t_set));// ?????? need???
     make_env(s, envp); //makes env можно ли засунуть это в init_all_struct(&hist, &s)???
 	hist->hist_list = ft_lstnew("");
 	hist->current_hist_command = hist->hist_list;
@@ -63,6 +63,7 @@ void	ft_dol_struct_init(t_dol *dol)
 	dol->red_out = 0;
 	dol->red_app = 0;
 	dol->red_in = 0;
+	dol->redir_pipe = 0;
 	dol->fd_out = -2;
 	dol->fd_in = -2;
 	dol->redir = 0;

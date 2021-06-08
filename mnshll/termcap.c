@@ -5,134 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/26 18:36:24 by smyriell          #+#    #+#             */
-/*   Updated: 2021/04/29 20:41:19 by smyriell         ###   ########.fr       */
+/*   Created: 2021/06/08 17:29:58 by smyriell          #+#    #+#             */
+/*   Updated: 2021/06/08 17:33:40 by smyriell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <termios.h>
-#include <unistd.h>
-#include <term.h>
-#include <curses.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
 #include "minishell.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	new_input(t_ter *hist, char *buf) //before void	new_command(t_ter *hist, char *buf)
 {
-	size_t	i;
-	char	*arr;
+	char	*tmp;
+	char	*tmp_dup;
 
-	arr = (void *)malloc(count * size);
-	if (NULL == arr)
-		return (NULL);
-	i = 0;
-	while (i < count * size)
-	{
-		arr[i] = 0;
-		i++;
-	}
-	return (arr);
+	tmp = hist->current_hist_command->data;
+	hist->current_hist_command->data = ft_strjoin(tmp, buf);
+	if (tmp[0] != '\0')
+		free(tmp);
+	write(1, buf, ft_strlen(buf));
+	hist->symbols_count = ft_strlen(hist->current_hist_command->data);
 }
 
-void termcap_init(t_ter hist)
+int	got_key_press(char *str, t_ter *hist)
 {
-	if (hist.f == 0)
+	if (!ft_strcmp(str, "\e[A"))
+		previous_command(hist);
+	else if (!ft_strcmp(str, "\e[B"))
+		next_command(hist);
+	else if (!ft_strcmp(str, "\177"))
+		delete_symbol(hist);
+	else if (!ft_strcmp(str, "\4")) // ctrl-d
+		ft_ctrl_d(hist);
+	else if (!ft_strcmp(str, "\3"))// ctrl-c
 	{
-		tcgetattr(0, &hist.term);
-		hist.term.c_lflag &= ~(ECHO);
-		hist.term.c_lflag &= ~(ICANON);
-		hist.term.c_lflag &= ~(ISIG);
-		tcsetattr(0, TCSANOW, &hist.term);	
+		ft_ctrl_c(hist);
+		return (1);
 	}
+	else if (!ft_strcmp(str, "\e[C")) // vlevo ili vpravo
+		continue ;
+	else if (!ft_strcmp(str, "\e[D")) // vlevo ili vpravo
+		continue ;
+	else if (ft_strcmp(str, "\n"))
+		new_input(hist, str);
 	else
 	{
-		tcgetattr(0, &hist.term);
-		hist.term.c_lflag |= ~(ECHO);
-		hist.term.c_lflag |= ~(ICANON);
-		hist.term.c_lflag |= ~(ISIG);
-		tcsetattr(0, TCSANOW, &hist.term);
+		new_command(hist);
+		return (1);
 	}
+	return (0);
 }
 
-
-int ft_putchar(int c)
+void	ft_user_input(t_ter *hist, t_set *s)
 {
-	return (write(1, &c, 1));
-}
+	char	str[21];
+	int		len;
 
-// void	hist_saving(t_ter hist)
-// {
-// 	char 	buf[1024];
-// 	int		i;
-
-// 	hist.fd = open("hist_archieve", O_CREAT | O_APPEND | O_RDWR, 0666);
-// 	if (!hist.fd)
-// 		write(1, "history file openning/creation error", 37); // err_message("history file openning/creation error");
-// 	i = 0;
-// 	hist.str_len = read(0, buf, 1024);
-// 	if (hist.str_len == -1)
-// 		write(1, "reading str_input error", 24);// err_message("reading str_input error");
-// 	hist.str = (char *)ft_calloc((hist.str_len + 1), sizeof(char));
-// 	if (!hist.str)
-// 		write(1, "malloc error", 13);
-// 	while (buf[i] && buf[i] != '\n')
-// 	{
-// 		hist.str[i] = buf[i];
-// 		i++;
-// 	}
-// 	hist.str[i] = '\n';
-// 	i = write(hist.fd, hist.str, hist.str_len);
-// 	if (i == -1)
-// 		write(1, "writing str_input to file error", 32);
-// 	free(hist.str);
-// }
-
-int	main(int argc, char const *argv[1])
-{
-	char str[2000];
-	int l;
-	t_ter 	hist;
-	char *term_name;
-	
-	term_name = "xterm-256color";
-	hist.f = 0;
-	termcap_init(hist);
-	tgetent(0, term_name);
-	tputs(save_cursor, 1, ft_putchar);
-	while (strcmp(str, "\4"))
+	// hist->symbols_count = 0;// переделать ?? закинула эту часть в термкап инит
+	// tgetent(0, hist->term_name); // закинула в термкап инит
+	// tputs(save_cursor, 1, ft_putchar); // закинула в термкап инит
+	while (1)
 	{
-		do
+		len = read(0, str, 20);
+		if (len == -1)
 		{
-			l = read(0, str, 50);
-			str[l] = '\0';
-			if (!strcmp(str, "\e[A"))
-			{
-				tputs(restore_cursor, 0, ft_putchar);
-				tputs(tigetstr("ed"), 1, ft_putchar);
-				write(1, "previous", 8);
-				// printf("prev\n");
-			}
-			else if (!strcmp(str, "\e[B"))
-			{
-				tputs(restore_cursor, 0, ft_putchar);
-				tputs(tigetstr("ed"), 1, ft_putchar);
-				write(1, "next", 4);
-			}
-			// else if (!strcmp(str, key_backspace) && !strcmp(str, "\177"))
-			else if (!strcmp(str, "\177"))
-			{
-				tputs(cursor_left, 1, ft_putchar);
-				tputs(tgetstr("dc", 0), 1, ft_putchar);
-			}
-			else
-				write (1, str, l);
-		} while (strcmp(str, "\n") && strcmp(str, "\4"));
+			err_message("Error of User input_str reading");
+			return ;
+		}
+		str[len] = 0;
+		if (got_key_press(str, hist))
+			break ;
 	}
-	write (1, "\n", 1);
-	return 0;
+	hist->f = 1;
+	termcap_init(hist);
+	ft_valid_input(hist, s); // здесь думай нужна ли ft_valid_input(hist, s) интовой или можно сделать войдовской
 }
