@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:19:44 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/07 21:28:40 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/08 16:25:00 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,7 @@ int	bltn_check(t_set *s, int pi, int ci)
 	}
 }
 
-void	launch_mnshll(t_set *s, int pi, int ci)
-{
-	char	**str;
-	char	**path;
-	char	*tmp_leak;
-
-	str = key_in_arr(s->env, "PWD");
-	path = parse_arg(*str);
-	tmp_leak = path[1];
-	path[1] = ft_strjoin(path[1], "/minishell");
-	free(tmp_leak);
-	process_launcher(s, pi, ci, path);
-	ft_free_str(path);
-}
-
-void	launch_executable(t_set *s, int pi, int ci)
+void	launch_executable_1(t_set *s, int pi, int ci)
 {
 	char	**str;
 	char	**path;
@@ -71,12 +56,25 @@ void	launch_executable(t_set *s, int pi, int ci)
 	ft_free_str(path);
 }
 
+void	launch_executable_2(t_set *s, int pi, int ci)
+{
+	char	**str;
+	char	**path;
+
+	str = key_in_arr(s->env, "PWD");
+	path = parse_arg(*str);
+	free(path[1]);
+	path[1] = ft_strdup(s->st[pi].pln[ci].cmd[0]);
+	process_launcher(s, pi, ci, path);
+	ft_free_str(path);
+}
+
 void	selector(t_set *s, int pi, int ci)
 {
-	if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "minishell"))
-		launch_mnshll(s, pi, ci);
-	else if (s->st[pi].pln[ci].cmd[0][0] == '.')
-		launch_executable(s, pi, ci);
+	if (s->st[pi].pln[ci].cmd[0][0] == '.')
+		launch_executable_1(s, pi, ci);
+	else if (s->st[pi].pln[ci].cmd[0][0] == '/')
+		launch_executable_2(s, pi, ci);
 	else
 		single_cmd_node(s, pi, ci);
 }

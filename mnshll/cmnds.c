@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/07 16:57:51 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/08 14:20:19 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	process_launcher(t_set *s, int pi, int ci, char **path)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
 			execve(true_path, s->st[pi].pln[ci].cmd, s->env);
+			write(1, "!\n", 2);
+		}
 		else
 		{
 			wait(&status);
