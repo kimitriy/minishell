@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/30 15:55:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/07 21:55:34 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/08 17:28:07 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ void	wpid(t_set *s, int pi, int *pid_arr)
 	while (ci < s->st[pi].cn)
 	{
 		waitpid(pid_arr[ci], &status, 0);
-		g_exit = WEXITSTATUS(status);
+		if (status == 2 || status == 3)
+			g_exit = status;
+		else
+			g_exit = WEXITSTATUS(status);
 		ci++;
 	}
 }
