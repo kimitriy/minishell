@@ -165,6 +165,7 @@ typedef struct s_dol
 	int				red_out;// флаг на >
 	int				red_app;// флаг на >>
 	int				red_in; // флаг на <
+	int				redir_pipe; 
 	int				fd_in;
 	int				fd_out;
 	char			*to_file; //куда записываем
