@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 18:57:30 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/11 23:11:48 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/14 21:25:54 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_redir_get_file_name(t_set *s, t_dol *dol, char *str)
 {
-	dol->to_file = ft_strdup("");
-	dol->from_file = ft_strdup("");
 	if (str[s->i] == '>' && str[s->i + 1] == '>')
 	{
 		s->i += 1;
@@ -31,6 +29,11 @@ void	ft_redir_get_file_name(t_set *s, t_dol *dol, char *str)
 		dol->red_in = 1;
 	s->i++;
 	check_spaces(s, str);
+	ft_dup_filename(dol);
+	// if (dol->red_in)//+++++
+	// 	dol->from_file = ft_strdup("");//++++++
+	// if (dol->red_out || dol->red_app)//+++++++
+	// 	dol->to_file = ft_strdup("");//+++++++
 	while (str[s->i] != ' ' && str[s->i] != '\0' \
 									&& str[s->i] != '|' && str[s->i] != ';')
 	{

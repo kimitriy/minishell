@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 17:29:58 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/12 03:23:50 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/14 17:56:05 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	delete_symbol(t_ter *hist)
 	free(tmp);
 }
 
-void	new_input(t_ter *hist, char *buf)
+void	new_input(t_ter *hist, char *buf)// tut!!!
 {
 	char	*tmp;
 

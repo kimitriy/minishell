@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 16:42:38 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/12 02:54:20 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/14 17:55:18 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	new_command(t_ter *hist)
 	else if (hist->current_hist_command->next == NULL)
 	{
 		dup = ft_strdup(hist->current_hist_command->data);
-		hist->current_hist_command->dup = dup;
+		hist->current_hist_command->dup = ft_strdup(dup);
+		free(dup);
+		// dup = ft_strdup(hist->current_hist_command->data);
+		// hist->current_hist_command->dup = dup;
 	}
 	ft_more_functions(hist, tmp);
 }

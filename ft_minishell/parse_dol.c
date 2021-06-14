@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 19:44:41 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/11 22:02:28 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/14 22:23:26 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_check_env(t_set *s, int j)
 			free(s->dol.full_arg);
 			s->dol.full_arg = ft_strjoin_dol(tmp, s->dol.path);
 			free(tmp);
+			free(s->dol.path);
+			free(s->dol.env_var);
 			return (0);
 		}
 		i++;
@@ -64,6 +66,7 @@ int	ft_check_symb_aft_dol(t_dol *dol, t_set *s, char *str, int *j)
 		if ((ft_isdigit(str[s->i])) && *j == 0)
 		{
 			dol->digit_aft_dol = 1;
+			free(dol->env_var);
 			return (0);
 		}
 		tmp = ft_strdup(dol->env_var);

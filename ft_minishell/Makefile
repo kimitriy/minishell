@@ -6,7 +6,7 @@
 #    By: rburton <rburton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/28 11:32:38 by rburton           #+#    #+#              #
-#    Updated: 2021/06/12 03:28:29 by rburton          ###   ########.fr        #
+#    Updated: 2021/06/14 21:29:08 by rburton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME		= minishell
 HEADER		= minishell.h
 
 SRC 		= 	main.c \
+				clear.c \
 				main_my.c \
 				prsr.c \
 				utils_1_1.c \

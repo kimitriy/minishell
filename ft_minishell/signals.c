@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 17:33:23 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/11 22:00:14 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/14 18:00:58 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_ctrl_c(t_ter *hist)
 {
 	if (hist->current_hist_command->data[0] != '\0')
 		free(hist->current_hist_command->data);
+	hist->current_hist_command->data = ft_strdup(""); //???
 	hist->sig_c = 1;
 	hist->sig_c_new_input = 1;
 	g_exit = 1;

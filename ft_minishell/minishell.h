@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/12 03:31:21 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/14 21:27:19 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_set
 }					t_set;
 
 int	g_exit;
+int	g_cycle;
 
 typedef struct s_list
 {
@@ -114,10 +115,16 @@ typedef struct s_pars
 }				t_pars;
 
 /*main.c*/
-void					clear_s(t_set *s);
 void					saving_inputline_to_file(t_ter *hist);
 void					catch_signal(int n);
 int						main(int argc, char **argv, char **envp);
+
+/*clear.c*/
+void					clear_st(t_set *s, int pi);
+void					clear_fd_arr(t_set *s, int pi);
+void					clear_pid_arr(t_set *s, int pi);
+void					clear_dol(t_set *s);
+void					clear_s(t_set *s);
 
 /*begin.c*/
 void					saving_inputline_to_file(t_ter *hist);
@@ -215,8 +222,12 @@ int						openning_to_file(t_dol *dol);
 int						openning_from_file(t_dol *dol);
 int						open_file(t_dol *dol);
 int						ft_parse_redir(t_set *s, t_dol *dol, char *str);
+
+/*redirects.c*/
+void					ft_dup_filename(t_dol *dol);
 void					ft_output_file(t_set *s, t_dol *dol, char *str);
 void					get_file_name(t_set *s, t_dol *dol, char *str);
+
 
 /*change_symb.c*/
 void					ft_check_quotes(char *str, int *i, int *q, int *a);

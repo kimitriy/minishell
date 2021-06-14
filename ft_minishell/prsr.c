@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 23:08:17 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/14 22:29:15 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 	char	*tmp;
 	int		n;
 	int		i;
-
+	
 	cmd_tmp = ft_split(str, ' ');
 	n = 0;
 	while (cmd_tmp[n] != NULL)
@@ -31,13 +31,23 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 		tmp = cmd_tmp[i];
 		cmd_tmp[i] = ft_strtrim(cmd_tmp[i], " ");
 		free(tmp);
-		s->st[pi].pln[ci].n = n;
+
 		s->st[pi].pln[ci].cmd[i] = ft_strdup(cmd_tmp[i]);
-		free(cmd_tmp[i]);
 		i++;
 	}
 	s->st[pi].pln[ci].cmd[i] = NULL;
-	free(cmd_tmp);
+	ft_free_str(cmd_tmp);
+	// free(cmd_tmp);
+	
+	// if (g_cycle > 0)
+	// {
+	// 	while (1)
+	// 	{
+			
+	// 	}
+	// }
+	// else
+	// 	g_cycle++;
 }
 
 void	parse_pipes(t_set *s, char *str, int pi)
@@ -60,12 +70,20 @@ void	parse_pipes(t_set *s, char *str, int pi)
 		free(tmp);
 		s->st[pi].cn = n;
 		s->st[pi].pln[i].cmd_tmp = ft_strdup(pln_tmp[i]);
-		free(pln_tmp[i]);
 		parse_spaces(s, s->st[pi].pln[i].cmd_tmp, pi, i);
 		free(s->st[pi].pln[i].cmd_tmp);
 		i++;
 	}
-	free(pln_tmp);
+	ft_free_str(pln_tmp);
+	// if (g_cycle > 0)
+	// {
+	// 	while (1)
+	// 	{
+			
+	// 	}
+	// }
+	// else
+	// 	g_cycle++;
 }
 
 void	parse_semicolons(t_set *s, char *str)
@@ -88,15 +106,32 @@ void	parse_semicolons(t_set *s, char *str)
 		set_tmp[i] = ft_strtrim(set_tmp[i], " ");
 		free(tmp);
 		s->st[i].pln_tmp = ft_strdup(set_tmp[i]);
-		free(set_tmp[i]);
 		parse_pipes(s, s->st[i].pln_tmp, i);
 		free(s->st[i].pln_tmp);
 		i++;
 	}
-	free(set_tmp);
+	ft_free_str(set_tmp);
 }
 
 void	mini_prsr(t_set *s, char *str)
 {
+	// if (g_cycle > 0)
+	// {
+	// 	while (1)
+	// 	{
+			
+	// 	}
+	// }
+	// else
+	// 	g_cycle++;
 	parse_semicolons(s, str);
+	// if (g_cycle > 0)
+	// {
+	// 	while (1)
+	// 	{
+			
+	// 	}
+	// }
+	// else
+	// 	g_cycle++;
 }
