@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 22:25:04 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:50:35 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ void	mltple_cmd_node(t_set *s, int pi, int ci)
 		execve(true_path, s->st[pi].pln[ci].cmd, s->env);
 	else
 		err_cmnd_not_fnd(s, pi, ci);
-	rdrct_fd_rw(s);
 }

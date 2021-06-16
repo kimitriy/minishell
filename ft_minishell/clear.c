@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 19:44:53 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/14 22:27:09 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:32:08 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,10 @@ void	clear_pid_arr(t_set *s, int pi)
 	pi++;
 }
 
-void	clear_dol(t_set *s)
-{
-	// if (s->dol.path)
-	// 	free(s->dol.path);
-	// if (s->dol.env_var)
-	// 	free(s->dol.env_var); //free() u Mashi
-	// if (s->dol.in_env)
-	// 	free(s->dol.in_env);
-	// free(s->dol.cont_symb);
-	free(s->dol.to_file);
-	free(s->dol.from_file);
-}
-
 void	clear_s(t_set *s)
 {
 	int		pi;
 
-	write(1, "clear_s\n", 8);
 	pi = 0;
 	while (pi < s->pn)
 	{
@@ -75,6 +61,5 @@ void	clear_s(t_set *s)
 		clear_pid_arr(s, pi);
 		pi++;
 	}
-	clear_dol(s);
 	free(s->st);
 }

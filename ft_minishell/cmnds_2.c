@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 17:56:02 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 22:21:39 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 02:16:57 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	path_does_exist(t_set *s, char *path)
 	else
 		npath = path;
 	res = stat(npath, &buf);
+	free(npath);
 	if (res == 0)
 		return (1);
 	else
@@ -89,7 +90,6 @@ void	process_launcher(t_set *s, int pi, int ci, char **path)
 	}
 	else
 		err_cmnd_not_fnd(s, pi, ci);
-	rdrct_fd_rw(s);
 }
 
 void	single_cmd_node(t_set *s, int pi, int ci)

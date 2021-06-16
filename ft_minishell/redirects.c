@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 18:57:30 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 21:25:54 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:51:03 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void	ft_redir_get_file_name(t_set *s, t_dol *dol, char *str)
 	s->i++;
 	check_spaces(s, str);
 	ft_dup_filename(dol);
-	// if (dol->red_in)//+++++
-	// 	dol->from_file = ft_strdup("");//++++++
-	// if (dol->red_out || dol->red_app)//+++++++
-	// 	dol->to_file = ft_strdup("");//+++++++
 	while (str[s->i] != ' ' && str[s->i] != '\0' \
 									&& str[s->i] != '|' && str[s->i] != ';')
 	{
@@ -54,8 +50,10 @@ int	openning_to_file(t_dol *dol)
 		ft_putstr_fd(strerror(errno), 2);
 		write(1, "\n", 1);
 		g_exit = 1;
+		free(dol->to_file);
 		return (1);
 	}
+	free(dol->to_file);
 	return (0);
 }
 
@@ -68,8 +66,10 @@ int	openning_from_file(t_dol *dol)
 		ft_putstr_fd(strerror(errno), 2);
 		write(1, "\n", 1);
 		g_exit = 1;
+		free(dol->from_file);
 		return (1);
 	}
+	free(dol->from_file);
 	return (0);
 }
 

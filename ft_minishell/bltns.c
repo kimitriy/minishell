@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 20:54:12 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 22:07:27 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:50:21 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,4 @@ void	bltn_node(t_set *s, int pi, int ci)
 		bltn_env(s, pi, ci);
 	else if (0 == ft_strcmp(s->st[pi].pln[ci].cmd[0], "exit"))
 		bltn_exit(s, pi, ci);
-	rdrct_fd_rw(s);
 }

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 19:44:41 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 22:23:26 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:20:05 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ int	ft_check_symb_aft_dol(t_dol *dol, t_set *s, char *str, int *j)
 			return (0);
 		}
 		tmp = ft_strdup(dol->env_var);
-		if (dol->env_var[0] != '\0')
-			free(dol->env_var);
+		free(dol->env_var);
 		dol->env_var = ft_strjoin_symb(tmp, str[s->i]);
 		free(tmp);
 		s->i++;

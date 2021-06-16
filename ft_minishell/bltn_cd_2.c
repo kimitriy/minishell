@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 08:33:31 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 21:46:51 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 03:03:48 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*set_path(t_set *s, int pi, int ci)
 		s->st[pi].pln[ci].cmd[1][1] == '\0')
 			return (cd_minus(s, pi, ci));
 		else if (s->st[pi].pln[ci].cmd[1][0] == '#' ||
-		ft_strncmp(s->st[pi].pln[ci].cmd[1], "--", 2) == 0)
+			ft_strncmp(s->st[pi].pln[ci].cmd[1], "--", 2) == 0)
 			return (cd_home(s, pi, ci));
 		else
 			return (cd_freepath(s, pi, ci));
@@ -82,8 +82,9 @@ void	bltn_cd(t_set *s, int pi, int ci)
 		chdir_err = chdir(path);
 		if (chdir_err != 0)
 			err_no_such_file_or_directory(s, pi, ci);
+		if (path_flg == 1 && ft_strncmp(path, "..", 2) == 0)
+			free(path);
 	}
-	free(path);
 	update_pwd(s);
 	if (s->cd_minus == 1)
 		bltn_pwd(s);

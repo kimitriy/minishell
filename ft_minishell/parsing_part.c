@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_part.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 19:13:29 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/11 23:12:35 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/15 17:20:36 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	ft_add_symb(t_dol *dol, t_set *s, char *str)
 	else if (dol->q == 1 && str[s->i] == '|')
 		str[s->i] = -2;
 	tmp = ft_strdup(dol->full_arg);
-	if (dol->full_arg[0] != '\0')
-		free (dol->full_arg);
+	free (dol->full_arg);
 	dol->full_arg = ft_strjoin_symb(tmp, str[s->i]);
 	free (tmp);
 }
@@ -86,8 +85,7 @@ void	ft_parse_a(t_dol *dol, t_set *s, char *str)
 			else if (str[s->i] == '|')
 				str[s->i] = -2;
 			tmp = ft_strdup(dol->full_arg);
-			if (dol->full_arg[0] != '\0')
-				free (dol->full_arg);
+			free (dol->full_arg);
 			dol->full_arg = ft_strjoin_symb(tmp, str[s->i]);
 			free(tmp);
 			s->i++;

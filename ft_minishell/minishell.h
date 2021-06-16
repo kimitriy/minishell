@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 12:15:35 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/14 21:27:19 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:56:37 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <curses.h>
 # include <errno.h>
 # include <signal.h>
+
+int	g_exit;
 
 typedef struct s_cmnd
 {
@@ -75,12 +77,11 @@ typedef struct s_set
 	int				fd_stdin;
 	int				fd_stdout;
 	int				cd_minus;
+	int				fd_true_in;
+	int				fd_true_out;
 	t_dol			dol;
 	short int		i;
 }					t_set;
-
-int	g_exit;
-int	g_cycle;
 
 typedef struct s_list
 {
@@ -93,6 +94,7 @@ typedef struct s_list
 typedef struct s_ter
 {
 	struct termios	term;
+	struct termios	term1;
 	int				fd;
 	char			*term_name;
 	int				symbols_count;
@@ -101,8 +103,8 @@ typedef struct s_ter
 	int				sig_c_new_input;
 	int				empty_enter;
 	t_list			*hist_list;
-	t_list			*current_hist_command;
-}				t_ter;
+	t_list			*cur_hist_command;
+}				t_ter;			
 
 typedef struct s_pars
 {
@@ -227,7 +229,6 @@ int						ft_parse_redir(t_set *s, t_dol *dol, char *str);
 void					ft_dup_filename(t_dol *dol);
 void					ft_output_file(t_set *s, t_dol *dol, char *str);
 void					get_file_name(t_set *s, t_dol *dol, char *str);
-
 
 /*change_symb.c*/
 void					ft_check_quotes(char *str, int *i, int *q, int *a);
@@ -354,6 +355,7 @@ char					**parse_arg(char *str);
 /*bltn_export_2.c*/
 void					f(char **str, char **arg, char **str_tmp);
 void					key_assist(t_set *s, int pi, int ci, int i);
+// void					key_assist(t_set *s, char **arg, char **str);
 void					fn(t_set *s, int pi, int ci, int i);
 void					bltn_export(t_set *s, int pi, int ci);
 void					bltn_unset(t_set *s, int pi, int ci);

@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 21:06:03 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 21:25:34 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:57:13 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_dup_filename(t_dol *dol)
 {	
-	if (dol->red_in)//+++++
-		dol->from_file = ft_strdup("");//++++++
-	if (dol->red_out || dol->red_app)//+++++++
-		dol->to_file = ft_strdup("");//+++++++
+	if (dol->red_in)
+		dol->from_file = ft_strdup("");
+	if (dol->red_out || dol->red_app)
+		dol->to_file = ft_strdup("");
 }
 
 void	ft_output_file(t_set *s, t_dol *dol, char *str)

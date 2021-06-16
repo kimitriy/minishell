@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smyriell <smyriell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 15:04:18 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/12 00:14:24 by smyriell         ###   ########.fr       */
+/*   Updated: 2021/06/16 01:43:27 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	termcap_init(t_ter *hist)
 	if (hist->f == 0)
 	{
 		hist->symbols_count = 0;
+		tcgetattr(0, &hist->term1);
 		tcgetattr(0, &hist->term);
 		hist->term.c_lflag &= ~(ECHO);
 		hist->term.c_lflag &= ~(ICANON);
+		hist->term.c_lflag &= ~(ISIG);
 		tcsetattr(0, TCSANOW, &hist->term);
 	}
 	else
 	{
-		tcgetattr(0, &hist->term);
-		hist->term.c_lflag |= ~(ECHO);
-		hist->term.c_lflag |= ~(ICANON);
+		hist->term = hist->term1;
 		tcsetattr(0, TCSANOW, &hist->term);
 	}
 }
@@ -48,7 +48,9 @@ void	init_all_struct(t_ter *hist, t_set *s, char **envp)
 	hist->sig_c = 0;
 	hist->sig_c_new_input = 0;
 	hist->empty_enter = 0;
-	hist->current_hist_command = hist->hist_list;
+	hist->cur_hist_command = hist->hist_list;
+	s->fd_true_in = dup(0);
+	s->fd_true_out = dup(1);
 }
 
 void	ft_dol_struct_init(t_dol *dol)

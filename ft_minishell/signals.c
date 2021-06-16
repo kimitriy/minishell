@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 17:33:23 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 18:00:58 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:53:50 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_ctrl_d(t_ter *hist)
 {
-	if (hist->current_hist_command->data[0] == '\0')
+	if (hist->cur_hist_command->data[0] == '\0')
 	{
 		write(2, "exit\n", 5);
 		exit(g_exit);
@@ -23,9 +23,8 @@ void	ft_ctrl_d(t_ter *hist)
 
 void	ft_ctrl_c(t_ter *hist)
 {
-	if (hist->current_hist_command->data[0] != '\0')
-		free(hist->current_hist_command->data);
-	hist->current_hist_command->data = ft_strdup(""); //???
+	if (hist->cur_hist_command->data[0] != '\0')
+		free(hist->cur_hist_command->data);
 	hist->sig_c = 1;
 	hist->sig_c_new_input = 1;
 	g_exit = 1;

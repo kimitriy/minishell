@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 22:05:40 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 22:38:21 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/16 01:16:42 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,14 @@ void	ft_execute_str(t_set *s, t_pars *pars, char *str)
 			free(s->dol.to_file);
 		return ;
 	}
-	// if (g_cycle > 0)
-	// {
-	// 	while (1)
-	// 	{
-			
-	// 	}
-	// }
-	// else
-	// 	g_cycle++;
 	ft_parse_init(pars);
 	pars->changed = ft_strdup(s->dol.full_arg);
 	mini_prsr(s, pars->changed);
 	ft_return_the_symb(s, pars);
 	free(s->dol.full_arg);
 	mnshll_execute(s);
-	// write(1, "before clear_s: ", 16);
-	// write(1, s->st[0].pln[0].cmd[0], ft_strlen(s->st[0].pln[0].cmd[0]));
-	// write(1, "\n", 1);
 	clear_s(s);
-	// write(1, "after clear_s: ", 15);
-	// write(1, s->st[0].pln[0].cmd[0], ft_strlen(s->st[0].pln[0].cmd[0]));
-	// write(1, "\n", 1);
+	rdrct_fd_rw(s);
 }
 
 void	ft_valid_input(t_ter *hist, t_set *s)
@@ -99,7 +85,7 @@ void	ft_valid_input(t_ter *hist, t_set *s)
 	int		smc;
 
 	i = 0;
-	str = ft_strdup(hist->current_hist_command->prev->data);
+	str = ft_strdup(hist->cur_hist_command->prev->data);
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == ';' || str[i] == '|')

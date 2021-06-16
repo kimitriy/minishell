@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:39:57 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/11 23:58:49 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 22:37:36 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,43 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str_n);
 }
 
-int	w2l(int fd, char *buf, char **line)
-{
-	int		rv;
-	char	*lineleak;
+// int	w2l(int fd, char *buf, char **line)
+// {
+// 	int		rv;
+// 	char	*lineleak;
 
-	while (1)
-	{
-		rv = read(fd, buf, 1);
-		if (rv < 0)
-			return (-1);
-		else if (rv == 0)
-			return (0);
-		else
-		{
-			if (*buf == '\n')
-				return (1);
-			else
-			{
-				lineleak = *line;
-				*line = ft_strjoin(*line, buf);
-				free(lineleak);
-				lineleak = NULL;
-			}
-		}
-	}
-}
+// 	while (1)
+// 	{
+// 		rv = read(fd, buf, 1);
+// 		if (rv < 0)
+// 			return (-1);
+// 		else if (rv == 0)
+// 			return (0);
+// 		else
+// 		{
+// 			if (*buf == '\n')
+// 				return (1);
+// 			else
+// 			{
+// 				lineleak = *line;
+// 				*line = ft_strjoin(*line, buf);
+// 				free(lineleak);
+// 				lineleak = NULL;
+// 			}
+// 		}
+// 	}
+// }
 
-int	get_next_line(int fd, char **line)
-{
-	static char		buf;
-	int				rv;
+// int	get_next_line(int fd, char **line)
+// {
+// 	static char		buf;
+// 	int				rv;
 
-	*line = (char *)ft_calloc(1, sizeof(char *));
-	**line = 0;
-	rv = w2l(fd, &buf, line);
-	return (rv);
-}
+// 	*line = (char *)ft_calloc(1, sizeof(char *));
+// 	**line = 0;
+// 	rv = w2l(fd, &buf, line);
+// 	return (rv);
+// }
 
 void	ft_putnbr(int n)
 {

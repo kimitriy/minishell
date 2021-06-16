@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 15:31:24 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/12 00:53:55 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 22:17:30 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	key_assist(t_set *s, int pi, int ci, int i)
 	arg = parse_arg(s->st[pi].pln[ci].cmd[i]);
 	str = key_in_arr(s->env, arg[0]);
 	rvno = ft_strchr(s->st[pi].pln[ci].cmd[i], 61);
-	if (NULL != rvno && *(rvno - 1) != 43)
+	if (rvno != NULL && *(rvno - 1) != 43)
 		s->env = ft_realloc(s->env, s->en, s->en, s->st[pi].pln[ci].cmd[i]);
-	else if (NULL != rvno && *(rvno - 1) == 43)
+	else if (rvno != NULL && *(rvno - 1) == 43)
 	{
 		if (ft_strchr(*str, 61) != NULL)
 			str_tmp = ft_strjoin(*str, arg[1]);
@@ -61,7 +61,7 @@ void	bltn_export(t_set *s, int pi, int ci)
 
 	if (s->st[pi].pln[ci].cmd[1] != NULL)
 	{
-		i = -1;
+		i = 0;
 		while (++i < s->st[pi].pln[ci].n)
 		{
 			if (key_vldtr(s->st[pi].pln[ci].cmd[i]) == 1)

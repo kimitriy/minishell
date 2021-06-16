@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 19:42:55 by rburton           #+#    #+#             */
-/*   Updated: 2021/06/14 22:29:15 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 17:25:12 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 	char	*tmp;
 	int		n;
 	int		i;
-	
+
 	cmd_tmp = ft_split(str, ' ');
 	n = 0;
 	while (cmd_tmp[n] != NULL)
@@ -31,23 +31,11 @@ void	parse_spaces(t_set *s, char *str, int pi, int ci)
 		tmp = cmd_tmp[i];
 		cmd_tmp[i] = ft_strtrim(cmd_tmp[i], " ");
 		free(tmp);
-
 		s->st[pi].pln[ci].cmd[i] = ft_strdup(cmd_tmp[i]);
 		i++;
 	}
 	s->st[pi].pln[ci].cmd[i] = NULL;
 	ft_free_str(cmd_tmp);
-	// free(cmd_tmp);
-	
-	// if (g_cycle > 0)
-	// {
-	// 	while (1)
-	// 	{
-			
-	// 	}
-	// }
-	// else
-	// 	g_cycle++;
 }
 
 void	parse_pipes(t_set *s, char *str, int pi)
@@ -75,15 +63,6 @@ void	parse_pipes(t_set *s, char *str, int pi)
 		i++;
 	}
 	ft_free_str(pln_tmp);
-	// if (g_cycle > 0)
-	// {
-	// 	while (1)
-	// 	{
-			
-	// 	}
-	// }
-	// else
-	// 	g_cycle++;
 }
 
 void	parse_semicolons(t_set *s, char *str)
@@ -115,23 +94,5 @@ void	parse_semicolons(t_set *s, char *str)
 
 void	mini_prsr(t_set *s, char *str)
 {
-	// if (g_cycle > 0)
-	// {
-	// 	while (1)
-	// 	{
-			
-	// 	}
-	// }
-	// else
-	// 	g_cycle++;
 	parse_semicolons(s, str);
-	// if (g_cycle > 0)
-	// {
-	// 	while (1)
-	// 	{
-			
-	// 	}
-	// }
-	// else
-	// 	g_cycle++;
 }

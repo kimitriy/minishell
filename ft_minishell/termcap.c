@@ -6,7 +6,7 @@
 /*   By: rburton <rburton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 17:29:58 by smyriell          #+#    #+#             */
-/*   Updated: 2021/06/14 17:56:05 by rburton          ###   ########.fr       */
+/*   Updated: 2021/06/15 23:40:18 by rburton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,37 @@ void	delete_symbol(t_ter *hist)
 	int		n;
 	char	*tmp;
 
-	n = ft_strlen(hist->current_hist_command->data);
+	n = ft_strlen(hist->cur_hist_command->data);
 	if (hist->symbols_count > 0)
 	{
 		tputs(cursor_left, 1, ft_putchar);
 		tputs(tgetstr("dc", 0), 1, ft_putchar);
 		hist->symbols_count--;
 	}
-	tmp = ft_strdup(hist->current_hist_command->data);
-	if (hist->current_hist_command->data[0] != '\0')
-		free(hist->current_hist_command->data);
-	hist->current_hist_command->data = \
+	tmp = ft_strdup(hist->cur_hist_command->data);
+	if (hist->cur_hist_command->data[0] != '\0')
+		free(hist->cur_hist_command->data);
+	hist->cur_hist_command->data = \
 							ft_strndup(tmp, n - 1);
 	free(tmp);
 }
 
-void	new_input(t_ter *hist, char *buf)// tut!!!
+void	new_input(t_ter *hist, char *buf)
 {
 	char	*tmp;
 
 	if (hist->sig_c)
 	{
-		hist->current_hist_command->data = ft_strdup("");
+		hist->cur_hist_command->data = ft_strdup("");
 		hist->sig_c = 0;
 	}
-	tmp = ft_strdup(hist->current_hist_command->data);
-	if (hist->current_hist_command->data[0] != '\0')
-		free(hist->current_hist_command->data);
-	hist->current_hist_command->data = ft_strjoin(tmp, buf);
+	tmp = ft_strdup(hist->cur_hist_command->data);
+	if (hist->cur_hist_command->data[0] != '\0')
+		free(hist->cur_hist_command->data);
+	hist->cur_hist_command->data = ft_strjoin(tmp, buf);
 	free(tmp);
 	write(1, buf, ft_strlen(buf));
-	hist->symbols_count = ft_strlen(hist->current_hist_command->data);
+	hist->symbols_count = ft_strlen(hist->cur_hist_command->data);
 }
 
 int	got_key_press(char *str, t_ter *hist)
@@ -99,9 +99,11 @@ int	ft_user_input(t_ter *hist, t_set *s)
 		if (got_key_press(str, hist))
 			break ;
 	}
-	if (hist->sig_c || (hist->current_hist_command->data[0] == '\0' \
-		&& hist->current_hist_command->prev == NULL) || hist->empty_enter == 1)
+	if (hist->sig_c || (hist->cur_hist_command->data[0] == '\0' \
+		&& hist->cur_hist_command->prev == NULL) || hist->empty_enter == 1)
 		return (1);
+	hist->f = 1;
+	termcap_init(hist);
 	ft_valid_input(hist, s);
 	return (0);
 }
